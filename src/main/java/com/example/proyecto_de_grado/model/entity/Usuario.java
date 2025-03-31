@@ -11,4 +11,7 @@ public class Usuario extends Persona {
     private String contraseña;
     private String tipoUsuario;
 
+
+
 }
+
