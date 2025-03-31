@@ -1,9 +1,11 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
     const [idUsuario, setIdUsuario] = useState("");
     const [contraseña, setContraseña] = useState("");
     const [error, setError] = useState("");
+    const navigate = useNavigate();
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -13,37 +15,65 @@ const Login = () => {
             const response = await fetch("http://localhost:8080/usuarios/login", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ idPersona: idUsuario, contraseña }), // Importante: la clave debe coincidir con el backend
+                body: JSON.stringify({ idPersona: parseInt(idUsuario), contraseña }),
             });
 
-            const data = await response.text(); // Convertimos la respuesta a texto para verla en la consola
-
-            console.log("Respuesta del backend:", data);
-
             if (!response.ok) {
-                throw new Error(data);
+                const errorText = await response.text();
+                throw new Error(errorText || "Error al iniciar sesión");
             }
 
-            alert("Login exitoso");
+            const data = await response.json();
+            console.log("Login exitoso:", data);
+
+            // Guardar el token y datos del usuario en localStorage
+            localStorage.setItem("authToken", data.token);
+            localStorage.setItem("userData", JSON.stringify({
+                id: data.idPersona,
+                nombre: data.nombre,
+                apellido: data.apellido,
+                tipoUsuario: data.tipoUsuario
+            }));
+
+            // Redirigir según el tipo de usuario
+            if (data.tipoUsuario === "ADMIN") {
+                navigate("/admin-dashboard");
+            } else {
+                navigate("/dashboard");
+            }
         } catch (error) {
             setError(error.message);
         }
     };
 
     return (
-        <div>
+        <div className="login-container">
             <h2>Iniciar Sesión</h2>
             <form onSubmit={handleLogin}>
-                <label>ID de Usuario:</label>
-                <input type="text" value={idUsuario} onChange={(e) => setIdUsuario(e.target.value)} required />
+                <div className="form-group">
+                    <label>ID de Usuario:</label>
+                    <input
+                        type="text"
+                        value={idUsuario}
+                        onChange={(e) => setIdUsuario(e.target.value)}
+                        required
+                    />
+                </div>
 
-                <label>Contraseña:</label>
-                <input type="password" value={contraseña} onChange={(e) => setContraseña(e.target.value)} required />
+                <div className="form-group">
+                    <label>Contraseña:</label>
+                    <input
+                        type="password"
+                        value={contraseña}
+                        onChange={(e) => setContraseña(e.target.value)}
+                        required
+                    />
+                </div>
 
-                <button type="submit">Iniciar Sesión</button>
+                <button type="submit" className="login-button">Iniciar Sesión</button>
             </form>
 
-            {error && <p style={{ color: "red" }}>{error}</p>}
+            {error && <p className="error-message">{error}</p>}
         </div>
     );
 };
