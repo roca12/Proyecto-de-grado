@@ -4,6 +4,8 @@ import com.example.proyecto_de_grado.model.entity.Usuario;
 import com.example.proyecto_de_grado.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 import java.util.Optional;
@@ -38,4 +40,28 @@ public class UsuarioController {
     public void deleteUsuario(@PathVariable int id) {
         usuarioService.deleteUsuario(id);
     }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody Usuario usuario) {
+        System.out.println("Intento de login con ID: " + usuario.getIdPersona() + " y contraseña: " + usuario.getContraseña());
+
+        Optional<Usuario> usuarioEncontrado = usuarioService.getUsuarioById(usuario.getIdPersona());
+
+        if (usuarioEncontrado.isPresent()) {
+            System.out.println("Usuario encontrado: " + usuarioEncontrado.get().getIdPersona());
+            System.out.println("Contraseña guardada: " + usuarioEncontrado.get().getContraseña());
+
+            if (usuarioEncontrado.get().getContraseña().equals(usuario.getContraseña())) {
+                System.out.println("Login exitoso");
+                return ResponseEntity.ok(usuarioEncontrado.get());
+            } else {
+                System.out.println("Contraseña incorrecta");
+            }
+        } else {
+            System.out.println("Usuario no encontrado");
+        }
+
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("ID o contraseña incorrectos");
+    }
+
 }
