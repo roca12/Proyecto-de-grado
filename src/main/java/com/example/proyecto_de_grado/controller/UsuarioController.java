@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/usuarios") // Ruta base para los usuarios
+@RequestMapping("/api/usuarios") // Ruta base para los usuarios
 public class UsuarioController {
 
     @Autowired
