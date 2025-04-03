@@ -8,12 +8,12 @@ import lombok.Data;
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "persona")
 public class Persona {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idPersona;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private int idPersona;
 
-    private String nombre;
-    private String apellido;
-    private String email;
-    private String telefono;
+  private String nombre;
+  private String apellido;
+  private String email;
+  private String telefono;
 }

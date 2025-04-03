@@ -8,10 +8,6 @@ import lombok.Data;
 @Table(name = "usuario")
 @PrimaryKeyJoinColumn(name = "id_persona")
 public class Usuario extends Persona {
-    private String contraseña;
-    private String tipoUsuario;
-
-
-
+  private String contraseña;
+  private String tipoUsuario;
 }
-
