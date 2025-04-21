@@ -1,0 +1,272 @@
+/* ==========================================================================
+   Estilos de la Interfaz Principal con Sección de Insumos
+   Descripción: Define el diseño general de la interfaz y la sección de insumos, 
+   incluyendo barra superior, menú lateral y la tabla de insumos.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Contenedor Principal
+   -------------------------------------------------------------------------- */
+.main-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    width: 100%;
+    position: relative;
+}
+
+/* --------------------------------------------------------------------------
+   Contenedor del Contenido (sin incluir la barra superior)
+   -------------------------------------------------------------------------- */
+.content-wrapper {
+    display: flex;
+    flex: 1;
+    margin-top: 50px; /* Igual a la altura de la barra superior */
+    position: relative;
+    height: calc(100vh - 50px); /* Resta la altura de la barra superior */
+}
+
+/* --------------------------------------------------------------------------
+   Barra Superior
+   -------------------------------------------------------------------------- */
+.topbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 50px;
+    background-color: white;
+    border-bottom: 1px solid #ccc;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    z-index: 999;
+}
+
+/* Logo de la barra superior */
+.logo-mini {
+    height: 30px;
+}
+
+/* Dropdown de usuario */
+.user-dropdown {
+    position: relative;
+    color: green;
+    font-weight: bold;
+    cursor: pointer;
+    margin-right: 60px;
+}
+
+.username {
+    color: green;
+}
+
+/* Menú del dropdown */
+.dropdown-menu {
+    position: absolute;
+    right: 0;
+    top: 50px;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+/* Botón en el dropdown */
+.dropdown-btn {
+    background-color: white;
+    border: 2px solid green;
+    border-radius: 12px;
+    color: green;
+    font-weight: bold;
+    padding: 6px 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    transition: 0.3s;
+}
+
+.dropdown-btn:hover {
+    background-color: #e6f4ea;
+}
+
+/* --------------------------------------------------------------------------
+   Menú Lateral
+   -------------------------------------------------------------------------- */
+.sidebar {
+    margin-top: 0px;
+    background-color: white;
+    border-right: 1px solid #ccc;
+    width: 250px;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: width 0.3s ease;
+    z-index: 5;
+}
+
+/* Menú lateral colapsado */
+.sidebar.collapsed {
+    width: 70px;
+    align-items: center;
+    padding: 1rem 0.5rem;
+}
+
+/* Botón para expandir/contraer menú */
+.toggle-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #4CAF50;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.toggle-button span {
+    margin-left: 0.5rem;
+}
+
+/* --------------------------------------------------------------------------
+   Elementos del Menú Lateral
+   -------------------------------------------------------------------------- */
+.menu-items {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+/* Botones en el menú lateral */
+.menu-items button {
+    display: flex;
+    align-items: center;
+    background-color: white;
+    border: 2px solid #4CAF50;
+    color: #4CAF50;
+    border-radius: 20px;
+    padding: 0.6rem;
+    margin-bottom: 0.5rem;
+    cursor: pointer;
+    font-weight: bold;
+    width: 100%;
+    justify-content: flex-start;
+    transition: all 0.2s;
+    min-height: 40px;
+}
+
+.menu-items button:hover {
+    background-color: #4CAF50;
+    color: white;
+}
+
+/* Menú lateral colapsado: botones centrados */
+.sidebar.collapsed .menu-items button {
+    justify-content: center;
+    padding: 0.6rem;
+    width: 40px;
+    height: 40px;
+}
+
+/* Íconos en los botones del menú lateral */
+.menu-items button svg {
+    font-size: 1.2rem;
+    min-width: 1.2rem;
+}
+
+/* --------------------------------------------------------------------------
+   Contenido Principal
+   -------------------------------------------------------------------------- */
+.main-content {
+    margin-left: 250px; /* Igual al ancho del menú lateral */
+    transition: margin-left 0.3s ease;
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    display: flex;
+    justify-content: center;
+    height: calc(100vh - 50px); /* Altura completa menos la barra superior */
+}
+
+/* Menú lateral colapsado: Contenido ajustado */
+.sidebar.collapsed ~ .main-content {
+    margin-left: 70px; /* Igual al ancho del menú colapsado */
+}
+
+/* --------------------------------------------------------------------------
+   Contenedor de Insumos
+   -------------------------------------------------------------------------- */
+.insumos-container {
+    width: 90%;
+    max-width: 1200px;
+    background-color: white;
+    border: 2px solid #4CAF50;
+    border-radius: 10px;
+    padding: 20px;
+    box-sizing: border-box;
+    color: #333;
+    margin-left: -100px;
+    margin-top: 5px;
+}
+
+/* Cabecera de la sección de insumos */
+.insumos-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+/* Título de la sección de insumos */
+.insumos-title {
+    font-size: 28px;
+    font-weight: bold;
+    color: #4CAF50;
+    margin: 0;
+}
+
+/* Botón para registrar insumos */
+.btn-registrar {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-registrar:hover {
+    background-color: #45a049;
+}
+
+/* Tabla de insumos */
+.insumos-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+/* Cabecera y celdas de la tabla */
+.insumos-table th,
+.insumos-table td {
+    border: 1px solid #4CAF50;
+    padding: 10px;
+    font-size: 14px;
+}
+
+.insumos-table th {
+    background-color: #4CAF50;
+    color: white;
+    font-weight: bold;
+}
+
+.insumos-table td {
+    background-color: #f9f9f9;
+}

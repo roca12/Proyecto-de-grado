@@ -1,0 +1,284 @@
+/* ========================================================================== 
+   Estilos de Actividades
+   Descripción: Define el diseño y los estilos visuales para la interfaz de Actividades de la aplicación, incluyendo el layout principal y la barra lateral.
+   ========================================================================== */
+
+/* Contenedor principal que organiza todo el contenido */
+.main-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Asegura que el contenedor ocupe toda la altura de la ventana */
+    width: 100%;
+    position: relative;
+}
+
+/* Contenedor del contenido principal, ajustado debajo de la barra superior */
+.content-wrapper {
+    display: flex;
+    flex: 1;
+    margin-top: 50px; /* Proporciona espacio para la altura de la barra superior */
+    position: relative;
+    height: calc(100vh - 50px); /* Altura ajustada para que el contenido no se superponga con la barra superior */
+}
+
+/* ========================================================================== 
+   Barra Superior
+   Descripción: Estilos para la barra de navegación superior, fija en la parte superior de la página
+   ========================================================================== */
+
+/* Barra superior fija en la parte superior de la pantalla */
+.topbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 50px;
+    background-color: white;
+    border-bottom: 1px solid #ccc; /* Línea separadora en la parte inferior */
+    display: flex;
+    justify-content: space-between; /* Distribuye los elementos entre el inicio y final */
+    align-items: center;
+    padding: 0 20px;
+    z-index: 999; /* Asegura que la topbar esté siempre visible sobre el contenido */
+}
+
+/* Estilo para el logo reducido en la barra superior */
+.logo-mini {
+    height: 30px;
+}
+
+/* Estilo para el menú desplegable de usuario en la barra superior */
+.user-dropdown {
+    position: relative;
+    color: green;
+    font-weight: bold;
+    cursor: pointer;
+    margin-right: 60px;
+}
+
+/* Nombre de usuario en la barra superior */
+.username {
+    color: green;
+}
+
+/* Menú desplegable que aparece al hacer clic en el menú de usuario */
+.dropdown-menu {
+    position: absolute;
+    right: 0;
+    top: 50px;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000; /* Asegura que el menú esté sobre otros elementos */
+}
+
+/* Botón dentro del menú desplegable */
+.dropdown-btn {
+    background-color: white;
+    border: 2px solid green;
+    border-radius: 12px;
+    color: green;
+    font-weight: bold;
+    padding: 6px 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    transition: 0.3s;
+}
+
+/* Efecto hover sobre los botones del menú desplegable */
+.dropdown-btn:hover {
+    background-color: #e6f4ea;
+}
+
+/* ========================================================================== 
+   Barra Lateral (Sidebar)
+   Descripción: Estilos para la barra lateral que contiene el menú de navegación
+   ========================================================================== */
+
+/* Barra lateral que contiene el menú de navegación */
+.sidebar {
+    margin-top: 0px;
+    background-color: white;
+    border-right: 1px solid #ccc;
+    width: 250px;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: width 0.3s ease; /* Animación para el colapso de la barra lateral */
+    z-index: 5;
+}
+
+/* Estilo para la barra lateral cuando está colapsada */
+.sidebar.collapsed {
+    width: 70px; /* Ancho reducido cuando está colapsada */
+    align-items: center;
+    padding: 1rem 0.5rem;
+}
+
+/* Botón de alternancia para expandir/colapsar la barra lateral */
+.toggle-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #4CAF50;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+/* Espaciado entre el texto y el icono en el botón de alternancia */
+.toggle-button span {
+    margin-left: 0.5rem;
+}
+
+/* Contenedor de los elementos del menú en la barra lateral */
+.menu-items {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+/* Estilo de los botones dentro del menú */
+.menu-items button {
+    display: flex;
+    align-items: center;
+    background-color: white;
+    border: 2px solid #4CAF50;
+    color: #4CAF50;
+    border-radius: 20px;
+    padding: 0.6rem;
+    margin-bottom: 0.5rem;
+    cursor: pointer;
+    font-weight: bold;
+    width: 100%;
+    justify-content: flex-start;
+    transition: all 0.2s;
+    min-height: 40px;
+}
+
+/* Efecto hover sobre los botones del menú */
+.menu-items button:hover {
+    background-color: #4CAF50;
+    color: white;
+}
+
+/* Estilo de los botones en la barra lateral cuando está colapsada */
+.sidebar.collapsed .menu-items button {
+    justify-content: center;
+    padding: 0.6rem;
+    width: 40px;
+    height: 40px;
+}
+
+/* Estilo de los iconos dentro de los botones del menú */
+.menu-items button svg {
+    font-size: 1.2rem;
+    min-width: 1.2rem;
+}
+
+/* ========================================================================== 
+   Contenido Principal
+   Descripción: Estilos para la sección principal que contiene el contenido interactivo
+   ========================================================================== */
+
+/* Estilo para el área principal de contenido */
+.main-content {
+    margin-left: 250px; /* Espacio para la barra lateral */
+    transition: margin-left 0.3s ease;
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    display: flex;
+    justify-content: center;
+    height: calc(100vh - 50px); /* Altura ajustada para que el contenido no se superponga con la topbar */
+}
+
+/* Ajuste en el área principal cuando la barra lateral está colapsada */
+.sidebar.collapsed ~ .main-content {
+    margin-left: 70px; /* Reducción del margen cuando la barra lateral se colapsa */
+}
+
+/* ========================================================================== 
+   Contenedor de Actividades
+   Descripción: Estilos para el contenedor que muestra las actividades en el contenido principal
+   ========================================================================== */
+
+/* Estilo para el contenedor de actividades */
+.actividades-container {
+    width: 90%;
+    max-width: 1200px;
+    background-color: white;
+    border: 2px solid #4CAF50;
+    border-radius: 10px;
+    padding: 20px;
+    box-sizing: border-box;
+    color: #333;
+    margin-left: -100px;
+    margin-top: 5px;
+}
+
+/* Estilo para el encabezado del contenedor de actividades */
+.actividades-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+/* Estilo del título dentro del contenedor de actividades */
+.actividades-title {
+    font-size: 28px;
+    font-weight: bold;
+    color: #4CAF50;
+    margin: 0;
+}
+
+/* Estilo para el botón de registrar dentro del contenedor de actividades */
+.btn-registrar {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* Efecto hover sobre el botón de registrar */
+.btn-registrar:hover {
+    background-color: #45a049;
+}
+
+/* Estilo para la tabla dentro del contenedor de actividades */
+.actividades-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+/* Estilo para las celdas de la tabla */
+.actividades-table th,
+.actividades-table td {
+    border: 1px solid #4CAF50;
+    padding: 10px;
+    font-size: 14px;
+}
+
+/* Estilo para las cabeceras de la tabla */
+.actividades-table th {
+    background-color: #4CAF50;
+    color: white;
+    font-weight: bold;
+}
+
+/* Estilo para las celdas de la tabla */
+.actividades-table td {
+    background-color: #f9f9f9;
+}
