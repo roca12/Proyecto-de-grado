@@ -12,7 +12,7 @@
  * @returns {string|null} Token JWT o null si no existe.
  */
 const getAuthToken = () => {
-    return localStorage.getItem('authToken');
+  return localStorage.getItem("authToken");
 };
 
 /**
@@ -22,7 +22,7 @@ const getAuthToken = () => {
  * @returns {boolean} `true` si existe un token válido, de lo contrario `false`.
  */
 const isAuthenticated = () => {
-    return !!getAuthToken();
+  return !!getAuthToken();
 };
 
 /**
@@ -32,8 +32,8 @@ const isAuthenticated = () => {
  * @returns {Object|null} Objeto con los datos del usuario o `null` si no hay datos.
  */
 const getCurrentUser = () => {
-    const userData = localStorage.getItem('userData');
-    return userData ? JSON.parse(userData) : null;
+  const userData = localStorage.getItem("userData");
+  return userData ? JSON.parse(userData) : null;
 };
 
 /**
@@ -43,9 +43,9 @@ const getCurrentUser = () => {
  * @function
  */
 const logout = () => {
-    localStorage.removeItem('authToken');
-    localStorage.removeItem('userData');
-    window.location.href = '/login';
+  localStorage.removeItem("authToken");
+  localStorage.removeItem("userData");
+  window.location.href = "/login";
 };
 
 /**
@@ -59,40 +59,40 @@ const logout = () => {
  * @returns {Promise<Response>} Respuesta de la petición.
  */
 const authFetch = async (url, options = {}) => {
-    const token = getAuthToken();
+  const token = getAuthToken();
 
-    if (!token) {
-        throw new Error('No hay un token de autenticación');
-    }
+  if (!token) {
+    throw new Error("No hay un token de autenticación");
+  }
 
-    const headers = {
-        ...options.headers,
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json',
-    };
+  const headers = {
+    ...options.headers,
+    Authorization: `Bearer ${token}`,
+    "Content-Type": "application/json",
+  };
 
-    const response = await fetch(url, {
-        ...options,
-        headers,
-    });
+  const response = await fetch(url, {
+    ...options,
+    headers,
+  });
 
-    if (response.status === 401) {
-        logout();
-        throw new Error('Sesión expirada. Por favor, inicie sesión de nuevo.');
-    }
+  if (response.status === 401) {
+    logout();
+    throw new Error("Sesión expirada. Por favor, inicie sesión de nuevo.");
+  }
 
-    return response;
+  return response;
 };
 
 /**
  * Objeto que agrupa los métodos de autenticación disponibles para su uso en la aplicación.
  */
 const authService = {
-    getAuthToken,
-    isAuthenticated,
-    getCurrentUser,
-    logout,
-    authFetch
+  getAuthToken,
+  isAuthenticated,
+  getCurrentUser,
+  logout,
+  authFetch,
 };
 
 export default authService;

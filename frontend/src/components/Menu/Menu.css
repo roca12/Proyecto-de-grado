@@ -8,179 +8,179 @@
    Contenedor Principal
    -------------------------------------------------------------------------- */
 .main-container {
-    display: flex;
-    height: 100vh;
-    overflow: hidden;
-    position: relative;
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
 }
 
 /* --------------------------------------------------------------------------
    Barra Superior
    -------------------------------------------------------------------------- */
 .topbar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 50px;
-    background-color: white;
-    border-bottom: 1px solid #ccc;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 20px;
-    z-index: 999;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 50px;
+  background-color: white;
+  border-bottom: 1px solid #ccc;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  z-index: 999;
 }
 
 /* Logo en la barra superior */
 .logo-mini {
-    height: 30px;
+  height: 30px;
 }
 
 /* Dropdown del Usuario */
 .user-dropdown {
-    position: relative;
-    color: green;
-    font-weight: bold;
-    cursor: pointer;
-    margin-right: 60px;
+  position: relative;
+  color: green;
+  font-weight: bold;
+  cursor: pointer;
+  margin-right: 60px;
 }
 
 .username {
-    color: green;
+  color: green;
 }
 
 /* Menú del Dropdown */
 .dropdown-menu {
-    position: absolute;
-    right: 0;
-    top: 50px;
-    background-color: white;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    padding: 10px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
+  position: absolute;
+  right: 0;
+  top: 50px;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
 }
 
 /* Botón dentro del dropdown */
 .dropdown-btn {
-    background-color: white;
-    border: 2px solid green;
-    border-radius: 12px;
-    color: green;
-    font-weight: bold;
-    padding: 6px 12px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    transition: 0.3s;
+  background-color: white;
+  border: 2px solid green;
+  border-radius: 12px;
+  color: green;
+  font-weight: bold;
+  padding: 6px 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: 0.3s;
 }
 
 .dropdown-btn:hover {
-    background-color: #e6f4ea;
+  background-color: #e6f4ea;
 }
 
 /* --------------------------------------------------------------------------
    Menú Lateral
    -------------------------------------------------------------------------- */
 .sidebar {
-    margin-top: 40px;
-    background-color: white;
-    border-right: 1px solid #ccc;
-    width: 250px;
-    padding: 1rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    transition: width 0.3s ease;
-    z-index: 5;
+  margin-top: 40px;
+  background-color: white;
+  border-right: 1px solid #ccc;
+  width: 250px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: width 0.3s ease;
+  z-index: 5;
 }
 
 /* Estilo para el menú lateral cuando está colapsado */
 .sidebar.collapsed {
-    width: 70px;
-    align-items: center;
-    padding: 1rem 0.5rem;
+  width: 70px;
+  align-items: center;
+  padding: 1rem 0.5rem;
 }
 
 /* Botón para expandir/contraer el menú lateral */
 .toggle-button {
-    background: none;
-    border: none;
-    cursor: pointer;
-    color: #4CAF50;
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-    margin-bottom: 1rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #4caf50;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
 }
 
 .toggle-button span {
-    margin-left: 0.5rem;
+  margin-left: 0.5rem;
 }
 
 /* --------------------------------------------------------------------------
    Elementos del Menú Lateral
    -------------------------------------------------------------------------- */
 .menu-items {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 1rem;
 }
 
 /* Botones del menú lateral */
 .menu-items button {
-    display: flex;
-    align-items: center;
-    background-color: white;
-    border: 2px solid #4CAF50;
-    color: #4CAF50;
-    border-radius: 20px;
-    padding: 0.6rem;
-    margin-bottom: 0.5rem;
-    cursor: pointer;
-    font-weight: bold;
-    width: 100%;
-    justify-content: flex-start;
-    transition: all 0.2s;
-    min-height: 40px;
+  display: flex;
+  align-items: center;
+  background-color: white;
+  border: 2px solid #4caf50;
+  color: #4caf50;
+  border-radius: 20px;
+  padding: 0.6rem;
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+  font-weight: bold;
+  width: 100%;
+  justify-content: flex-start;
+  transition: all 0.2s;
+  min-height: 40px;
 }
 
 .menu-items button:hover {
-    background-color: #4CAF50;
-    color: white;
+  background-color: #4caf50;
+  color: white;
 }
 
 /* Estilo cuando el menú está colapsado */
 .sidebar.collapsed .menu-items button {
-    justify-content: center;
-    padding: 0.6rem;
-    width: 40px;
-    height: 40px;
+  justify-content: center;
+  padding: 0.6rem;
+  width: 40px;
+  height: 40px;
 }
 
 /* Íconos dentro de los botones del menú */
 .menu-items button svg {
-    font-size: 1.2rem;
-    min-width: 1.2rem;
+  font-size: 1.2rem;
+  min-width: 1.2rem;
 }
 
 /* --------------------------------------------------------------------------
    Imagen de Pie de Página
    -------------------------------------------------------------------------- */
 .footer-img {
-    width: 80%;
-    margin: 0 auto;
+  width: 80%;
+  margin: 0 auto;
 }
 
 /* --------------------------------------------------------------------------
    Imagen de Fondo
    -------------------------------------------------------------------------- */
 .background-img {
-    background-image: url("./../assets/prueba.jpg");
-    background-size: cover;
-    background-position: center;
-    flex: 1;
+  background-image: url("./../assets/prueba.jpg");
+  background-size: cover;
+  background-position: center;
+  flex: 1;
 }
