@@ -1,0 +1,95 @@
+/* ==========================================================================
+   Estilos de Login
+   Descripción: Define el diseño y los estilos visuales para la pantalla de inicio de sesión
+   ========================================================================== */
+
+/* Contenedor principal del login: divide la pantalla en dos columnas */
+.login-container {
+  display: flex;
+  height: 100vh;
+  font-family: Arial, sans-serif;
+}
+
+/* Columnas izquierda y derecha (50% cada una) */
+.login-left,
+.login-right {
+  flex: 1;
+}
+
+/* --------------------------------------------------------------------------
+   Sección Izquierda: Contiene el formulario y el logo
+   -------------------------------------------------------------------------- */
+.login-left {
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+/* Logo dentro del login */
+.logo-img {
+  width: 150px;
+  margin-bottom: 2rem;
+}
+
+/* Contenedor del formulario de login */
+.login-form {
+  width: 100%;
+  max-width: 300px;
+}
+
+/* Agrupación de inputs */
+.input-group {
+  margin-bottom: 1rem;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 20px;
+  border: none;
+  background-color: #c2edb2;
+  text-align: center;
+  font-size: 16px;
+}
+
+/* --------------------------------------------------------------------------
+   Botones del formulario
+   -------------------------------------------------------------------------- */
+.btn-group {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.btn-group button {
+  flex: 1;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 20px;
+  background-color: #7fc241;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn-group button:hover {
+  background-color: #65a831;
+}
+
+/* --------------------------------------------------------------------------
+   Sección Derecha: Imagen de fondo decorativa
+   -------------------------------------------------------------------------- */
+.login-right {
+  overflow: hidden;
+}
+
+.background-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}

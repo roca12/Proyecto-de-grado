@@ -1,7 +1,6 @@
 import { Navigate, Outlet } from "react-router-dom";
 import authService from "../components/authService";
 
-// Componente para proteger rutas que requieren autenticación
 const ProtectedRoute = ({ requiredRole }) => {
   const isAuthenticated = authService.isAuthenticated();
   const currentUser = authService.getCurrentUser();

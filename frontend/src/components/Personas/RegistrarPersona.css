@@ -1,0 +1,95 @@
+/* ==========================================================================
+   Estilos de RegistrarPersona
+   Descripción: Define el diseño y estilo visual para el formulario de registro de personas.
+   Incluye estructura del formulario, inputs, botones y título flotante.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Contenedor General del Formulario
+   -------------------------------------------------------------------------- */
+.registro-actividad-container {
+  margin: auto;
+  margin-top: 100px; /* Solo margen superior */
+  padding: 30px;
+  background-color: rgba(255, 255, 255, 0.6);
+  border-radius: 16px;
+  width: 600px;
+  position: relative;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border: 2px solid #4caf50;
+}
+
+/* --------------------------------------------------------------------------
+   Título flotante sobre el contenedor del formulario
+   -------------------------------------------------------------------------- */
+.registro-title {
+  position: absolute;
+  margin-top: 30px;
+  top: -30px;
+  left: 20px;
+  font-size: 24px;
+  font-weight: bold;
+  color: #4caf50;
+  background-color: white;
+  padding: 5px 15px;
+  border-radius: 10px;
+}
+
+/* --------------------------------------------------------------------------
+   Estructura del Formulario
+   -------------------------------------------------------------------------- */
+.registro-form {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Inputs y Select */
+.registro-input {
+  padding: 12px 15px;
+  border: 2px solid #4caf50;
+  border-radius: 12px;
+  font-size: 16px;
+  outline: none;
+  background-color: white;
+}
+
+/* --------------------------------------------------------------------------
+   Contenedor de Botones (Cancelar y Registrar)
+   -------------------------------------------------------------------------- */
+.registro-botones {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 25px;
+}
+
+/* Botón Cancelar */
+.btn-cancelar {
+  background-color: #aaa;
+  color: white;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.btn-cancelar:hover {
+  background-color: #888;
+}
+
+/* Botón Registrar */
+.btn-registrar {
+  background-color: #4caf50;
+  color: white;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.btn-registrar:hover {
+  background-color: #3e8e41;
+}
