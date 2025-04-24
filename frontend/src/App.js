@@ -1,9 +1,3 @@
-/**
- * @file App.js
- * @description Componente principal de la aplicación que gestiona las rutas usando React Router.
- * Define rutas públicas, rutas protegidas para usuarios autenticados y rutas específicas para administradores.
- */
-
 import {
   BrowserRouter as Router,
   Routes,
@@ -23,13 +17,6 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import "./App.css";
 import authService from "./components/authService";
 
-/**
- * Componente principal de la aplicación que define las rutas usando React Router.
- * Utiliza rutas protegidas para controlar el acceso según el estado de autenticación y rol del usuario.
- *
- * @component
- * @returns {JSX.Element} La estructura de rutas de la aplicación.
- */
 function App() {
   return (
     <Router>
