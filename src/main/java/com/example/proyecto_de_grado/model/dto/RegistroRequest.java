@@ -5,47 +5,47 @@ import lombok.Data;
 /**
  * DTO para la solicitud de registro de un nuevo usuario en el sistema.
  *
- * <p>Contiene tanto los datos personales como la información necesaria
- * para la creación de la cuenta de usuario.</p>
+ * <p>Contiene tanto los datos personales como la información necesaria para la creación de la
+ * cuenta de usuario.
  *
- * <p>Se utiliza principalmente en el proceso de registro inicial.</p>
+ * <p>Se utiliza principalmente en el proceso de registro inicial.
  *
- * <p>Autor: Anderson Zuluaga</p>
+ * <p>Autor: Anderson Zuluaga
  */
 @Data
 public class RegistroRequest {
 
-    // Datos de persona
+  // Datos de persona
 
-    /** Nombre de la persona. */
-    private String nombre;
+  /** Nombre de la persona. */
+  private String nombre;
 
-    /** Apellido de la persona. */
-    private String apellido;
+  /** Apellido de la persona. */
+  private String apellido;
 
-    /** Tipo de identificación (por ejemplo, 1 para cédula, 2 para pasaporte, etc.). */
-    private int tipoId;
+  /** Tipo de identificación (por ejemplo, 1 para cédula, 2 para pasaporte, etc.). */
+  private int tipoId;
 
-    /** Número de identificación de la persona. */
-    private String numeroIdentificacion;
+  /** Número de identificación de la persona. */
+  private String numeroIdentificacion;
 
-    /** Correo electrónico de contacto. */
-    private String email;
+  /** Correo electrónico de contacto. */
+  private String email;
 
-    /** Número de teléfono de contacto. */
-    private String telefono;
+  /** Número de teléfono de contacto. */
+  private String telefono;
 
-    /** Dirección de residencia. */
-    private String direccion;
+  /** Dirección de residencia. */
+  private String direccion;
 
-    // Datos de usuario
+  // Datos de usuario
 
-    /** Contraseña para la cuenta de usuario. */
-    private String contraseña;
+  /** Contraseña para la cuenta de usuario. */
+  private String contraseña;
 
-    /** Tipo de usuario: puede ser "ADMIN" o "USER". */
-    private String tipoUsuario;
+  /** Tipo de usuario: puede ser "ADMIN" o "USER". */
+  private String tipoUsuario;
 
-    /** ID de la finca asociada al usuario. */
-    private int fincaId;
+  /** ID de la finca asociada al usuario. */
+  private int fincaId;
 }

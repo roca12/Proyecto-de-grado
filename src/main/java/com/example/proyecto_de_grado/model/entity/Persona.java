@@ -6,10 +6,10 @@ import lombok.Data;
 /**
  * Entidad base que representa a una persona dentro del sistema.
  *
- * <p>Contiene información común a todas las personas, como nombre, apellido, tipo de identificación,
- * número de identificación, correo electrónico, teléfono y dirección.</p>
+ * <p>Contiene información común a todas las personas, como nombre, apellido, tipo de
+ * identificación, número de identificación, correo electrónico, teléfono y dirección.
  *
- * <p>Autor: Anderson Zuluaga</p>
+ * <p>Autor: Anderson Zuluaga
  */
 @Data
 @Entity
@@ -17,31 +17,31 @@ import lombok.Data;
 @Table(name = "persona")
 public class Persona {
 
-    /** Identificador único de la persona. */
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idPersona;
+  /** Identificador único de la persona. */
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private int idPersona;
 
-    /** Nombre de la persona. */
-    private String nombre;
+  /** Nombre de la persona. */
+  private String nombre;
 
-    /** Apellido de la persona. */
-    private String apellido;
+  /** Apellido de la persona. */
+  private String apellido;
 
-    /** Tipo de identificación de la persona (por ejemplo, cédula, NIT, etc.). */
-    @Column(name = "tipo_id")
-    private int tipoId;
+  /** Tipo de identificación de la persona (por ejemplo, cédula, NIT, etc.). */
+  @Column(name = "tipo_id")
+  private int tipoId;
 
-    /** Número de identificación de la persona. */
-    @Column(name = "numero_identificacion")
-    private String numeroIdentificacion;
+  /** Número de identificación de la persona. */
+  @Column(name = "numero_identificacion")
+  private String numeroIdentificacion;
 
-    /** Correo electrónico de la persona. */
-    private String email;
+  /** Correo electrónico de la persona. */
+  private String email;
 
-    /** Número de teléfono de la persona. */
-    private String telefono;
+  /** Número de teléfono de la persona. */
+  private String telefono;
 
-    /** Dirección de la persona. */
-    private String direccion;
+  /** Dirección de la persona. */
+  private String direccion;
 }
