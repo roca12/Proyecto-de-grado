@@ -9,27 +9,63 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * Controlador REST para la gestión de compras de insumos.
+ *
+ * <p>Proporciona endpoints para realizar operaciones CRUD sobre compras de insumos,
+ * incluyendo consultas por insumo y proveedor, así como el registro de nuevas compras
+ * que actualizan automáticamente el stock disponible.</p>
+ *
+ * @author Anderson Zuluaga
+ * @version 1.0
+ * @since 2023
+ */
 @RestController
 @RequestMapping("/api/compra-insumos")
 public class CompraInsumoController {
+
     @Autowired
     private CompraInsumoService compraInsumoService;
 
+    /**
+     * Obtiene todas las compras de insumos registradas en el sistema.
+     *
+     * @return Lista de todas las compras de insumos
+     */
     @GetMapping
     public List<CompraInsumo> getAllCompras() {
         return compraInsumoService.getAllCompras();
     }
 
+    /**
+     * Obtiene todas las compras asociadas a un insumo específico.
+     *
+     * @param id ID del insumo para filtrar las compras
+     * @return Lista de compras del insumo especificado
+     */
     @GetMapping("/insumo/{id}")
     public List<CompraInsumo> getComprasByInsumo(@PathVariable int id) {
         return compraInsumoService.getComprasByInsumo(id);
     }
 
+    /**
+     * Obtiene todas las compras asociadas a un proveedor específico.
+     *
+     * @param id ID del proveedor para filtrar las compras
+     * @return Lista de compras del proveedor especificado
+     */
     @GetMapping("/proveedor/{id}")
     public List<CompraInsumo> getComprasByProveedor(@PathVariable int id) {
         return compraInsumoService.getComprasByProveedor(id);
     }
 
+    /**
+     * Registra una nueva compra de insumos y actualiza el stock disponible.
+     *
+     * @param compra Objeto CompraInsumo con los datos de la compra a registrar
+     * @return ResponseEntity con mensaje de éxito (200 OK) o mensaje de error (400 Bad Request)
+     * @throws IllegalArgumentException si ocurre algún error en la validación de la compra
+     */
     @PostMapping
     public ResponseEntity<?> createCompra(@Valid @RequestBody CompraInsumo compra) {
         try {
@@ -39,7 +75,4 @@ public class CompraInsumoController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
-    }
-
-
-    
+}
