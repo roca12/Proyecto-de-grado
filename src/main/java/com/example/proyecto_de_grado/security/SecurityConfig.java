@@ -48,8 +48,9 @@ public class SecurityConfig {
                         "/api/usuarios/login", "/api/usuarios", "/api/usuarios/register")
                     .permitAll()
                     // Rutas de actividades accesibles solo por usuarios con ciertos roles
-                    .requestMatchers("/api/actividades/**")
+                    .requestMatchers("/api/actividades/**","/api/insumos/**")
                     .hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
+
                     // Rutas de administración solo accesibles por administradores
                     .requestMatchers("/api/usuarios/admin/**")
                     .hasAnyAuthority("ROLE_ADMIN")
