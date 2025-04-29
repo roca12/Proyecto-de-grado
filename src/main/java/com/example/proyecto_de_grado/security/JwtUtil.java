@@ -2,8 +2,8 @@ package com.example.proyecto_de_grado.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import jakarta.annotation.PostConstruct;
 import java.security.Key;
 import java.util.Base64;
 import java.util.Date;
@@ -11,7 +11,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.logging.Logger;
-import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -36,9 +35,7 @@ public class JwtUtil {
 
   private Key key;
 
-  /**
-   * Inicializa la clave secreta después de cargar las propiedades.
-   */
+  /** Inicializa la clave secreta después de cargar las propiedades. */
   @PostConstruct
   public void init() {
     byte[] secretBytes = Base64.getEncoder().encode(secret.getBytes());
@@ -56,12 +53,12 @@ public class JwtUtil {
 
   private String createToken(Map<String, Object> claims, String subject) {
     return Jwts.builder()
-            .setClaims(claims)
-            .setSubject(subject)
-            .setIssuedAt(new Date(System.currentTimeMillis()))
-            .setExpiration(new Date(System.currentTimeMillis() + jwtExpiration))
-            .signWith(key)
-            .compact();
+        .setClaims(claims)
+        .setSubject(subject)
+        .setIssuedAt(new Date(System.currentTimeMillis()))
+        .setExpiration(new Date(System.currentTimeMillis() + jwtExpiration))
+        .signWith(key)
+        .compact();
   }
 
   public Boolean validateToken(String token, UserDetails userDetails) {

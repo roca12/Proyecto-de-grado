@@ -46,14 +46,15 @@ public class InsumoController {
   @PostMapping
   public ResponseEntity<?> createInsumo(@RequestBody InsumoDTO dto) {
     if (dto.getIdProveedor() == null) {
-      return ResponseEntity
-              .badRequest()
-              .body("El ID del proveedor es obligatorio.");
+      return ResponseEntity.badRequest().body("El ID del proveedor es obligatorio.");
     }
 
-    Proveedor proveedor = proveedorRepository.findById(dto.getIdProveedor())
-            .orElseThrow(() -> new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST, "Proveedor no encontrado"));
+    Proveedor proveedor =
+        proveedorRepository
+            .findById(dto.getIdProveedor())
+            .orElseThrow(
+                () ->
+                    new ResponseStatusException(HttpStatus.BAD_REQUEST, "Proveedor no encontrado"));
 
     // Crear entidad desde el DTO
     Insumo insumo = new Insumo();
@@ -68,7 +69,7 @@ public class InsumoController {
 
   @PostMapping("/uso/{id}/{cantidad}")
   public ResponseEntity<String> registrarUsoInsumo(
-          @PathVariable int id, @PathVariable BigDecimal cantidad) {
+      @PathVariable int id, @PathVariable BigDecimal cantidad) {
     insumoService.registrarUsoInsumo(id, cantidad);
     return ResponseEntity.ok("Uso registrado y stock actualizado.");
   }
@@ -83,6 +84,7 @@ public class InsumoController {
     insumoService.deleteInsumo(id);
     return ResponseEntity.ok("Insumo eliminado correctamente");
   }
+
   @PutMapping("/{id}")
   public ResponseEntity<?> updateInsumo(@PathVariable int id, @RequestBody InsumoDTO dto) {
     Optional<Insumo> optionalInsumo = insumoService.getInsumoById(id);
@@ -92,7 +94,9 @@ public class InsumoController {
     }
 
     // Validar proveedor
-    Proveedor proveedor = proveedorRepository.findById(dto.getIdProveedor())
+    Proveedor proveedor =
+        proveedorRepository
+            .findById(dto.getIdProveedor())
             .orElseThrow(() -> new IllegalArgumentException("Proveedor no encontrado"));
 
     // Actualizar campos
@@ -105,7 +109,4 @@ public class InsumoController {
 
     return ResponseEntity.ok(insumoService.saveInsumo(insumo));
   }
-
-
-
 }
