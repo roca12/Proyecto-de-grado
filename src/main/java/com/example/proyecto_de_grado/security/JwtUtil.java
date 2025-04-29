@@ -2,9 +2,10 @@ package com.example.proyecto_de_grado.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import jakarta.annotation.PostConstruct;
 import java.security.Key;
+import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,15 +15,32 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+/**
+ * Utilidad para la creación, validación y extracción de información de tokens JWT.
+ *
+ * <p>Autor: Anderson Zuluaga - Santiago Arias
+ */
 @Component
 public class JwtUtil {
 
   private static final Logger logger = Logger.getLogger(JwtUtil.class.getName());
 
-  private final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+  // Inyectar la clave secreta del application.properties
+  @Value("${jwt.secret}")
+  private String secret;
 
+  // Tiempo de expiración del token
   @Value("${jwt.expiration:3600000}") // 1 hora por defecto
   private long jwtExpiration;
+
+  private Key key;
+
+  /** Inicializa la clave secreta después de cargar las propiedades. */
+  @PostConstruct
+  public void init() {
+    byte[] secretBytes = Base64.getEncoder().encode(secret.getBytes());
+    key = Keys.hmacShaKeyFor(secretBytes);
+  }
 
   public String generateToken(String username, String tipoUsuario, Integer idUsuario) {
     Map<String, Object> claims = new HashMap<>();
