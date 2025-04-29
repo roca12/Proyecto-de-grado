@@ -18,31 +18,60 @@ import org.springframework.web.server.ResponseStatusException;
 /**
  * Controlador REST para la gestión de insumos agrícolas.
  *
- * <p>Proporciona operaciones para el manejo de insumos.
+ * <p>Permite operaciones CRUD sobre los insumos, como creación, lectura,
+ * actualización, eliminación, consulta de bajo stock y registro de uso.
+ *
+ * @author Anderson Zuluaga
  */
 @RestController
 @RequestMapping("/api/insumos")
 public class InsumoController {
 
-  @Autowired private InsumoService insumoService;
-  @Autowired private ProveedorRepository proveedorRepository;
+  @Autowired
+  private InsumoService insumoService;
 
+  @Autowired
+  private ProveedorRepository proveedorRepository;
+
+  /**
+   * Obtiene todos los insumos registrados.
+   *
+   * @return lista de insumos
+   */
   @GetMapping
   public List<Insumo> getAllInsumos() {
     return insumoService.getAllInsumos();
   }
 
+  /**
+   * Obtiene un insumo por su ID.
+   *
+   * @param id identificador del insumo
+   * @return respuesta con el insumo encontrado o estado 404 si no existe
+   */
   @GetMapping("/{id}")
   public ResponseEntity<Insumo> getInsumoById(@PathVariable int id) {
     Optional<Insumo> insumo = insumoService.getInsumoById(id);
     return insumo.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
   }
 
+  /**
+   * Consulta los insumos cuyo stock es inferior a un valor límite.
+   *
+   * @param limite cantidad mínima aceptable
+   * @return lista de insumos con stock bajo
+   */
   @GetMapping("/bajo-stock/{limite}")
   public List<Insumo> getInsumosBajosStock(@PathVariable BigDecimal limite) {
     return insumoService.getInsumosBajosStock(limite);
   }
 
+  /**
+   * Crea un nuevo insumo a partir de un DTO.
+   *
+   * @param dto datos del insumo a crear
+   * @return respuesta con el insumo creado o mensaje de error
+   */
   @PostMapping
   public ResponseEntity<?> createInsumo(@RequestBody InsumoDTO dto) {
     if (dto.getIdProveedor() == null) {
@@ -55,7 +84,6 @@ public class InsumoController {
             .orElseThrow(() -> new ResponseStatusException(
                     HttpStatus.BAD_REQUEST, "Proveedor no encontrado"));
 
-    // Crear entidad desde el DTO
     Insumo insumo = new Insumo();
     insumo.setNombre(dto.getNombre());
     insumo.setDescripcion(dto.getDescripcion());
@@ -66,6 +94,13 @@ public class InsumoController {
     return ResponseEntity.ok(insumoService.saveInsumo(insumo));
   }
 
+  /**
+   * Registra el uso de una cantidad de insumo y actualiza su stock.
+   *
+   * @param id ID del insumo
+   * @param cantidad cantidad utilizada
+   * @return mensaje de confirmación
+   */
   @PostMapping("/uso/{id}/{cantidad}")
   public ResponseEntity<String> registrarUsoInsumo(
           @PathVariable int id, @PathVariable BigDecimal cantidad) {
@@ -73,16 +108,36 @@ public class InsumoController {
     return ResponseEntity.ok("Uso registrado y stock actualizado.");
   }
 
+  /**
+   * Obtiene el historial de movimientos de un insumo.
+   *
+   * @param id ID del insumo
+   * @return lista de movimientos (entradas/salidas) del insumo
+   */
   @GetMapping("/historial/{id}")
   public List<HistorialInsumo> getHistorialInsumo(@PathVariable int id) {
     return insumoService.getHistorialInsumo(id);
   }
 
+  /**
+   * Elimina un insumo por su ID.
+   *
+   * @param id ID del insumo a eliminar
+   * @return mensaje de confirmación
+   */
   @DeleteMapping("/{id}")
   public ResponseEntity<String> deleteInsumo(@PathVariable int id) {
     insumoService.deleteInsumo(id);
     return ResponseEntity.ok("Insumo eliminado correctamente");
   }
+
+  /**
+   * Actualiza los datos de un insumo existente.
+   *
+   * @param id ID del insumo a actualizar
+   * @param dto datos actualizados del insumo
+   * @return respuesta con el insumo actualizado o error si no existe
+   */
   @PutMapping("/{id}")
   public ResponseEntity<?> updateInsumo(@PathVariable int id, @RequestBody InsumoDTO dto) {
     Optional<Insumo> optionalInsumo = insumoService.getInsumoById(id);
@@ -91,11 +146,9 @@ public class InsumoController {
       return ResponseEntity.notFound().build();
     }
 
-    // Validar proveedor
     Proveedor proveedor = proveedorRepository.findById(dto.getIdProveedor())
             .orElseThrow(() -> new IllegalArgumentException("Proveedor no encontrado"));
 
-    // Actualizar campos
     Insumo insumo = optionalInsumo.get();
     insumo.setNombre(dto.getNombre());
     insumo.setDescripcion(dto.getDescripcion());
@@ -105,7 +158,5 @@ public class InsumoController {
 
     return ResponseEntity.ok(insumoService.saveInsumo(insumo));
   }
-
-
 
 }
