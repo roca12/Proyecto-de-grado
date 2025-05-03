@@ -30,6 +30,20 @@ public class ActividadController {
   @Autowired private UsuarioRepository usuarioRepository;
 
   /**
+   * Obtiene la lista de todas las actividades registradas en el sistema.
+   *
+   * <p>Este endpoint retorna todas las actividades sin importar la finca a la que pertenecen.
+   * Es útil para los usuarios con rol de administrador que requieren una vista general de
+   * todas las actividades del sistema.
+   *
+   * @return ResponseEntity con la lista de todas las actividades en formato DTO y estado HTTP 200 (OK)
+   */
+  @GetMapping
+  public ResponseEntity<List<ActividadDTO>> listarTodas() {
+    return ResponseEntity.ok(actividadService.listarTodas());
+  }
+
+  /**
    * Crea una nueva actividad.
    *
    * @param actividadDTO DTO con los datos de la actividad a crear

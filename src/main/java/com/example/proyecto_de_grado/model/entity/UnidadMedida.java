@@ -19,5 +19,8 @@ public enum UnidadMedida {
   BOLSA,
 
   /** Unidad de medida en unidades individuales. */
-  UNIDAD
+  UNIDAD,
+
+  /** Unidad de medida en Caja / canastas. */
+  CAJA
 }
