@@ -18,8 +18,8 @@ import org.springframework.web.server.ResponseStatusException;
 /**
  * Controlador REST para la gestión de insumos agrícolas.
  *
- * <p>Permite operaciones CRUD sobre los insumos, como creación, lectura,
- * actualización, eliminación, consulta de bajo stock y registro de uso.
+ * <p>Permite operaciones CRUD sobre los insumos, como creación, lectura, actualización,
+ * eliminación, consulta de bajo stock y registro de uso.
  *
  * @author Anderson Zuluaga
  */
@@ -27,11 +27,9 @@ import org.springframework.web.server.ResponseStatusException;
 @RequestMapping("/api/insumos")
 public class InsumoController {
 
-  @Autowired
-  private InsumoService insumoService;
+  @Autowired private InsumoService insumoService;
 
-  @Autowired
-  private ProveedorRepository proveedorRepository;
+  @Autowired private ProveedorRepository proveedorRepository;
 
   /**
    * Obtiene todos los insumos registrados.
@@ -75,14 +73,15 @@ public class InsumoController {
   @PostMapping
   public ResponseEntity<?> createInsumo(@RequestBody InsumoDTO dto) {
     if (dto.getIdProveedor() == null) {
-      return ResponseEntity
-              .badRequest()
-              .body("El ID del proveedor es obligatorio.");
+      return ResponseEntity.badRequest().body("El ID del proveedor es obligatorio.");
     }
 
-    Proveedor proveedor = proveedorRepository.findById(dto.getIdProveedor())
-            .orElseThrow(() -> new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST, "Proveedor no encontrado"));
+    Proveedor proveedor =
+        proveedorRepository
+            .findById(dto.getIdProveedor())
+            .orElseThrow(
+                () ->
+                    new ResponseStatusException(HttpStatus.BAD_REQUEST, "Proveedor no encontrado"));
 
     Insumo insumo = new Insumo();
     insumo.setNombre(dto.getNombre());
@@ -103,7 +102,7 @@ public class InsumoController {
    */
   @PostMapping("/uso/{id}/{cantidad}")
   public ResponseEntity<String> registrarUsoInsumo(
-          @PathVariable int id, @PathVariable BigDecimal cantidad) {
+      @PathVariable int id, @PathVariable BigDecimal cantidad) {
     insumoService.registrarUsoInsumo(id, cantidad);
     return ResponseEntity.ok("Uso registrado y stock actualizado.");
   }
@@ -146,7 +145,9 @@ public class InsumoController {
       return ResponseEntity.notFound().build();
     }
 
-    Proveedor proveedor = proveedorRepository.findById(dto.getIdProveedor())
+    Proveedor proveedor =
+        proveedorRepository
+            .findById(dto.getIdProveedor())
             .orElseThrow(() -> new IllegalArgumentException("Proveedor no encontrado"));
 
     Insumo insumo = optionalInsumo.get();
@@ -158,5 +159,4 @@ public class InsumoController {
 
     return ResponseEntity.ok(insumoService.saveInsumo(insumo));
   }
-
 }

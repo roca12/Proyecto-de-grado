@@ -4,8 +4,8 @@ import com.example.proyecto_de_grado.model.entity.CalidadEnum;
 import lombok.Data;
 
 /**
- * DTO para la entidad CalidadProducto.
- * Contiene la evaluación de calidad de una producción.
+ * DTO para la entidad CalidadProducto. Contiene la evaluación de calidad de una producción.
+ *
  * @author Anderson Zuluaga
  * @version 1.0
  * @since 2023
@@ -13,15 +13,15 @@ import lombok.Data;
 @Data
 public class CalidadProductoDTO {
 
-    /** Identificador único de la evaluación de calidad. */
-    private Integer idCalidad;
+  /** Identificador único de la evaluación de calidad. */
+  private Integer idCalidad;
 
-    /** Identificador de la producción evaluada. */
-    private Integer idProduccion;
+  /** Identificador de la producción evaluada. */
+  private Integer idProduccion;
 
-    /** Nivel de calidad asignado. */
-    private CalidadEnum calidad;
+  /** Nivel de calidad asignado. */
+  private CalidadEnum calidad;
 
-    /** Observaciones adicionales sobre la calidad. */
-    private String observaciones;
+  /** Observaciones adicionales sobre la calidad. */
+  private String observaciones;
 }

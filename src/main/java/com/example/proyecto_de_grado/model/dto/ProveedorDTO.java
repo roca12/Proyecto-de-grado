@@ -17,41 +17,41 @@ import lombok.Data;
 @Data
 public class ProveedorDTO {
 
-    /** Identificador único del proveedor. */
-    private Integer idProveedor;
+  /** Identificador único del proveedor. */
+  private Integer idProveedor;
 
-    /** Nombre del proveedor (o razón social si aplica). */
-    private String nombre;
+  /** Nombre del proveedor (o razón social si aplica). */
+  private String nombre;
 
-    /** Información adicional de contacto (puede ser nombre del encargado, teléfono alterno, etc.). */
-    private String contacto;
+  /** Información adicional de contacto (puede ser nombre del encargado, teléfono alterno, etc.). */
+  private String contacto;
 
-    // Campos heredados de Persona
+  // Campos heredados de Persona
 
-    /** Identificador único de la persona asociada al proveedor. */
-    private Integer idPersona;
+  /** Identificador único de la persona asociada al proveedor. */
+  private Integer idPersona;
 
-    /** Primer nombre del proveedor como persona natural (si aplica). */
-    private String nombrePersona;
+  /** Primer nombre del proveedor como persona natural (si aplica). */
+  private String nombrePersona;
 
-    /** Apellido(s) del proveedor como persona natural. */
-    private String apellido;
+  /** Apellido(s) del proveedor como persona natural. */
+  private String apellido;
 
-    /** Tipo de identificación (1: Cédula, 2: Pasaporte, etc.). */
-    private int tipoId;
+  /** Tipo de identificación (1: Cédula, 2: Pasaporte, etc.). */
+  private int tipoId;
 
-    /** Número de identificación del proveedor. */
-    private String numeroIdentificacion;
+  /** Número de identificación del proveedor. */
+  private String numeroIdentificacion;
 
-    /** Correo electrónico del proveedor. */
-    private String email;
+  /** Correo electrónico del proveedor. */
+  private String email;
 
-    /** Teléfono del proveedor. */
-    private String telefono;
+  /** Teléfono del proveedor. */
+  private String telefono;
 
-    /** Dirección del proveedor. */
-    private String direccion;
+  /** Dirección del proveedor. */
+  private String direccion;
 
-    /** Identificador de la finca asociada (puede ser nulo). */
-    private Integer idFinca;
+  /** Identificador de la finca asociada (puede ser nulo). */
+  private Integer idFinca;
 }

@@ -28,11 +28,13 @@ public class Proveedor {
   @JoinColumn(name = "id_persona", nullable = false)
   @JsonIgnore
   private Persona persona;
+
   /** Finca asociada al proveedor (relación muchos a uno). */
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "id_finca")
   @JsonIgnore
   private Finca finca;
+
   /** Nombre del proveedor (razón social o nombre comercial). */
   @Column(name = "nombre", length = 100, nullable = false)
   private String nombre;
