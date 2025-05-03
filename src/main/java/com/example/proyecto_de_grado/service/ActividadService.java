@@ -53,6 +53,15 @@ public class ActividadService {
   }
 
   /**
+   * Lista todas las actividades registradas en el sistema.
+   *
+   * @return Una lista de DTOs que representan todas las actividades.
+   */
+  public List<ActividadDTO> listarTodas() {
+    return actividadRepository.findAll().stream().map(this::toDTO).collect(Collectors.toList());
+  }
+
+  /**
    * Obtiene todas las actividades asociadas a una finca.
    *
    * @param idFinca El ID de la finca.
