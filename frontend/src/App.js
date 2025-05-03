@@ -23,7 +23,6 @@ function App() {
     <Router>
       <div className="app-container">
         <Routes>
-
           {/* Ruta pública para login */}
           <Route path="/login" element={<Login />} />
           {/* Ruta pública para acceso no autorizado */}
