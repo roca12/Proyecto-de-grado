@@ -1,10 +1,3 @@
-/**
- * @file Actividades.jsx
- * @description Componente que representa la vista de actividades dentro del sistema.
- * Incluye un menú lateral colapsable, una barra superior con menú de usuario, y una tabla
- * para mostrar las actividades registradas. Permite navegar entre secciones y registrar nuevas actividades.
- */
-
 import "./Actividades.css";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -20,53 +13,133 @@ import {
   FaCreditCard,
   FaChartArea,
   FaTable,
+  FaEdit,
+  FaTrash,
 } from "react-icons/fa";
 import authService from "../authService";
 import logo from "./../assets/APROAFA2.png";
 import logoMini from "./../assets/APROAFA.jpg";
 
-/**
- * Componente funcional para la gestión de actividades.
- * Contiene navegación lateral, barra superior y una tabla de actividades.
- *
- * @component
- * @returns {JSX.Element} Interfaz de usuario para visualizar y registrar actividades.
- */
 const Actividades = () => {
   const [isOpen, setIsOpen] = useState(true);
   const [showDropdown, setShowDropdown] = useState(false);
-  const [user, setUser] = useState(null);
+  const [actividades, setActividades] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [actividadEditando, setActividadEditando] = useState(null);
+  const [formData, setFormData] = useState({
+    idTipoActividad: "",
+    fechaInicio: "",
+    fechaFin: "",
+    descripcion: "",
+  });
   const navigate = useNavigate();
 
-  /**
-   * Hook que se ejecuta al montar el componente.
-   * Obtiene la información del usuario autenticado.
-   */
   useEffect(() => {
-    const currentUser = authService.getCurrentUser();
-    setUser(currentUser);
+    const fetchActividades = async () => {
+      try {
+        const userData = authService.getCurrentUser();
+
+        if (!userData?.idFinca) {
+          console.error("ID de finca no disponible");
+          return;
+        }
+
+        const response = await fetch(
+          `http://localhost:8080/actividades/finca/${userData.idFinca}`,
+        );
+
+        if (!response.ok) throw new Error("Error al obtener actividades");
+
+        const data = await response.json();
+        setActividades(data);
+      } catch (error) {
+        console.error("Error:", error.message);
+      }
+    };
+
+    fetchActividades();
   }, []);
 
-  /**
-   * Alterna la visibilidad del menú lateral.
-   */
   const toggleMenu = () => setIsOpen(!isOpen);
-
-  /**
-   * Alterna la visibilidad del menú desplegable del usuario.
-   */
   const toggleDropdown = () => setShowDropdown(!showDropdown);
-
-  /**
-   * Cierra la sesión del usuario actual.
-   */
   const handleLogout = () => authService.logout();
+  const irARegistrarActividad = () => navigate("/registrar-actividad");
 
-  /**
-   * Redirige al formulario para registrar una nueva actividad.
-   */
-  const irARegistrarActividad = () => {
-    navigate("/registrar-actividad");
+  const handleEliminarActividad = async (idActividad) => {
+    try {
+      const response = await fetch(
+        `http://localhost:8080/actividades/${idActividad}`,
+        {
+          method: "DELETE",
+        },
+      );
+
+      if (!response.ok) throw new Error("Error al eliminar actividad");
+
+      setActividades(
+        actividades.filter((act) => act.idActividad !== idActividad),
+      );
+    } catch (error) {
+      console.error("Error:", error.message);
+    }
+  };
+
+  const abrirModalActualizar = (actividad) => {
+    setActividadEditando(actividad);
+    setFormData({
+      idTipoActividad: actividad.idTipoActividad,
+      fechaInicio: actividad.fechaInicio.split("T")[0],
+      fechaFin: actividad.fechaFin ? actividad.fechaFin.split("T")[0] : "",
+      descripcion: actividad.descripcion,
+    });
+    setShowModal(true);
+  };
+
+  const cerrarModal = () => {
+    setShowModal(false);
+    setActividadEditando(null);
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch(
+        `http://localhost:8080/actividades/${actividadEditando.idActividad}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            ...formData,
+            idFinca: actividadEditando.idFinca,
+          }),
+        },
+      );
+
+      if (!response.ok) throw new Error("Error al actualizar actividad");
+
+      const data = await response.json();
+
+      // Actualizar la lista de actividades
+      setActividades(
+        actividades.map((act) =>
+          act.idActividad === actividadEditando.idActividad ? data : act,
+        ),
+      );
+
+      cerrarModal();
+    } catch (error) {
+      console.error("Error:", error.message);
+    }
   };
 
   return (
@@ -77,7 +150,6 @@ const Actividades = () => {
 
         <div className="user-dropdown" onClick={toggleDropdown}>
           <span className="username">Usuario ▼</span>
-
           {showDropdown && (
             <div className="dropdown-menu">
               <button className="dropdown-btn" onClick={handleLogout}>
@@ -107,8 +179,8 @@ const Actividades = () => {
             <button onClick={() => navigate("/insumos")}>
               <FaTruck /> {isOpen && "Insumos"}
             </button>
-            <button>
-              <FaCheck /> {isOpen && "Productos"}
+            <button onClick={() => navigate("/produccion")}>
+              <FaCheck /> {isOpen && "Produccion"}
             </button>
             <button>
               <FaCreditCard /> {isOpen && "Ventas"}
@@ -119,7 +191,7 @@ const Actividades = () => {
             <button>
               <FaChartArea /> {isOpen && "Reportes"}
             </button>
-            <button>
+            <button onClick={() => navigate("/cultivo")}>
               <FaTable /> {isOpen && "Cultivos"}
             </button>
           </div>
@@ -145,15 +217,100 @@ const Actividades = () => {
                   <th>Fecha de inicio</th>
                   <th>Fecha de finalización</th>
                   <th>Descripción</th>
+                  <th>Acciones</th>
                 </tr>
               </thead>
               <tbody>
-                {/* Aquí irán los datos dinámicamente o de prueba */}
+                {actividades.map((actividad) => (
+                  <tr key={actividad.idActividad}>
+                    <td>{actividad.idFinca}</td>
+                    <td>{actividad.idTipoActividad}</td>
+                    <td>{actividad.fechaInicio}</td>
+                    <td>{actividad.fechaFin || "-"}</td>
+                    <td>{actividad.descripcion}</td>
+                    <td className="actions-cell">
+                      <button
+                        className="btn-actualizar"
+                        onClick={() => abrirModalActualizar(actividad)}
+                      >
+                        <FaEdit /> Actualizar
+                      </button>
+                      <button
+                        className="btn-eliminar"
+                        onClick={() =>
+                          handleEliminarActividad(actividad.idActividad)
+                        }
+                      >
+                        <FaTrash /> Eliminar
+                      </button>
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
         </div>
       </div>
+
+      {/* Modal de actualización */}
+      {showModal && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <h3>Actualizar Actividad</h3>
+            <form onSubmit={handleSubmit}>
+              <div className="form-group">
+                <label>Tipo de Actividad:</label>
+                <input
+                  type="text"
+                  name="idTipoActividad"
+                  value={formData.idTipoActividad}
+                  onChange={handleInputChange}
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <label>Fecha de Inicio:</label>
+                <input
+                  type="date"
+                  name="fechaInicio"
+                  value={formData.fechaInicio}
+                  onChange={handleInputChange}
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <label>Fecha de Finalización:</label>
+                <input
+                  type="date"
+                  name="fechaFin"
+                  value={formData.fechaFin}
+                  onChange={handleInputChange}
+                />
+              </div>
+              <div className="form-group">
+                <label>Descripción:</label>
+                <textarea
+                  name="descripcion"
+                  value={formData.descripcion}
+                  onChange={handleInputChange}
+                />
+              </div>
+              <div className="modal-buttons">
+                <button
+                  type="button"
+                  className="btn-cancelar"
+                  onClick={cerrarModal}
+                >
+                  Cancelar
+                </button>
+                <button type="submit" className="btn-guardar">
+                  Guardar Cambios
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

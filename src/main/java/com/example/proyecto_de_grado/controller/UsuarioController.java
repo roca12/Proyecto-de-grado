@@ -1,7 +1,10 @@
 package com.example.proyecto_de_grado.controller;
 
 import com.example.proyecto_de_grado.model.dto.RegistroRequest;
-import com.example.proyecto_de_grado.model.entity.*;
+import com.example.proyecto_de_grado.model.entity.AuthenticationRequest;
+import com.example.proyecto_de_grado.model.entity.AuthenticationResponse;
+import com.example.proyecto_de_grado.model.entity.Finca;
+import com.example.proyecto_de_grado.model.entity.Usuario;
 import com.example.proyecto_de_grado.repository.FincaRepository;
 import com.example.proyecto_de_grado.repository.PersonaRepository;
 import com.example.proyecto_de_grado.security.JwtUtil;
@@ -33,7 +36,7 @@ import org.springframework.web.bind.annotation.*;
  * @since 2023
  */
 @RestController
-@RequestMapping("/api/usuarios")
+@RequestMapping("/usuarios")
 public class UsuarioController {
 
   @Autowired private UsuarioService usuarioService;
@@ -173,13 +176,15 @@ public class UsuarioController {
               usuario.getIdPersona());
 
       // Crear respuesta con token y datos básicos del usuario
+      int idFinca = usuario.getFinca() != null ? usuario.getFinca().getId() : 0;
       AuthenticationResponse response =
           new AuthenticationResponse(
               jwt,
               usuario.getIdPersona(),
               usuario.getNombre(),
               usuario.getApellido(),
-              usuario.getTipoUsuario());
+              usuario.getTipoUsuario(),
+              idFinca);
 
       return ResponseEntity.ok(response);
     }

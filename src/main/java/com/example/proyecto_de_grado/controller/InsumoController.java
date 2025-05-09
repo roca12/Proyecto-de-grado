@@ -24,7 +24,7 @@ import org.springframework.web.server.ResponseStatusException;
  * @author Anderson Zuluaga
  */
 @RestController
-@RequestMapping("/api/insumos")
+@RequestMapping("/insumos")
 public class InsumoController {
 
   @Autowired private InsumoService insumoService;

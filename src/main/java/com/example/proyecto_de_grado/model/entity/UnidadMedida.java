@@ -13,14 +13,15 @@ public enum UnidadMedida {
   Kg,
 
   /** Unidad de medida en litros. */
-  LITRO,
+  Litro,
 
   /** Unidad de medida en bolsas. */
-  BOLSA,
+  Bolsa,
 
   /** Unidad de medida en unidades individuales. */
-  UNIDAD,
+  Unidad,
 
   /** Unidad de medida en Caja / canastas. */
-  CAJA
+  Caja,
+  UNIDAD
 }

@@ -35,14 +35,15 @@ const Login = () => {
           nombre: data.nombre,
           apellido: data.apellido,
           tipoUsuario: data.tipoUsuario,
+          idFinca: data.idFinca,
         }),
       );
 
       // Redirigir según el tipo de usuario
       if (data.tipoUsuario === "ADMIN") {
-        navigate("/admin-dashboard");
+        navigate("/menu");
       } else {
-        navigate("/dashboard");
+        navigate("/menu");
       }
     } catch (error) {
       setError(error.message);

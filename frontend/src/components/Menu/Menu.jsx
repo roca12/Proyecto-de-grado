@@ -2,6 +2,10 @@
  * @file Menu.jsx
  * @description Componente que muestra el menú principal lateral de navegación,
  * incluyendo barra superior con control de usuario, imagen de fondo y acceso a distintas secciones del sistema.
+ *
+ * Modificaciones realizadas:
+ * - Reestructuración del layout para mejor manejo de la imagen de fondo
+ * - Ajuste del sidebar para adaptarse al tamaño de pantalla
  */
 
 import { useState, useEffect } from "react";
@@ -56,10 +60,7 @@ const Menu = () => {
   const handleLogout = () => authService.logout();
 
   return (
-    <div
-      className="main-container"
-      style={{ backgroundImage: `url(${fondo})` }}
-    >
+    <div className="main-container">
       {/* Barra superior */}
       <div className="topbar">
         <img src={logo} alt="Logo" className="logo-mini" />
@@ -92,8 +93,8 @@ const Menu = () => {
           <button onClick={() => navigate("/insumos")}>
             <FaTruck /> {isOpen && "Insumos"}
           </button>
-          <button>
-            <FaCheck /> {isOpen && "Productos"}
+          <button onClick={() => navigate("/produccion")}>
+            <FaCheck /> {isOpen && "Produccion"}
           </button>
           <button>
             <FaCreditCard /> {isOpen && "Ventas"}
@@ -104,12 +105,20 @@ const Menu = () => {
           <button>
             <FaChartArea /> {isOpen && "Reportes"}
           </button>
-          <button>
+          <button onClick={() => navigate("/cultivo")}>
             <FaTable /> {isOpen && "Cultivos"}
           </button>
         </div>
 
         <img src={logoMini} alt="Logo inferior" className="footer-img" />
+      </div>
+
+      {/* Contenedor de contenido principal con imagen de fondo */}
+      <div
+        className="content-container"
+        style={{ backgroundImage: `url(${fondo})` }}
+      >
+        {/* El contenido de la aplicación irá aquí */}
       </div>
     </div>
   );

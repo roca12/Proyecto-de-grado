@@ -43,7 +43,17 @@ public class ProduccionService {
     prod.setProducto(new Producto(dto.getIdProducto()));
     prod.setFinca(new Finca(dto.getIdFinca()));
     prod.setFechaSiembra(dto.getFechaSiembra());
-    prod.setEstado(EstadoProduccion.EN_CRECIMIENTO);
+    prod.setEstado(dto.getEstado()); // Usar el estado del DTO
+
+    // Solo establecer fechaCosecha y cantidadCosechada si el estado es COSECHADO
+    if (dto.getEstado() == EstadoProduccion.COSECHADO) {
+      prod.setFechaCosecha(dto.getFechaCosecha());
+      prod.setCantidadCosechada(dto.getCantidadCosechada());
+
+      // Actualizar el inventario si es cosechado
+      inventarioService.actualizarInventario(dto.getIdProducto(), dto.getCantidadCosechada());
+    }
+
     prod = produccionRepo.save(prod);
     dto.setIdProduccion(prod.getIdProduccion());
     return dto;
