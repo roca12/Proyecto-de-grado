@@ -43,14 +43,14 @@ const Login = () => {
       // Guardar el token y datos del usuario en localStorage
       localStorage.setItem("authToken", data.token);
       localStorage.setItem(
-          "userData",
-          JSON.stringify({
-            id: data.idPersona,
-            nombre: data.nombre,
-            apellido: data.apellido,
-            tipoUsuario: data.tipoUsuario,
-            idFinca: data.idFinca
-          }),
+        "userData",
+        JSON.stringify({
+          id: data.idPersona,
+          nombre: data.nombre,
+          apellido: data.apellido,
+          tipoUsuario: data.tipoUsuario,
+          idFinca: data.idFinca,
+        }),
       );
 
       // Redirigir según el tipo de usuario
@@ -65,48 +65,48 @@ const Login = () => {
   };
 
   return (
-      <div className="login-container">
-        <div className="login-left">
-          <img src={logo} alt="Logo" className="logo-img" />
+    <div className="login-container">
+      <div className="login-left">
+        <img src={logo} alt="Logo" className="logo-img" />
 
-          <form onSubmit={handleLogin} className="login-form">
-            <div className="input-group">
-              <input
-                  type="text"
-                  placeholder="Usuario"
-                  value={idUsuario}
-                  onChange={(e) => setIdUsuario(e.target.value)}
-                  required
-              />
-            </div>
+        <form onSubmit={handleLogin} className="login-form">
+          <div className="input-group">
+            <input
+              type="text"
+              placeholder="Usuario"
+              value={idUsuario}
+              onChange={(e) => setIdUsuario(e.target.value)}
+              required
+            />
+          </div>
 
-            <div className="input-group">
-              <input
-                  type="password"
-                  placeholder="Contraseña"
-                  value={contraseña}
-                  onChange={(e) => setContraseña(e.target.value)}
-                  required
-              />
-            </div>
+          <div className="input-group">
+            <input
+              type="password"
+              placeholder="Contraseña"
+              value={contraseña}
+              onChange={(e) => setContraseña(e.target.value)}
+              required
+            />
+          </div>
 
-            {error && <div className="error-message">{error}</div>}
+          {error && <div className="error-message">{error}</div>}
 
-            <div className="btn-group">
-              <button type="button">Registrar</button>
-              <button type="submit">Iniciar</button>
-            </div>
-          </form>
-        </div>
-
-        <div className="login-right">
-          <img
-              src={backgroundImg}
-              alt="Imagen de login"
-              className="background-img"
-          />
-        </div>
+          <div className="btn-group">
+            <button type="button">Registrar</button>
+            <button type="submit">Iniciar</button>
+          </div>
+        </form>
       </div>
+
+      <div className="login-right">
+        <img
+          src={backgroundImg}
+          alt="Imagen de login"
+          className="background-img"
+        />
+      </div>
+    </div>
   );
 };
 

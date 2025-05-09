@@ -60,67 +60,67 @@ const Menu = () => {
   const handleLogout = () => authService.logout();
 
   return (
-      <div className="main-container">
-        {/* Barra superior */}
-        <div className="topbar">
-          <img src={logo} alt="Logo" className="logo-mini" />
-          <div className="user-dropdown" onClick={toggleDropdown}>
-            <span className="username">Usuario ▼</span>
-            {showDropdown && (
-                <div className="dropdown-menu">
-                  <button className="dropdown-btn" onClick={handleLogout}>
-                    <FaSignOutAlt style={{ marginRight: "8px" }} /> Cerrar sesión
-                  </button>
-                </div>
-            )}
-          </div>
-        </div>
-
-        {/* Menú lateral */}
-        <div className={`sidebar ${isOpen ? "open" : "collapsed"}`}>
-          <button className="toggle-button" onClick={toggleMenu}>
-            {isOpen ? <FaTimes /> : <FaBars />}
-            <span>{isOpen ? "Ocultar menú" : ""}</span>
-          </button>
-
-          <div className="menu-items">
-            <button onClick={() => navigate("/actividades")}>
-              <FaAddressBook /> {isOpen && "Actividades"}
-            </button>
-            <button onClick={() => navigate("/personas")}>
-              <FaUser /> {isOpen && "Personas"}
-            </button>
-            <button onClick={() => navigate("/insumos")}>
-              <FaTruck /> {isOpen && "Insumos"}
-            </button>
-            <button onClick={() => navigate("/produccion")}>
-              <FaCheck /> {isOpen && "Produccion"}
-            </button>
-            <button>
-              <FaCreditCard /> {isOpen && "Ventas"}
-            </button>
-            <button>
-              <FaFile /> {isOpen && "Documentos"}
-            </button>
-            <button>
-              <FaChartArea /> {isOpen && "Reportes"}
-            </button>
-            <button onClick={() => navigate("/cultivo")}>
-              <FaTable /> {isOpen && "Cultivos"}
-            </button>
-          </div>
-
-          <img src={logoMini} alt="Logo inferior" className="footer-img" />
-        </div>
-
-        {/* Contenedor de contenido principal con imagen de fondo */}
-        <div
-            className="content-container"
-            style={{ backgroundImage: `url(${fondo})` }}
-        >
-          {/* El contenido de la aplicación irá aquí */}
+    <div className="main-container">
+      {/* Barra superior */}
+      <div className="topbar">
+        <img src={logo} alt="Logo" className="logo-mini" />
+        <div className="user-dropdown" onClick={toggleDropdown}>
+          <span className="username">Usuario ▼</span>
+          {showDropdown && (
+            <div className="dropdown-menu">
+              <button className="dropdown-btn" onClick={handleLogout}>
+                <FaSignOutAlt style={{ marginRight: "8px" }} /> Cerrar sesión
+              </button>
+            </div>
+          )}
         </div>
       </div>
+
+      {/* Menú lateral */}
+      <div className={`sidebar ${isOpen ? "open" : "collapsed"}`}>
+        <button className="toggle-button" onClick={toggleMenu}>
+          {isOpen ? <FaTimes /> : <FaBars />}
+          <span>{isOpen ? "Ocultar menú" : ""}</span>
+        </button>
+
+        <div className="menu-items">
+          <button onClick={() => navigate("/actividades")}>
+            <FaAddressBook /> {isOpen && "Actividades"}
+          </button>
+          <button onClick={() => navigate("/personas")}>
+            <FaUser /> {isOpen && "Personas"}
+          </button>
+          <button onClick={() => navigate("/insumos")}>
+            <FaTruck /> {isOpen && "Insumos"}
+          </button>
+          <button onClick={() => navigate("/produccion")}>
+            <FaCheck /> {isOpen && "Produccion"}
+          </button>
+          <button>
+            <FaCreditCard /> {isOpen && "Ventas"}
+          </button>
+          <button>
+            <FaFile /> {isOpen && "Documentos"}
+          </button>
+          <button>
+            <FaChartArea /> {isOpen && "Reportes"}
+          </button>
+          <button onClick={() => navigate("/cultivo")}>
+            <FaTable /> {isOpen && "Cultivos"}
+          </button>
+        </div>
+
+        <img src={logoMini} alt="Logo inferior" className="footer-img" />
+      </div>
+
+      {/* Contenedor de contenido principal con imagen de fondo */}
+      <div
+        className="content-container"
+        style={{ backgroundImage: `url(${fondo})` }}
+      >
+        {/* El contenido de la aplicación irá aquí */}
+      </div>
+    </div>
   );
 };
 

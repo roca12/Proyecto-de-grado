@@ -30,11 +30,12 @@ public class ActividadController {
   /**
    * Obtiene la lista de todas las actividades registradas en el sistema.
    *
-   * <p>Este endpoint retorna todas las actividades sin importar la finca a la que pertenecen.
-   * Es útil para los usuarios con rol de administrador que requieren una vista general de
-   * todas las actividades del sistema.
+   * <p>Este endpoint retorna todas las actividades sin importar la finca a la que pertenecen. Es
+   * útil para los usuarios con rol de administrador que requieren una vista general de todas las
+   * actividades del sistema.
    *
-   * @return ResponseEntity con la lista de todas las actividades en formato DTO y estado HTTP 200 (OK)
+   * @return ResponseEntity con la lista de todas las actividades en formato DTO y estado HTTP 200
+   *     (OK)
    */
   @GetMapping
   public ResponseEntity<List<ActividadDTO>> listarTodas() {
@@ -70,25 +71,25 @@ public class ActividadController {
    */
   @GetMapping("/finca/{idFinca}")
   public ResponseEntity<List<ActividadDTO>> obtenerActividadesPorFinca(
-          @PathVariable Integer idFinca) {
+      @PathVariable Integer idFinca) {
     // Obtener el usuario autenticado desde el contexto de seguridad
     /*
-    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-    int userId = Integer.parseInt(auth.getName()); // Obtener el ID del usuario autenticado
-    Usuario usuario =
-            usuarioRepository
-                    .findById(userId)
-                    .orElseThrow(() -> new RuntimeException("Usuario no encontrado con ID: " + userId));
+      Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+      int userId = Integer.parseInt(auth.getName()); // Obtener el ID del usuario autenticado
+      Usuario usuario =
+              usuarioRepository
+                      .findById(userId)
+                      .orElseThrow(() -> new RuntimeException("Usuario no encontrado con ID: " + userId));
 
-    // Validar que el usuario no sea un ADMIN, y si no lo es, verificar que esté asociado a la finca
-    // correcta
-    if (!usuario.getTipoUsuario().equalsIgnoreCase("ADMIN")) {
-      // Si el usuario no tiene finca asignada o la finca no coincide, devolver 403
-      if (usuario.getFinca() == null || !usuario.getFinca().getId().equals(idFinca)) {
-        return ResponseEntity.status(403).build(); // Forbidden
+      // Validar que el usuario no sea un ADMIN, y si no lo es, verificar que esté asociado a la finca
+      // correcta
+      if (!usuario.getTipoUsuario().equalsIgnoreCase("ADMIN")) {
+        // Si el usuario no tiene finca asignada o la finca no coincide, devolver 403
+        if (usuario.getFinca() == null || !usuario.getFinca().getId().equals(idFinca)) {
+          return ResponseEntity.status(403).build(); // Forbidden
+        }
       }
-    }
-  */
+    */
     // Obtener las actividades de la finca solicitada
     List<ActividadDTO> actividades = actividadService.listarPorFinca(idFinca);
     return ResponseEntity.ok(actividades);
@@ -104,9 +105,9 @@ public class ActividadController {
   @GetMapping("/{id}")
   public ResponseEntity<ActividadDTO> obtenerActividadPorId(@PathVariable Integer id) {
     return actividadService
-            .obtenerPorId(id)
-            .map(ResponseEntity::ok)
-            .orElse(ResponseEntity.notFound().build());
+        .obtenerPorId(id)
+        .map(ResponseEntity::ok)
+        .orElse(ResponseEntity.notFound().build());
   }
 
   /**
@@ -118,7 +119,7 @@ public class ActividadController {
    */
   @PutMapping("/{id}")
   public ResponseEntity<ActividadDTO> actualizarActividad(
-          @PathVariable Integer id, @RequestBody ActividadDTO dto) {
+      @PathVariable Integer id, @RequestBody ActividadDTO dto) {
     ActividadDTO actualizada = actividadService.actualizarActividad(id, dto);
     return ResponseEntity.ok(actualizada);
   }

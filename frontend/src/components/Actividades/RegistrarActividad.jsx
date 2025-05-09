@@ -26,7 +26,7 @@ const RegistrarActividad = () => {
     idTipoActividad: "",
     fechaInicio: "",
     fechaFin: "",
-    descripcion: ""
+    descripcion: "",
   });
 
   const navigate = useNavigate();
@@ -37,7 +37,7 @@ const RegistrarActividad = () => {
     { id: 2, nombre: "Riego" },
     { id: 3, nombre: "Control de plagas" },
     { id: 4, nombre: "Siembra" },
-    { id: 5, nombre: "Cosecha" }
+    { id: 5, nombre: "Cosecha" },
   ];
 
   /**
@@ -78,7 +78,7 @@ const RegistrarActividad = () => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
-      [name]: value
+      [name]: value,
     });
   };
 
@@ -88,7 +88,9 @@ const RegistrarActividad = () => {
   const handleRegister = async () => {
     // Validación de campos obligatorios
     if (!formData.idTipoActividad || !formData.fechaInicio) {
-      setError("Los campos Tipo de Actividad y Fecha de Inicio son obligatorios");
+      setError(
+        "Los campos Tipo de Actividad y Fecha de Inicio son obligatorios",
+      );
       return;
     }
 
@@ -107,19 +109,19 @@ const RegistrarActividad = () => {
         idTipoActividad: parseInt(formData.idTipoActividad),
         fechaInicio: formData.fechaInicio,
         fechaFin: formData.fechaFin || null,
-        descripcion: formData.descripcion || ""
+        descripcion: formData.descripcion || "",
       };
 
       // Realizar la petición al backend
       const response = await authService.authFetch(
-          "http://localhost:8080/actividades",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json"
-            },
-            body: JSON.stringify(actividadData)
-          }
+        "http://localhost:8080/actividades",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(actividadData),
+        },
       );
 
       if (!response.ok) {
@@ -153,106 +155,105 @@ const RegistrarActividad = () => {
   };
 
   return (
-      <div className="main-container">
-        {/* Barra superior con logo y menú de usuario */}
-        <div className="topbar">
-          <img src={logo} alt="Logo" className="logo-mini" />
-          <div className="user-dropdown" onClick={() => setShowDropdown(!showDropdown)}>
-            <span className="username">{user?.nombre || "Usuario"} ▼</span>
-            {showDropdown && (
-                <div className="dropdown-menu">
-                  <button className="dropdown-btn" onClick={handleLogout}>
-                    <FaSignOutAlt style={{ marginRight: "8px" }} /> Cerrar sesión
-                  </button>
-                </div>
-            )}
-          </div>
-        </div>
-
-        {/* Contenedor principal del formulario */}
-        <div className="registro-actividad-container">
-          <h2 className="registro-title">Registrar Nueva Actividad</h2>
-
-          {/* Mensaje de error */}
-          {error && (
-              <div className="error-message">
-                {error}
-              </div>
-          )}
-
-          {/* Formulario de registro */}
-          <form className="registro-form">
-            {/* Selector de tipo de actividad */}
-            <select
-                name="idTipoActividad"
-                className="registro-input"
-                value={formData.idTipoActividad}
-                onChange={handleInputChange}
-                required
-                disabled={loading}
-            >
-              <option value="">Seleccione un tipo de actividad</option>
-              {tiposActividad.map((tipo) => (
-                  <option key={tipo.id} value={tipo.id}>
-                    {tipo.nombre}
-                  </option>
-              ))}
-            </select>
-
-            {/* Campo para fecha de inicio */}
-            <input
-                type="date"
-                name="fechaInicio"
-                className="registro-input"
-                value={formData.fechaInicio}
-                onChange={handleInputChange}
-                required
-                disabled={loading}
-            />
-
-            {/* Campo para fecha de fin (opcional) */}
-            <input
-                type="date"
-                name="fechaFin"
-                className="registro-input"
-                value={formData.fechaFin}
-                onChange={handleInputChange}
-                disabled={loading}
-            />
-
-            {/* Campo para descripción (opcional) */}
-            <input
-                type="text"
-                name="descripcion"
-                placeholder="Descripción (opcional)"
-                className="registro-input"
-                value={formData.descripcion}
-                onChange={handleInputChange}
-                disabled={loading}
-            />
-
-            {/* Botones de acción */}
-            <div className="registro-botones">
-              <button
-                  type="button"
-                  onClick={handleCancel}
-                  className="btn-cancelar"
-                  disabled={loading}
-              >
-                Cancelar
-              </button>
-              <button
-                  type="button"
-                  onClick={handleRegister}
-                  className="btn-registrar"
-                  disabled={loading}
-              >
-                {loading ? "Registrando..." : "Registrar"}
+    <div className="main-container">
+      {/* Barra superior con logo y menú de usuario */}
+      <div className="topbar">
+        <img src={logo} alt="Logo" className="logo-mini" />
+        <div
+          className="user-dropdown"
+          onClick={() => setShowDropdown(!showDropdown)}
+        >
+          <span className="username">{user?.nombre || "Usuario"} ▼</span>
+          {showDropdown && (
+            <div className="dropdown-menu">
+              <button className="dropdown-btn" onClick={handleLogout}>
+                <FaSignOutAlt style={{ marginRight: "8px" }} /> Cerrar sesión
               </button>
             </div>
-          </form>
+          )}
         </div>
       </div>
+
+      {/* Contenedor principal del formulario */}
+      <div className="registro-actividad-container">
+        <h2 className="registro-title">Registrar Nueva Actividad</h2>
+
+        {/* Mensaje de error */}
+        {error && <div className="error-message">{error}</div>}
+
+        {/* Formulario de registro */}
+        <form className="registro-form">
+          {/* Selector de tipo de actividad */}
+          <select
+            name="idTipoActividad"
+            className="registro-input"
+            value={formData.idTipoActividad}
+            onChange={handleInputChange}
+            required
+            disabled={loading}
+          >
+            <option value="">Seleccione un tipo de actividad</option>
+            {tiposActividad.map((tipo) => (
+              <option key={tipo.id} value={tipo.id}>
+                {tipo.nombre}
+              </option>
+            ))}
+          </select>
+
+          {/* Campo para fecha de inicio */}
+          <input
+            type="date"
+            name="fechaInicio"
+            className="registro-input"
+            value={formData.fechaInicio}
+            onChange={handleInputChange}
+            required
+            disabled={loading}
+          />
+
+          {/* Campo para fecha de fin (opcional) */}
+          <input
+            type="date"
+            name="fechaFin"
+            className="registro-input"
+            value={formData.fechaFin}
+            onChange={handleInputChange}
+            disabled={loading}
+          />
+
+          {/* Campo para descripción (opcional) */}
+          <input
+            type="text"
+            name="descripcion"
+            placeholder="Descripción (opcional)"
+            className="registro-input"
+            value={formData.descripcion}
+            onChange={handleInputChange}
+            disabled={loading}
+          />
+
+          {/* Botones de acción */}
+          <div className="registro-botones">
+            <button
+              type="button"
+              onClick={handleCancel}
+              className="btn-cancelar"
+              disabled={loading}
+            >
+              Cancelar
+            </button>
+            <button
+              type="button"
+              onClick={handleRegister}
+              className="btn-registrar"
+              disabled={loading}
+            >
+              {loading ? "Registrando..." : "Registrar"}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
   );
 };
 

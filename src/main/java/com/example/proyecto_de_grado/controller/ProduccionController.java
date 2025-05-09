@@ -20,8 +20,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/produccion")
 public class ProduccionController {
 
-  @Autowired
-  private ProduccionService produccionService;
+  @Autowired private ProduccionService produccionService;
 
   /**
    * Crea una nueva producción (siembra).
@@ -52,9 +51,9 @@ public class ProduccionController {
    */
   @PutMapping("/{id}/cosechar")
   public ResponseEntity<Void> cosecharProduccion(
-          @PathVariable Integer id,
-          @RequestParam BigDecimal cantidadCosechada,
-          @RequestParam LocalDate fechaCosecha) {
+      @PathVariable Integer id,
+      @RequestParam BigDecimal cantidadCosechada,
+      @RequestParam LocalDate fechaCosecha) {
     produccionService.cosechar(id, cantidadCosechada, fechaCosecha);
     return new ResponseEntity<>(HttpStatus.OK);
   }
