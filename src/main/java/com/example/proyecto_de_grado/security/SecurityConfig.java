@@ -40,26 +40,26 @@ public class SecurityConfig {
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     http.csrf(csrf -> csrf.disable()) // Deshabilita la protección CSRF
-        .authorizeHttpRequests(
-            auth ->
-                auth
-                    // Permite acceso sin autenticación a estas rutas
-                    .requestMatchers(
-                        "/api/usuarios/login", "/api/usuarios", "/api/usuarios/register")
-                    .permitAll()
-                    // Rutas de actividades accesibles solo por usuarios con ciertos roles
-                    .requestMatchers("/api/actividades/**", "/api/insumos/**")
-                    .hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
-
-                    // Rutas de administración solo accesibles por administradores
-                    .requestMatchers("/api/usuarios/admin/**")
-                    .hasAnyAuthority("ROLE_ADMIN")
-                    // El resto de las solicitudes requiere autenticación
-                    .anyRequest()
-                    .authenticated())
-        // Configura la aplicación para usar sesiones sin estado (stateless)
-        .sessionManagement(
-            session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+            .authorizeHttpRequests(
+                    auth ->
+                            auth
+                                    // Permite acceso sin autenticación a estas rutas
+                                    .requestMatchers(
+                                            "/usuarios/login", "/usuarios", "/usuarios/register","/actividades/**","/insumos/**",
+                                            "/**","/personas","/produccion")
+                                    .permitAll()
+                                    // Rutas de actividades accesibles solo por usuarios con ciertos roles
+                                    .requestMatchers("/ventas")
+                                    .hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
+                                    // Rutas de administración solo accesibles por administradores
+                                    .requestMatchers("/usuarios/admin/**")
+                                    .hasAnyAuthority("ROLE_ADMIN")
+                                    // El resto de las solicitudes requiere autenticación
+                                    .anyRequest()
+                                    .authenticated())
+            // Configura la aplicación para usar sesiones sin estado (stateless)
+            .sessionManagement(
+                    session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
     // Agrega el filtro JWT antes del filtro de autenticación por usuario/contraseña
     http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
@@ -84,8 +84,8 @@ public class SecurityConfig {
       @Override
       public boolean matches(CharSequence rawPassword, String encodedPassword) {
         return rawPassword
-            .toString()
-            .equals(encodedPassword); // Compara las contraseñas de manera simple
+                .toString()
+                .equals(encodedPassword); // Compara las contraseñas de manera simple
       }
     };
   }
@@ -99,7 +99,7 @@ public class SecurityConfig {
    */
   @Bean
   public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig)
-      throws Exception {
+          throws Exception {
     return authConfig.getAuthenticationManager();
   }
 }

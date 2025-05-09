@@ -1,7 +1,10 @@
 package com.example.proyecto_de_grado.controller;
 
 import com.example.proyecto_de_grado.model.dto.RegistroRequest;
-import com.example.proyecto_de_grado.model.entity.*;
+import com.example.proyecto_de_grado.model.entity.AuthenticationRequest;
+import com.example.proyecto_de_grado.model.entity.AuthenticationResponse;
+import com.example.proyecto_de_grado.model.entity.Finca;
+import com.example.proyecto_de_grado.model.entity.Usuario;
 import com.example.proyecto_de_grado.repository.FincaRepository;
 import com.example.proyecto_de_grado.repository.PersonaRepository;
 import com.example.proyecto_de_grado.security.JwtUtil;
@@ -33,7 +36,7 @@ import org.springframework.web.bind.annotation.*;
  * @since 2023
  */
 @RestController
-@RequestMapping("/api/usuarios")
+@RequestMapping("/usuarios")
 public class UsuarioController {
 
   @Autowired private UsuarioService usuarioService;
@@ -88,7 +91,7 @@ public class UsuarioController {
   public ResponseEntity<?> register(@RequestBody RegistroRequest request) {
     // Validar tipo de usuario
     if (!request.getTipoUsuario().equalsIgnoreCase("ADMIN")
-        && !request.getTipoUsuario().equalsIgnoreCase("USER")) {
+            && !request.getTipoUsuario().equalsIgnoreCase("USER")) {
       return ResponseEntity.badRequest().body("Tipo de usuario inválido.");
     }
 
@@ -154,8 +157,8 @@ public class UsuarioController {
     try {
       // Autenticar con Spring Security
       authenticationManager.authenticate(
-          new UsernamePasswordAuthenticationToken(
-              String.valueOf(authRequest.getIdPersona()), authRequest.getContraseña()));
+              new UsernamePasswordAuthenticationToken(
+                      String.valueOf(authRequest.getIdPersona()), authRequest.getContraseña()));
     } catch (BadCredentialsException e) {
       return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("ID o contraseña incorrectos");
     }
@@ -167,19 +170,21 @@ public class UsuarioController {
 
       // Generar token JWT
       String jwt =
-          jwtUtil.generateToken(
-              String.valueOf(usuario.getIdPersona()),
-              usuario.getTipoUsuario(),
-              usuario.getIdPersona());
+              jwtUtil.generateToken(
+                      String.valueOf(usuario.getIdPersona()),
+                      usuario.getTipoUsuario(),
+                      usuario.getIdPersona());
 
       // Crear respuesta con token y datos básicos del usuario
+      int idFinca = usuario.getFinca() != null ? usuario.getFinca().getId() : 0;
       AuthenticationResponse response =
-          new AuthenticationResponse(
-              jwt,
-              usuario.getIdPersona(),
-              usuario.getNombre(),
-              usuario.getApellido(),
-              usuario.getTipoUsuario());
+              new AuthenticationResponse(
+                      jwt,
+                      usuario.getIdPersona(),
+                      usuario.getNombre(),
+                      usuario.getApellido(),
+                      usuario.getTipoUsuario(),
+                      idFinca);
 
       return ResponseEntity.ok(response);
     }

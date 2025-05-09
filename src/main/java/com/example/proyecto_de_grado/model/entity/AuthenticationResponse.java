@@ -31,4 +31,5 @@ public class AuthenticationResponse {
 
   /** Tipo de usuario ("ADMIN" o "USER"). */
   private String tipoUsuario;
+  private int idFinca;
 }
