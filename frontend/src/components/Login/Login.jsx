@@ -40,7 +40,7 @@ const Login = () => {
     try {
       const data = await loginUsuario(idUsuario, contraseña);
 
-      // Guardar token y datos del usuario
+      // Guardar el token y datos del usuario en localStorage
       localStorage.setItem("authToken", data.token);
       localStorage.setItem(
         "userData",
@@ -49,12 +49,13 @@ const Login = () => {
           nombre: data.nombre,
           apellido: data.apellido,
           tipoUsuario: data.tipoUsuario,
+          idFinca: data.idFinca,
         }),
       );
 
       // Redirigir según el tipo de usuario
       if (data.tipoUsuario === "ADMIN") {
-        navigate("/admin-dashboard");
+        navigate("/menu");
       } else {
         navigate("/menu");
       }

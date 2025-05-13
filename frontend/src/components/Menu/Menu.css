@@ -1,7 +1,12 @@
 /* ==========================================================================
-   Estilos de la Interfaz Principal
+   Estilos de la Interfaz Principal - VERSIÓN MEJORADA
    Descripción: Define el diseño y estilo visual para la interfaz principal de la aplicación.
-   Incluye la barra superior, menú lateral, y otras configuraciones visuales.
+   Incluye la barra superior, menú lateral, imagen de fondo y otras configuraciones visuales.
+
+   Modificaciones realizadas:
+   - Ajuste del sistema de layout para mejor manejo de espacios
+   - Imagen de fondo correctamente delimitada
+   - Sidebar adaptable al tamaño de pantalla
    ========================================================================== */
 
 /* --------------------------------------------------------------------------
@@ -9,7 +14,9 @@
    -------------------------------------------------------------------------- */
 .main-container {
   display: flex;
+  flex-direction: column;
   height: 100vh;
+  width: 100vw;
   overflow: hidden;
   position: relative;
 }
@@ -29,7 +36,8 @@
   justify-content: space-between;
   align-items: center;
   padding: 0 20px;
-  z-index: 999;
+  z-index: 1000;
+  box-sizing: border-box;
 }
 
 /* Logo en la barra superior */
@@ -60,7 +68,7 @@
   border-radius: 8px;
   padding: 10px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  z-index: 1000;
+  z-index: 1001;
 }
 
 /* Botón dentro del dropdown */
@@ -75,6 +83,7 @@
   display: flex;
   align-items: center;
   transition: 0.3s;
+  white-space: nowrap;
 }
 
 .dropdown-btn:hover {
@@ -85,7 +94,10 @@
    Menú Lateral
    -------------------------------------------------------------------------- */
 .sidebar {
-  margin-top: 40px;
+  position: fixed;
+  top: 50px; /* Empieza debajo del topbar */
+  left: 0;
+  height: calc(100vh - 50px); /* Altura total menos el topbar */
   background-color: white;
   border-right: 1px solid #ccc;
   width: 250px;
@@ -93,8 +105,10 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  transition: width 0.3s ease;
-  z-index: 5;
+  transition: all 0.3s ease;
+  z-index: 999;
+  overflow-y: auto;
+  box-sizing: border-box;
 }
 
 /* Estilo para el menú lateral cuando está colapsado */
@@ -114,6 +128,13 @@
   display: flex;
   align-items: center;
   margin-bottom: 1rem;
+  padding: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.toggle-button:hover {
+  background-color: #f0f0f0;
+  border-radius: 4px;
 }
 
 .toggle-button span {
@@ -146,6 +167,8 @@
   justify-content: flex-start;
   transition: all 0.2s;
   min-height: 40px;
+  box-sizing: border-box;
+  overflow: hidden;
 }
 
 .menu-items button:hover {
@@ -173,14 +196,27 @@
 .footer-img {
   width: 80%;
   margin: 0 auto;
+  padding-bottom: 1rem;
 }
 
 /* --------------------------------------------------------------------------
-   Imagen de Fondo
+   Contenedor de Contenido Principal con Imagen de Fondo
    -------------------------------------------------------------------------- */
-.background-img {
-  background-image: url("./../assets/prueba.jpg");
+.content-container {
+  position: fixed;
+  top: 50px; /* Empieza debajo del topbar */
+  left: 250px; /* Empieza después del sidebar */
+  right: 0;
+  bottom: 0;
   background-size: cover;
   background-position: center;
-  flex: 1;
+  background-repeat: no-repeat;
+  z-index: 1;
+  transition: left 0.3s ease;
+  overflow-y: auto;
+}
+
+/* Cuando el sidebar está colapsado */
+.sidebar.collapsed ~ .content-container {
+  left: 70px;
 }

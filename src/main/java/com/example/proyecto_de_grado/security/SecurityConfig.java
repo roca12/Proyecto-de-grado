@@ -45,14 +45,20 @@ public class SecurityConfig {
                 auth
                     // Permite acceso sin autenticación a estas rutas
                     .requestMatchers(
-                        "/api/usuarios/login", "/api/usuarios", "/api/usuarios/register")
+                        "/usuarios/login",
+                        "/usuarios",
+                        "/usuarios/register",
+                        "/actividades/**",
+                        "/insumos/**",
+                        "/**",
+                        "/personas",
+                        "/produccion")
                     .permitAll()
                     // Rutas de actividades accesibles solo por usuarios con ciertos roles
-                    .requestMatchers("/api/actividades/**", "/api/insumos/**")
+                    .requestMatchers("/ventas")
                     .hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
-
                     // Rutas de administración solo accesibles por administradores
-                    .requestMatchers("/api/usuarios/admin/**")
+                    .requestMatchers("/usuarios/admin/**")
                     .hasAnyAuthority("ROLE_ADMIN")
                     // El resto de las solicitudes requiere autenticación
                     .anyRequest()

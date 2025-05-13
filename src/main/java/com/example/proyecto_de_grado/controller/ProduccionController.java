@@ -12,12 +12,12 @@ import org.springframework.web.bind.annotation.*;
 
 /**
  * Controlador para gestionar las operaciones relacionadas con la producción (siembra y cosecha).
- * Proporciona los endpoints necesarios para crear, cosechar y listar producciones.
+ * Proporciona los endpoints necesarios para crear, cosechar, listar y eliminar producciones.
  *
  * @author Anderson Zuluaga
  */
 @RestController
-@RequestMapping("/api/produccion")
+@RequestMapping("/produccion")
 public class ProduccionController {
 
   @Autowired private ProduccionService produccionService;
@@ -84,5 +84,19 @@ public class ProduccionController {
   public ResponseEntity<ProduccionDTO> obtenerProduccion(@PathVariable Integer id) {
     ProduccionDTO produccion = produccionService.obtenerProduccionPorId(id);
     return ResponseEntity.ok(produccion);
+  }
+
+  /**
+   * Elimina una producción existente por su ID.
+   *
+   * <p>Este método elimina una producción del sistema mediante su ID.
+   *
+   * @param id ID de la producción a eliminar.
+   * @return ResponseEntity con estado HTTP 204 (NO_CONTENT) si la eliminación fue exitosa.
+   */
+  @DeleteMapping("/{id}")
+  public ResponseEntity<Void> eliminarProduccion(@PathVariable Integer id) {
+    produccionService.eliminarProduccion(id);
+    return new ResponseEntity<>(HttpStatus.NO_CONTENT);
   }
 }
