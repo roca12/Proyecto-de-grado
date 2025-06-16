@@ -7,12 +7,13 @@
 /* ==========================================
    Estructura principal y ajustes generales
    ========================================== */
-html, body {
+html,
+body {
   height: 100%;
   margin: 0;
   padding: 0;
   overflow: hidden;
-  font-family: 'Arial', sans-serif;
+  font-family: "Arial", sans-serif;
   background-color: #f0f0f0;
 }
 

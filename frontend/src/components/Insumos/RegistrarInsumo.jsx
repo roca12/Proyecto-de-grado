@@ -99,13 +99,13 @@ const RegistrarInsumo = () => {
   const handleRegister = async () => {
     // Validación de campos obligatorios
     if (
-        !formData.nombre ||
-        !formData.unidadMedida ||
-        !formData.idProveedor ||
-        !formData.cantidadDisponible
+      !formData.nombre ||
+      !formData.unidadMedida ||
+      !formData.idProveedor ||
+      !formData.cantidadDisponible
     ) {
       setError(
-          "Los campos Nombre, Unidad de Medida, Proveedor y Cantidad son obligatorios"
+        "Los campos Nombre, Unidad de Medida, Proveedor y Cantidad son obligatorios",
       );
       return;
     }
@@ -164,139 +164,139 @@ const RegistrarInsumo = () => {
   };
 
   return (
-      <div className="main-container">
-        {/* Barra superior con logo y menú de usuario */}
-        <div className="topbar">
-          <img src={logo} alt="Logo" className="logo-mini" />
-          <div
-              className="user-dropdown"
-              onClick={() => setShowDropdown(!showDropdown)}
-          >
-            <span className="username">{user?.nombre || "Usuario"} ▼</span>
-            {showDropdown && (
-                <div className="dropdown-menu">
-                  <button className="dropdown-btn" onClick={handleLogout}>
-                    <FaSignOutAlt style={{ marginRight: "8px" }} /> Cerrar sesión
-                  </button>
-                </div>
-            )}
-          </div>
-        </div>
-
-        {/* Contenedor principal del formulario */}
-        <div className="registro-insumo-container">
-          <h2 className="registro-title">Registrar Nuevo Insumo</h2>
-
-          {/* Mensaje de error */}
-          {error && <div className="error-message">{error}</div>}
-
-          {/* Formulario de registro */}
-          <form className="registro-form">
-            {/* Campo para nombre con datalist de insumos existentes */}
-            <input
-                type="text"
-                name="nombre"
-                placeholder="Nombre del insumo"
-                className="registro-input"
-                value={formData.nombre}
-                onChange={handleInputChange}
-                list="insumos-list"
-                required
-                disabled={loading}
-            />
-            <datalist id="insumos-list">
-              {insumosExistentes.map((insumo) => (
-                  <option key={insumo.idInsumo} value={insumo.nombre} />
-              ))}
-            </datalist>
-            <p style={{ fontSize: "12px", color: "#666", marginTop: "4px" }}>
-              Escribe un nuevo nombre o selecciona uno existente de la lista
-            </p>
-
-            {/* Campo para descripción (opcional) */}
-            <input
-                type="text"
-                name="descripcion"
-                placeholder="Descripción (opcional)"
-                className="registro-input"
-                value={formData.descripcion}
-                onChange={handleInputChange}
-                disabled={loading}
-            />
-
-            {/* Selector de unidad de medida */}
-            <select
-                name="unidadMedida"
-                className="registro-input"
-                value={formData.unidadMedida}
-                onChange={handleInputChange}
-                required
-                disabled={loading}
-            >
-              <option value="">Seleccione unidad de medida</option>
-              {unidadesMedida.map((unidad) => (
-                  <option key={unidad.value} value={unidad.value}>
-                    {unidad.label}
-                  </option>
-              ))}
-            </select>
-
-            {/* Selector de proveedor */}
-            <select
-                name="idProveedor"
-                className="registro-input"
-                value={formData.idProveedor}
-                onChange={handleInputChange}
-                required
-                disabled={loading}
-            >
-              <option value="">Seleccione un proveedor</option>
-              {proveedores.map((proveedor) => (
-                  <option key={proveedor.idProveedor} value={proveedor.idProveedor}>
-                    {proveedor.nombre}
-                  </option>
-              ))}
-            </select>
-
-            {/* Campo para cantidad disponible */}
-            <input
-                type="number"
-                name="cantidadDisponible"
-                placeholder="Cantidad disponible"
-                className="registro-input"
-                value={formData.cantidadDisponible}
-                onChange={handleInputChange}
-                min="0"
-                step="0.01"
-                required
-                disabled={loading}
-            />
-
-            {/* Botones de acción */}
-            <div className="registro-botones">
-              <button
-                  type="button"
-                  onClick={handleCancel}
-                  className="btn-cancelar"
-                  disabled={loading}
-              >
-                Cancelar
-              </button>
-              <button
-                  type="button"
-                  onClick={handleRegister}
-                  className="btn-registrar"
-                  disabled={loading}
-              >
-                {loading ? "Registrando..." : "Registrar"}
+    <div className="main-container">
+      {/* Barra superior con logo y menú de usuario */}
+      <div className="topbar">
+        <img src={logo} alt="Logo" className="logo-mini" />
+        <div
+          className="user-dropdown"
+          onClick={() => setShowDropdown(!showDropdown)}
+        >
+          <span className="username">{user?.nombre || "Usuario"} ▼</span>
+          {showDropdown && (
+            <div className="dropdown-menu">
+              <button className="dropdown-btn" onClick={handleLogout}>
+                <FaSignOutAlt style={{ marginRight: "8px" }} /> Cerrar sesión
               </button>
             </div>
-          </form>
-        </div>
-        <div className="watermark">
-          <img src={watermarkImage} alt="Marca de agua" />
+          )}
         </div>
       </div>
+
+      {/* Contenedor principal del formulario */}
+      <div className="registro-insumo-container">
+        <h2 className="registro-title">Registrar Nuevo Insumo</h2>
+
+        {/* Mensaje de error */}
+        {error && <div className="error-message">{error}</div>}
+
+        {/* Formulario de registro */}
+        <form className="registro-form">
+          {/* Campo para nombre con datalist de insumos existentes */}
+          <input
+            type="text"
+            name="nombre"
+            placeholder="Nombre del insumo"
+            className="registro-input"
+            value={formData.nombre}
+            onChange={handleInputChange}
+            list="insumos-list"
+            required
+            disabled={loading}
+          />
+          <datalist id="insumos-list">
+            {insumosExistentes.map((insumo) => (
+              <option key={insumo.idInsumo} value={insumo.nombre} />
+            ))}
+          </datalist>
+          <p style={{ fontSize: "12px", color: "#666", marginTop: "4px" }}>
+            Escribe un nuevo nombre o selecciona uno existente de la lista
+          </p>
+
+          {/* Campo para descripción (opcional) */}
+          <input
+            type="text"
+            name="descripcion"
+            placeholder="Descripción (opcional)"
+            className="registro-input"
+            value={formData.descripcion}
+            onChange={handleInputChange}
+            disabled={loading}
+          />
+
+          {/* Selector de unidad de medida */}
+          <select
+            name="unidadMedida"
+            className="registro-input"
+            value={formData.unidadMedida}
+            onChange={handleInputChange}
+            required
+            disabled={loading}
+          >
+            <option value="">Seleccione unidad de medida</option>
+            {unidadesMedida.map((unidad) => (
+              <option key={unidad.value} value={unidad.value}>
+                {unidad.label}
+              </option>
+            ))}
+          </select>
+
+          {/* Selector de proveedor */}
+          <select
+            name="idProveedor"
+            className="registro-input"
+            value={formData.idProveedor}
+            onChange={handleInputChange}
+            required
+            disabled={loading}
+          >
+            <option value="">Seleccione un proveedor</option>
+            {proveedores.map((proveedor) => (
+              <option key={proveedor.idProveedor} value={proveedor.idProveedor}>
+                {proveedor.nombre}
+              </option>
+            ))}
+          </select>
+
+          {/* Campo para cantidad disponible */}
+          <input
+            type="number"
+            name="cantidadDisponible"
+            placeholder="Cantidad disponible"
+            className="registro-input"
+            value={formData.cantidadDisponible}
+            onChange={handleInputChange}
+            min="0"
+            step="0.01"
+            required
+            disabled={loading}
+          />
+
+          {/* Botones de acción */}
+          <div className="registro-botones">
+            <button
+              type="button"
+              onClick={handleCancel}
+              className="btn-cancelar"
+              disabled={loading}
+            >
+              Cancelar
+            </button>
+            <button
+              type="button"
+              onClick={handleRegister}
+              className="btn-registrar"
+              disabled={loading}
+            >
+              {loading ? "Registrando..." : "Registrar"}
+            </button>
+          </div>
+        </form>
+      </div>
+      <div className="watermark">
+        <img src={watermarkImage} alt="Marca de agua" />
+      </div>
+    </div>
   );
 };
 

@@ -29,7 +29,7 @@ function App() {
         <Routes>
           {/* Ruta pública para login */}
           <Route path="/login" element={<Login />} />
-          <Route path="/Registro" element={<RegistrarUsuario/>}/>
+          <Route path="/Registro" element={<RegistrarUsuario />} />
           {/* Ruta pública para acceso no autorizado */}
           <Route path="/unauthorized" element={<Unauthorized />} />
 

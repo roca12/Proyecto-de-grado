@@ -157,10 +157,12 @@ public class UsuarioController {
     String numeroIdentificacion = authRequest.getNumeroIdentificacion();
     String contraseña = authRequest.getContraseña();
 
-    Optional<Usuario> usuarioOpt = usuarioService.getUsuarioByNumeroIdentificacion(numeroIdentificacion);
+    Optional<Usuario> usuarioOpt =
+        usuarioService.getUsuarioByNumeroIdentificacion(numeroIdentificacion);
 
     if (usuarioOpt.isEmpty()) {
-      return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Número de identificación no encontrado");
+      return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+          .body("Número de identificación no encontrado");
     }
 
     Usuario usuario = usuarioOpt.get();
@@ -168,20 +170,22 @@ public class UsuarioController {
     try {
       // Validar contraseña con Spring Security
       authenticationManager.authenticate(
-              new UsernamePasswordAuthenticationToken(
-                      String.valueOf(usuario.getIdPersona()), contraseña));
+          new UsernamePasswordAuthenticationToken(
+              String.valueOf(usuario.getIdPersona()), contraseña));
     } catch (BadCredentialsException e) {
       return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Contraseña incorrecta");
     }
 
     // Generar token
-    String jwt = jwtUtil.generateToken(
+    String jwt =
+        jwtUtil.generateToken(
             String.valueOf(usuario.getIdPersona()),
             usuario.getTipoUsuario(),
             usuario.getIdPersona());
 
     int idFinca = usuario.getFinca() != null ? usuario.getFinca().getId() : 0;
-    AuthenticationResponse response = new AuthenticationResponse(
+    AuthenticationResponse response =
+        new AuthenticationResponse(
             jwt,
             usuario.getIdPersona(),
             usuario.getNombre(),
@@ -191,5 +195,4 @@ public class UsuarioController {
 
     return ResponseEntity.ok(response);
   }
-
 }

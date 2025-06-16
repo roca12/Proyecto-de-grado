@@ -4,131 +4,131 @@
    ========================================================================== */
 
 .registro-persona-container {
-    margin: 100px auto 40px auto;
-    padding: 40px;
-    background-color: rgba(255, 255, 255, 0.9);
-    border-radius: 16px;
-    width: 600px;
-    max-width: 90%;
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
-    border: 2px solid #4caf50;
-    position: relative;
+  margin: 100px auto 40px auto;
+  padding: 40px;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 16px;
+  width: 600px;
+  max-width: 90%;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+  border: 2px solid #4caf50;
+  position: relative;
 }
 
 .registro-title {
-    font-size: 26px;
-    font-weight: bold;
-    color: #4caf50;
-    margin-bottom: 30px;
-    text-align: center;
+  font-size: 26px;
+  font-weight: bold;
+  color: #4caf50;
+  margin-bottom: 30px;
+  text-align: center;
 }
 
 .registro-form {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .registro-input {
-    padding: 12px 16px;
-    border: 2px solid #4caf50;
-    border-radius: 12px;
-    font-size: 16px;
-    outline: none;
-    background-color: white;
+  padding: 12px 16px;
+  border: 2px solid #4caf50;
+  border-radius: 12px;
+  font-size: 16px;
+  outline: none;
+  background-color: white;
 }
 
 .registro-input:focus {
-    border-color: #388e3c;
-    background-color: #f9fff9;
+  border-color: #388e3c;
+  background-color: #f9fff9;
 }
 
 .registro-botones {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 30px;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
 }
 
 .btn-cancelar {
-    background-color: #aaa;
-    color: white;
-    padding: 12px 25px;
-    border: none;
-    border-radius: 12px;
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: bold;
+  background-color: #aaa;
+  color: white;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
 }
 
 .btn-cancelar:hover {
-    background-color: #888;
+  background-color: #888;
 }
 
 .btn-registrar {
-    background-color: #4caf50;
-    color: white;
-    padding: 12px 25px;
-    border: none;
-    border-radius: 12px;
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: bold;
+  background-color: #4caf50;
+  color: white;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
 }
 
 .btn-registrar:hover {
-    background-color: #3e8e41;
+  background-color: #3e8e41;
 }
 
 .success-message,
 .error-message {
-    margin-bottom: 20px;
-    padding: 12px;
-    border-radius: 8px;
-    font-weight: bold;
-    text-align: center;
+  margin-bottom: 20px;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: bold;
+  text-align: center;
 }
 
 .success-message {
-    background-color: #d4edda;
-    color: #155724;
+  background-color: #d4edda;
+  color: #155724;
 }
 
 .error-message {
-    background-color: #f8d7da;
-    color: #721c24;
+  background-color: #f8d7da;
+  color: #721c24;
 }
 
 /* Marca de agua */
 .watermark {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    z-index: 1002;
-    opacity: 0.7;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1002;
+  opacity: 0.7;
 }
 
 .watermark img {
-    width: 100px;
-    height: auto;
+  width: 100px;
+  height: auto;
 }
 .usuario-id-message {
-    background-color: #e8f5e9;
-    border: 2px solid #4caf50;
-    padding: 15px;
-    margin: 15px 0;
-    border-radius: 8px;
-    text-align: center;
-    font-size: 16px;
+  background-color: #e8f5e9;
+  border: 2px solid #4caf50;
+  padding: 15px;
+  margin: 15px 0;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 16px;
 }
 
 .user-id-highlight {
-    font-size: 24px;
-    font-weight: bold;
-    color: #2e7d32;
-    padding: 0 10px;
-    display: inline-block;
-    margin: 5px 0;
-    background-color: #f1f8e9;
-    border-radius: 4px;
-    border: 1px dashed #4caf50;
+  font-size: 24px;
+  font-weight: bold;
+  color: #2e7d32;
+  padding: 0 10px;
+  display: inline-block;
+  margin: 5px 0;
+  background-color: #f1f8e9;
+  border-radius: 4px;
+  border: 1px dashed #4caf50;
 }

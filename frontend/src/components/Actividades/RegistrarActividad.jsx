@@ -254,9 +254,9 @@ const RegistrarActividad = () => {
           </div>
         </form>
       </div>
-        <div className="watermark">
-            <img src={watermarkImage} alt="Marca de agua" />
-        </div>
+      <div className="watermark">
+        <img src={watermarkImage} alt="Marca de agua" />
+      </div>
     </div>
   );
 };
