@@ -21,6 +21,7 @@ import { useNavigate } from "react-router-dom";
 import authService from "../authService";
 import logo from "./../assets/APROAFA2.png";
 import logoMini from "./../assets/APROAFA.jpg";
+import watermarkImage from "./../assets/LogoBosque.png";
 
 // Localización del calendario
 const locales = { es: esES };
@@ -32,7 +33,7 @@ const localizer = dateFnsLocalizer({
   locales,
 });
 
-// Colores pastel
+// Generar color pastel aleatorio
 const generarColorAleatorio = () => {
   const hue = Math.floor(Math.random() * 360);
   return `hsl(${hue}, 70%, 80%)`;
@@ -45,6 +46,9 @@ const Cultivos = () => {
   const [actividades, setActividades] = useState([]);
   const [producciones, setProducciones] = useState([]);
   const [productos, setProductos] = useState([]);
+  const [date, setDate] = useState(new Date());
+  const [view, setView] = useState("month");
+
   const navigate = useNavigate();
 
   const toggleMenu = () => setIsOpen(!isOpen);
@@ -57,14 +61,12 @@ const Cultivos = () => {
         const currentUser = authService.getCurrentUser();
         setUser(currentUser);
 
-        // Actividades
         const actividadesRes = await fetch(
           `http://localhost:8080/actividades/finca/${currentUser.idFinca}`,
         );
         const actividadesData = await actividadesRes.json();
         setActividades(actividadesData);
 
-        // Producciones
         const produccionesRes = await fetch(
           "http://localhost:8080/produccion",
           {
@@ -76,7 +78,6 @@ const Cultivos = () => {
         const produccionesData = await produccionesRes.json();
         setProducciones(produccionesData);
 
-        // Productos
         const productosRes = await fetch("http://localhost:8080/api/productos");
         const productosData = await productosRes.json();
         setProductos(productosData);
@@ -97,7 +98,6 @@ const Cultivos = () => {
     const coloresPorProducto = {};
     const eventos = [];
 
-    // Actividades
     actividades.forEach((actividad) => {
       eventos.push({
         title: `Actividad: ${actividad.descripcion}`,
@@ -108,14 +108,12 @@ const Cultivos = () => {
       });
     });
 
-    // Producciones
     producciones.forEach((produccion) => {
       const idProducto = produccion.idProducto;
       if (!coloresPorProducto[idProducto]) {
         coloresPorProducto[idProducto] = generarColorAleatorio();
       }
 
-      // Evento de siembra
       eventos.push({
         title: `Siembra: ${getNombreProducto(idProducto)}`,
         start: new Date(produccion.fechaSiembra + "T10:00:00"),
@@ -124,7 +122,6 @@ const Cultivos = () => {
         color: coloresPorProducto[idProducto],
       });
 
-      // Evento de cosecha (si existe)
       if (produccion.fechaCosecha) {
         eventos.push({
           title: `Cosecha: ${getNombreProducto(idProducto)}`,
@@ -227,10 +224,18 @@ const Cultivos = () => {
                   day: "Día",
                   agenda: "Agenda",
                 }}
+                date={date}
+                onNavigate={(newDate) => setDate(newDate)}
+                view={view}
+                onView={(newView) => setView(newView)}
               />
             </div>
           </div>
         </div>
+      </div>
+
+      <div className="watermark">
+        <img src={watermarkImage} alt="Marca de agua" />
       </div>
     </div>
   );

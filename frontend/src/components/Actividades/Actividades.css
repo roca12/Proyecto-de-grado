@@ -1,4 +1,4 @@
-/* ========================================================================== 
+/* ==========================================================================
    Estilos de Actividades
    Descripción: Define el diseño y los estilos visuales para la interfaz de Actividades de la aplicación, incluyendo el layout principal y la barra lateral.
    ========================================================================== */
@@ -23,7 +23,7 @@
   ); /* Altura ajustada para que el contenido no se superponga con la barra superior */
 }
 
-/* ========================================================================== 
+/* ==========================================================================
    Barra Superior
    Descripción: Estilos para la barra de navegación superior, fija en la parte superior de la página
    ========================================================================== */
@@ -95,7 +95,7 @@
   background-color: #e6f4ea;
 }
 
-/* ========================================================================== 
+/* ==========================================================================
    Barra Lateral (Sidebar)
    Descripción: Estilos para la barra lateral que contiene el menú de navegación
    ========================================================================== */
@@ -184,7 +184,7 @@
   min-width: 1.2rem;
 }
 
-/* ========================================================================== 
+/* ==========================================================================
    Contenido Principal
    Descripción: Estilos para la sección principal que contiene el contenido interactivo
    ========================================================================== */
@@ -208,7 +208,7 @@
   margin-left: 70px; /* Reducción del margen cuando la barra lateral se colapsa */
 }
 
-/* ========================================================================== 
+/* ==========================================================================
    Contenedor de Actividades
    Descripción: Estilos para el contenedor que muestra las actividades en el contenido principal
    ========================================================================== */
@@ -396,4 +396,20 @@
   padding: 8px 16px;
   border-radius: 4px;
   cursor: pointer;
+}
+/* --------------------------------------------------------------------------
+   Marca de agua
+   -------------------------------------------------------------------------- */
+.watermark {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1002; /* Asegura que esté por encima de otros elementos */
+  opacity: 0.7; /* Hace la imagen semi-transparente */
+  transition: all 0.3s ease;
+}
+
+.watermark img {
+  width: 100px; /* Ajusta el tamaño según necesites */
+  height: auto;
 }

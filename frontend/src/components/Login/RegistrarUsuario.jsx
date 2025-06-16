@@ -1,15 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
-import authService from "../authService";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import logo from "./../assets/APROAFA2.png";
 import watermarkImage from "./../assets/LogoBosque.png";
-import { FaSignOutAlt } from "react-icons/fa";
-import "./Personas.css";
-import "./RegistrarPersona.css";
+import "./RegistrarUsuario.css";
 
-const RegistrarPersona = () => {
-  const [user, setUser] = useState(null);
-  const [showDropdown, setShowDropdown] = useState(false);
+const RegistrarUsuario = () => {
   const [formData, setFormData] = useState({
     nombre: "",
     apellido: "",
@@ -18,34 +13,15 @@ const RegistrarPersona = () => {
     telefono: "",
     direccion: "",
     correo: "",
-    idFinca: 1,
+    password: "",
+    confirmPassword: "",
+    idFinca: "",
   });
+
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-
   const navigate = useNavigate();
-  const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
-  const tipoPersona = queryParams.get("tipo") || "cliente";
-
-  useEffect(() => {
-    const currentUser = authService.getCurrentUser();
-    setUser(currentUser);
-  }, []);
-
-  const toggleDropdown = () => {
-    setShowDropdown(!showDropdown);
-  };
-
-  const handleLogout = () => {
-    authService.logout();
-    navigate("/");
-  };
-
-  const handleCancel = () => {
-    navigate("/personas");
-  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -55,95 +31,74 @@ const RegistrarPersona = () => {
     });
   };
 
+  const handleCancel = () => {
+    navigate("/");
+  };
+
   const handleRegister = async () => {
     setError(null);
     setSuccess(null);
+
+    // Validaciones del formulario
+    if (formData.password !== formData.confirmPassword) {
+      setError("Las contraseñas no coinciden");
+      return;
+    }
+
+    if (formData.password.length < 6) {
+      setError("La contraseña debe tener al menos 6 caracteres");
+      return;
+    }
+
+    if (!formData.idFinca) {
+      setError("Debe ingresar un ID de finca");
+      return;
+    }
+
+    if (
+      !formData.nombre ||
+      !formData.apellido ||
+      !formData.numeroIdentificacion
+    ) {
+      setError("Por favor complete todos los campos obligatorios");
+      return;
+    }
+
     setIsLoading(true);
 
     try {
-      const endpoint =
-        tipoPersona === "cliente"
-          ? "http://localhost:8080/api/clientes"
-          : "http://localhost:8080/api/proveedores";
-
-      const requestBody =
-        tipoPersona === "cliente"
-          ? {
-              nombre: formData.nombre,
-              apellido: formData.apellido,
-              tipoId: parseInt(formData.tipoId),
-              numeroIdentificacion: formData.numeroIdentificacion,
-              telefono: formData.telefono,
-              direccion: formData.direccion,
-              email: formData.correo,
-              idFinca: formData.idFinca,
-              tipoCliente: "REGULAR",
-              fechaRegistro: new Date().toISOString().split("T")[0],
-            }
-          : {
-              nombre: formData.nombre,
-              apellido: formData.apellido,
-              tipoId: parseInt(formData.tipoId),
-              numeroIdentificacion: formData.numeroIdentificacion,
-              telefono: formData.telefono,
-              direccion: formData.direccion,
-              email: formData.correo,
-              idFinca: formData.idFinca,
-              contacto: formData.telefono,
-            };
-
-      console.log("Sending data:", requestBody);
-
-      const response = await fetch(endpoint, {
+      const response = await fetch("http://localhost:8080/usuarios/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(requestBody),
+        body: JSON.stringify({
+          nombre: formData.nombre,
+          apellido: formData.apellido,
+          tipoId: parseInt(formData.tipoId),
+          numeroIdentificacion: formData.numeroIdentificacion,
+          telefono: formData.telefono,
+          direccion: formData.direccion,
+          email: formData.correo,
+          contraseña: formData.password,
+          tipoUsuario: "USER",
+          fincaId: parseInt(formData.idFinca),
+        }),
       });
 
-      let data;
-      const contentType = response.headers.get("content-type");
-      if (contentType && contentType.includes("application/json")) {
-        data = await response.json();
-      } else {
-        const text = await response.text();
-        try {
-          data = JSON.parse(text);
-        } catch {
-          data = { message: text };
-        }
-      }
-
       if (!response.ok) {
-        const errorMessage =
-          data.message || `Error al registrar ${tipoPersona}`;
-        console.error("Error response:", data);
-        throw new Error(errorMessage);
+        const errorText = await response.text();
+        throw new Error(errorText || "Error al registrar el usuario");
       }
 
-      console.log("Success response:", data);
-      setSuccess(
-        `${tipoPersona === "cliente" ? "Cliente" : "Proveedor"} registrado exitosamente`,
-      );
+      setSuccess("Usuario registrado exitosamente. Por favor inicie sesión.");
+
       setTimeout(() => {
-        navigate("/personas");
-      }, 1500);
+        navigate("/");
+      }, 5000);
     } catch (error) {
-      console.error("Error full details:", error);
-      if (error.message.includes("Duplicate entry")) {
-        if (error.message.includes("id_persona")) {
-          setError(
-            "Esta persona ya está registrada como proveedor en el sistema. Por favor, use una identificación diferente.",
-          );
-        } else {
-          setError(
-            "Datos duplicados detectados. Por favor, verifique la información e intente nuevamente.",
-          );
-        }
-      } else {
-        setError(error.message);
-      }
+      console.error("Error en el registro:", error);
+      setError(error.message || "Error al registrar el usuario");
     } finally {
       setIsLoading(false);
     }
@@ -153,28 +108,28 @@ const RegistrarPersona = () => {
     <div className="main-container">
       <div className="topbar">
         <img src={logo} alt="Logo" className="logo-mini" />
-        <div className="user-dropdown" onClick={toggleDropdown}>
-          <span className="username">{user ? user.username : "Usuario"} ▼</span>
-          {showDropdown && (
-            <div className="dropdown-menu">
-              <button className="dropdown-btn" onClick={handleLogout}>
-                <FaSignOutAlt style={{ marginRight: "8px" }} /> Cerrar sesión
-              </button>
-            </div>
-          )}
-        </div>
       </div>
 
       <div
         className="registro-persona-container"
         style={{ overflowY: "auto", maxHeight: "90vh" }}
       >
-        <h2 className="registro-title">
-          Registrar {tipoPersona === "cliente" ? "Cliente" : "Proveedor"}
-        </h2>
+        <h2 className="registro-title">Registro de Nuevo Usuario</h2>
 
         {error && <div className="error-message">{error}</div>}
-        {success && <div className="success-message">{success}</div>}
+        {success && (
+          <div className="success-message usuario-id-message">
+            <strong>¡REGISTRO EXITOSO!</strong>
+            <p>
+              Su número de identificación{" "}
+              <span className="user-id-highlight">
+                {formData.numeroIdentificacion}
+              </span>{" "}
+              es su usuario para iniciar sesión.
+            </p>
+            <p>Será redirigido al login en breve...</p>
+          </div>
+        )}
 
         <form className="registro-form" onSubmit={(e) => e.preventDefault()}>
           <div className="form-group">
@@ -183,7 +138,6 @@ const RegistrarPersona = () => {
               id="nombre"
               type="text"
               name="nombre"
-              placeholder="Nombre"
               className="registro-input"
               value={formData.nombre}
               onChange={handleInputChange}
@@ -197,7 +151,6 @@ const RegistrarPersona = () => {
               id="apellido"
               type="text"
               name="apellido"
-              placeholder="Apellidos"
               className="registro-input"
               value={formData.apellido}
               onChange={handleInputChange}
@@ -227,7 +180,6 @@ const RegistrarPersona = () => {
               id="numeroIdentificacion"
               type="text"
               name="numeroIdentificacion"
-              placeholder="Número de Documento"
               className="registro-input"
               value={formData.numeroIdentificacion}
               onChange={handleInputChange}
@@ -241,7 +193,6 @@ const RegistrarPersona = () => {
               id="telefono"
               type="text"
               name="telefono"
-              placeholder="Teléfono"
               className="registro-input"
               value={formData.telefono}
               onChange={handleInputChange}
@@ -254,7 +205,6 @@ const RegistrarPersona = () => {
               id="direccion"
               type="text"
               name="direccion"
-              placeholder="Dirección"
               className="registro-input"
               value={formData.direccion}
               onChange={handleInputChange}
@@ -267,10 +217,48 @@ const RegistrarPersona = () => {
               id="correo"
               type="email"
               name="correo"
-              placeholder="Correo electrónico"
               className="registro-input"
               value={formData.correo}
               onChange={handleInputChange}
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="password">Contraseña *</label>
+            <input
+              id="password"
+              type="password"
+              name="password"
+              className="registro-input"
+              value={formData.password}
+              onChange={handleInputChange}
+              required
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="confirmPassword">Confirmar Contraseña *</label>
+            <input
+              id="confirmPassword"
+              type="password"
+              name="confirmPassword"
+              className="registro-input"
+              value={formData.confirmPassword}
+              onChange={handleInputChange}
+              required
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="idFinca">ID de Finca *</label>
+            <input
+              id="idFinca"
+              type="number"
+              name="idFinca"
+              className="registro-input"
+              value={formData.idFinca}
+              onChange={handleInputChange}
+              required
             />
           </div>
 
@@ -289,7 +277,7 @@ const RegistrarPersona = () => {
               className="btn-registrar"
               disabled={isLoading}
             >
-              {isLoading ? "Registrando..." : "Registrar"}
+              {isLoading ? "Registrando..." : "Registrarse"}
             </button>
           </div>
         </form>
@@ -302,4 +290,4 @@ const RegistrarPersona = () => {
   );
 };
 
-export default RegistrarPersona;
+export default RegistrarUsuario;

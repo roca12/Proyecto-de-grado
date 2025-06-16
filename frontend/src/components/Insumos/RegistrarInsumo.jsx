@@ -8,6 +8,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import authService from "../authService";
 import logo from "./../assets/APROAFA2.png";
+import watermarkImage from "./../assets/LogoBosque.png";
 import { FaSignOutAlt } from "react-icons/fa";
 import "./Insumos.css";
 import "./RegistrarInsumo.css";
@@ -19,6 +20,7 @@ const RegistrarInsumo = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [proveedores, setProveedores] = useState([]);
+  const [insumosExistentes, setInsumosExistentes] = useState([]);
 
   // Estado para los datos del formulario
   const [formData, setFormData] = useState({
@@ -44,6 +46,7 @@ const RegistrarInsumo = () => {
    * Efecto para cargar los datos iniciales del componente
    * - Obtiene el usuario autenticado
    * - Obtiene la lista de proveedores
+   * - Obtiene la lista de insumos existentes
    */
   useEffect(() => {
     const loadInitialData = async () => {
@@ -54,15 +57,21 @@ const RegistrarInsumo = () => {
         }
         setUser(currentUser);
 
-        // Obtener lista de proveedores
-        const proveedoresResponse = await fetch(
-          "http://localhost:8080/api/proveedores",
-        );
-        if (!proveedoresResponse.ok) {
-          throw new Error("Error al obtener proveedores");
+        // Obtener lista de proveedores e insumos en paralelo
+        const [proveedoresResponse, insumosResponse] = await Promise.all([
+          fetch("http://localhost:8080/api/proveedores"),
+          fetch("http://localhost:8080/insumos"),
+        ]);
+
+        if (!proveedoresResponse.ok || !insumosResponse.ok) {
+          throw new Error("Error al obtener datos iniciales");
         }
+
         const proveedoresData = await proveedoresResponse.json();
+        const insumosData = await insumosResponse.json();
+
         setProveedores(proveedoresData);
+        setInsumosExistentes(insumosData);
       } catch (error) {
         console.error("Error al cargar datos iniciales:", error);
         setError(error.message);
@@ -183,7 +192,7 @@ const RegistrarInsumo = () => {
 
         {/* Formulario de registro */}
         <form className="registro-form">
-          {/* Campo para nombre */}
+          {/* Campo para nombre con datalist de insumos existentes */}
           <input
             type="text"
             name="nombre"
@@ -191,9 +200,18 @@ const RegistrarInsumo = () => {
             className="registro-input"
             value={formData.nombre}
             onChange={handleInputChange}
+            list="insumos-list"
             required
             disabled={loading}
           />
+          <datalist id="insumos-list">
+            {insumosExistentes.map((insumo) => (
+              <option key={insumo.idInsumo} value={insumo.nombre} />
+            ))}
+          </datalist>
+          <p style={{ fontSize: "12px", color: "#666", marginTop: "4px" }}>
+            Escribe un nuevo nombre o selecciona uno existente de la lista
+          </p>
 
           {/* Campo para descripción (opcional) */}
           <input
@@ -274,6 +292,9 @@ const RegistrarInsumo = () => {
             </button>
           </div>
         </form>
+      </div>
+      <div className="watermark">
+        <img src={watermarkImage} alt="Marca de agua" />
       </div>
     </div>
   );

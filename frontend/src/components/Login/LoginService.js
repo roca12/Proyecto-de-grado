@@ -8,12 +8,12 @@
  * @throws {Error} Lanza un error si la respuesta del servidor no es exitosa.
  * @returns {Promise<Object>} Los datos del usuario autenticado, incluyendo el token JWT y detalles del perfil.
  */
-export async function loginUsuario(idUsuario, contraseña) {
+export async function loginUsuario(numeroIdentificacion, contraseña) {
   const response = await fetch("http://localhost:8080/usuarios/login", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      idPersona: parseInt(idUsuario),
+      numeroIdentificacion: numeroIdentificacion, // Cambiado de idPersona a numeroIdentificacion
       contraseña,
     }),
   });

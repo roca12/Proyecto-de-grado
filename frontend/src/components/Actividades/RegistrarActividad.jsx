@@ -9,6 +9,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import authService from "../authService";
 import logo from "./../assets/APROAFA2.png";
+import watermarkImage from "./../assets/LogoBosque.png";
 import { FaSignOutAlt } from "react-icons/fa";
 import "./Actividades.css";
 import "./RegistrarActividad.css";
@@ -252,6 +253,9 @@ const RegistrarActividad = () => {
             </button>
           </div>
         </form>
+      </div>
+      <div className="watermark">
+        <img src={watermarkImage} alt="Marca de agua" />
       </div>
     </div>
   );
