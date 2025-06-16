@@ -6,6 +6,7 @@ import {
 } from "react-router-dom";
 
 import Login from "./components/Login/Login";
+import RegistrarUsuario from "./components/Login/RegistrarUsuario";
 import Menu from "./components/Menu/Menu";
 import Personas from "./components/Personas/Personas";
 import RegistrarPersona from "./components/Personas/RegistrarPersona";
@@ -28,6 +29,7 @@ function App() {
         <Routes>
           {/* Ruta pública para login */}
           <Route path="/login" element={<Login />} />
+          <Route path="/Registro" element={<RegistrarUsuario/>}/>
           {/* Ruta pública para acceso no autorizado */}
           <Route path="/unauthorized" element={<Unauthorized />} />
 

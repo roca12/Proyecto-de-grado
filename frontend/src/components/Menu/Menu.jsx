@@ -28,6 +28,7 @@ import "./Menu.css";
 import logo from "./../assets/APROAFA2.png";
 import logoMini from "./../assets/APROAFA.jpg";
 import fondo from "./../assets/fondo.jpg";
+import watermarkImage from "./../assets/LogoBosque.png";
 
 /**
  * Componente funcional que representa el menú lateral principal del sistema.
@@ -119,6 +120,10 @@ const Menu = () => {
         style={{ backgroundImage: `url(${fondo})` }}
       >
         {/* El contenido de la aplicación irá aquí */}
+      </div>
+      {/* Marca de agua */}
+      <div className="watermark">
+        <img src={watermarkImage} alt="Marca de agua" />
       </div>
     </div>
   );

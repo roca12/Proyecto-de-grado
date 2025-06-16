@@ -19,6 +19,7 @@ import {
 import authService from "../authService";
 import logo from "./../assets/APROAFA2.png";
 import logoMini from "./../assets/APROAFA.jpg";
+import watermarkImage from "./../assets/LogoBosque.png";
 
 const Actividades = () => {
   const [isOpen, setIsOpen] = useState(true);
@@ -311,6 +312,9 @@ const Actividades = () => {
           </div>
         </div>
       )}
+      <div className="watermark">
+        <img src={watermarkImage} alt="Marca de agua" />
+      </div>
     </div>
   );
 };

@@ -154,41 +154,42 @@ public class UsuarioController {
    */
   @PostMapping("/login")
   public ResponseEntity<?> login(@RequestBody AuthenticationRequest authRequest) {
+    String numeroIdentificacion = authRequest.getNumeroIdentificacion();
+    String contraseña = authRequest.getContraseña();
+
+    Optional<Usuario> usuarioOpt = usuarioService.getUsuarioByNumeroIdentificacion(numeroIdentificacion);
+
+    if (usuarioOpt.isEmpty()) {
+      return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Número de identificación no encontrado");
+    }
+
+    Usuario usuario = usuarioOpt.get();
+
     try {
-      // Autenticar con Spring Security
+      // Validar contraseña con Spring Security
       authenticationManager.authenticate(
-          new UsernamePasswordAuthenticationToken(
-              String.valueOf(authRequest.getIdPersona()), authRequest.getContraseña()));
+              new UsernamePasswordAuthenticationToken(
+                      String.valueOf(usuario.getIdPersona()), contraseña));
     } catch (BadCredentialsException e) {
-      return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("ID o contraseña incorrectos");
+      return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Contraseña incorrecta");
     }
 
-    // Si llegamos aquí, la autenticación fue exitosa
-    Optional<Usuario> usuarioOpt = usuarioService.getUsuarioById(authRequest.getIdPersona());
-    if (usuarioOpt.isPresent()) {
-      Usuario usuario = usuarioOpt.get();
+    // Generar token
+    String jwt = jwtUtil.generateToken(
+            String.valueOf(usuario.getIdPersona()),
+            usuario.getTipoUsuario(),
+            usuario.getIdPersona());
 
-      // Generar token JWT
-      String jwt =
-          jwtUtil.generateToken(
-              String.valueOf(usuario.getIdPersona()),
-              usuario.getTipoUsuario(),
-              usuario.getIdPersona());
+    int idFinca = usuario.getFinca() != null ? usuario.getFinca().getId() : 0;
+    AuthenticationResponse response = new AuthenticationResponse(
+            jwt,
+            usuario.getIdPersona(),
+            usuario.getNombre(),
+            usuario.getApellido(),
+            usuario.getTipoUsuario(),
+            idFinca);
 
-      // Crear respuesta con token y datos básicos del usuario
-      int idFinca = usuario.getFinca() != null ? usuario.getFinca().getId() : 0;
-      AuthenticationResponse response =
-          new AuthenticationResponse(
-              jwt,
-              usuario.getIdPersona(),
-              usuario.getNombre(),
-              usuario.getApellido(),
-              usuario.getTipoUsuario(),
-              idFinca);
-
-      return ResponseEntity.ok(response);
-    }
-
-    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Usuario no encontrado");
+    return ResponseEntity.ok(response);
   }
+
 }

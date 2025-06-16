@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 public class AuthenticationRequest {
 
   /** Identificador de la persona que desea autenticarse. */
-  private int idPersona;
+  private String numeroIdentificacion;
 
   /** Contraseña asociada a la cuenta de la persona. */
   private String contraseña;
