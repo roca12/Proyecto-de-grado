@@ -7,12 +7,11 @@ import org.springframework.stereotype.Repository;
 /**
  * Repositorio JPA para la entidad Producto.
  *
- * Este repositorio extiende JpaRepository y proporciona métodos para interactuar con la base de datos
- * en lo que respecta a la entidad `Producto`. JpaRepository incluye operaciones CRUD básicas
+ * <p>Este repositorio extiende JpaRepository y proporciona métodos para interactuar con la base de
+ * datos en lo que respecta a la entidad `Producto`. JpaRepository incluye operaciones CRUD básicas
  * como guardar, eliminar y buscar productos.
  *
  * <p>Autor: Anderson Zuluaga
  */
 @Repository
-public interface ProductoRepository extends JpaRepository<Producto, Integer> {
-}
+public interface ProductoRepository extends JpaRepository<Producto, Integer> {}

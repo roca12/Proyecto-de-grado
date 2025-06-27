@@ -1,13 +1,13 @@
 package com.example.proyecto_de_grado.model.dto;
 
-import lombok.Data;
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import lombok.Data;
 
 /**
- * DTO para la entidad PrecioProducto.
- * Registra el precio histórico de un producto en un rango de fechas.
+ * DTO para la entidad PrecioProducto. Registra el precio histórico de un producto en un rango de
+ * fechas.
+ *
  * @author Anderson Zuluaga
  * @version 1.0
  * @since 2023
@@ -15,18 +15,18 @@ import java.time.LocalDate;
 @Data
 public class PrecioProductoDTO {
 
-    /** Identificador único del registro de precio. */
-    private Integer idPrecio;
+  /** Identificador único del registro de precio. */
+  private Integer idPrecio;
 
-    /** Identificador del producto asociado. */
-    private Integer idProducto;
+  /** Identificador del producto asociado. */
+  private Integer idProducto;
 
-    /** Fecha de inicio de vigencia del precio. */
-    private LocalDate fechaInicio;
+  /** Fecha de inicio de vigencia del precio. */
+  private LocalDate fechaInicio;
 
-    /** Fecha de fin de vigencia del precio (null si aún vigente). */
-    private LocalDate fechaFin;
+  /** Fecha de fin de vigencia del precio (null si aún vigente). */
+  private LocalDate fechaFin;
 
-    /** Valor del precio. */
-    private BigDecimal precio;
+  /** Valor del precio. */
+  private BigDecimal precio;
 }

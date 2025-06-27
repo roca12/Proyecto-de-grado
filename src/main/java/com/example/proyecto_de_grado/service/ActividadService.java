@@ -51,15 +51,14 @@ public class ActividadService {
     dto.setIdActividad(actividad.getIdActividad()); // actualiza el id
     return dto;
   }
+
   /**
    * Lista todas las actividades registradas en el sistema.
    *
    * @return Una lista de DTOs que representan todas las actividades.
    */
   public List<ActividadDTO> listarTodas() {
-    return actividadRepository.findAll().stream()
-            .map(this::toDTO)
-            .collect(Collectors.toList());
+    return actividadRepository.findAll().stream().map(this::toDTO).collect(Collectors.toList());
   }
 
   /**
