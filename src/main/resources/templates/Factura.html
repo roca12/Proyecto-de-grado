@@ -1,522 +1,570 @@
-<!DOCTYPE html>
+<!doctype html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
+  <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Factura #<span th:text="${venta.idVenta}">001</span> - Aproafa</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      Factura #<span th:text="${venta.idVenta}">001</span> - Aproafa
+    </title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
 
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        padding: 20px;
+        min-height: 100vh;
+      }
+
+      .invoice-container {
+        max-width: 800px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        border: 1px solid rgba(77, 174, 78, 0.1);
+      }
+
+      .invoice-header {
+        background: linear-gradient(135deg, #4dae4e 0%, #45a049 100%);
+        padding: 30px;
+        color: white;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .invoice-header::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 100px;
+        height: 100px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        transform: translate(30px, -30px);
+      }
+
+      .header-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: relative;
+        z-index: 2;
+      }
+
+      .company-info {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+      }
+
+      .company-logo {
+        width: 80px;
+        height: 80px;
+        border-radius: 12px;
+        object-fit: contain;
+        background: rgba(255, 255, 255, 0.1);
+        padding: 8px;
+        transition: all 0.3s ease;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+      }
+
+      .company-logo:hover {
+        transform: scale(1.05);
+        border-color: rgba(255, 255, 255, 0.6);
+      }
+
+      .company-details h1 {
+        font-size: 28px;
+        font-weight: 700;
+        margin-bottom: 5px;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .company-details p {
+        font-size: 16px;
+        opacity: 0.9;
+      }
+
+      .invoice-number {
+        text-align: right;
+      }
+
+      .invoice-number h2 {
+        font-size: 32px;
+        font-weight: 300;
+        margin-bottom: 10px;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .invoice-number .number {
+        font-weight: 700;
+        font-size: 36px;
+      }
+
+      .invoice-body {
+        padding: 40px;
+      }
+
+      .invoice-info {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+        margin-bottom: 40px;
+      }
+
+      .info-section {
+        background: #f8f9fa;
+        padding: 25px;
+        border-radius: 12px;
+        border-left: 5px solid #4dae4e;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+      }
+
+      .info-section h3 {
+        color: #4dae4e;
+        font-size: 18px;
+        font-weight: 600;
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .info-section h3::before {
+        content: "";
+        width: 8px;
+        height: 8px;
+        background: #4dae4e;
+        border-radius: 50%;
+      }
+
+      .info-item {
+        margin-bottom: 12px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .info-label {
+        font-weight: 600;
+        color: #6c757d;
+        font-size: 14px;
+      }
+
+      .info-value {
+        font-weight: 700;
+        color: #2c3e50;
+        font-size: 16px;
+      }
+
+      .products-table {
+        background: white;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+        margin-bottom: 30px;
+        border: 1px solid rgba(77, 174, 78, 0.1);
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      thead {
+        background: linear-gradient(135deg, #4dae4e 0%, #45a049 100%);
+      }
+
+      th {
+        padding: 20px 15px;
+        color: white;
+        font-weight: 600;
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        text-align: left;
+        position: relative;
+      }
+
+      th:not(:last-child)::after {
+        content: "";
+        position: absolute;
+        right: 0;
+        top: 25%;
+        height: 50%;
+        width: 1px;
+        background: rgba(255, 255, 255, 0.2);
+      }
+
+      tbody tr {
+        transition: all 0.3s ease;
+        border-bottom: 1px solid #e9ecef;
+      }
+
+      tbody tr:hover {
+        background: rgba(77, 174, 78, 0.05);
+        transform: translateY(-1px);
+      }
+
+      tbody tr:last-child {
+        border-bottom: none;
+      }
+
+      td {
+        padding: 18px 15px;
+        font-size: 15px;
+        color: #2c3e50;
+        vertical-align: middle;
+      }
+
+      .product-name {
+        font-weight: 600;
+        color: #4dae4e;
+      }
+
+      .quantity {
+        text-align: center;
+        font-weight: 600;
+        background: rgba(77, 174, 78, 0.1);
+        border-radius: 20px;
+        padding: 5px 12px;
+        display: inline-block;
+        min-width: 40px;
+      }
+
+      .price,
+      .subtotal {
+        font-weight: 700;
+        text-align: right;
+        font-family: "Courier New", monospace;
+      }
+
+      .total-section {
+        background: linear-gradient(135deg, #4dae4e 0%, #45a049 100%);
+        padding: 25px 30px;
+        border-radius: 12px;
+        color: white;
+        text-align: right;
+        box-shadow: 0 8px 25px rgba(77, 174, 78, 0.3);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .total-section::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="10" cy="10" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="30" cy="25" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="70" cy="15" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="90" cy="35" r="1" fill="rgba(255,255,255,0.1)"/></svg>')
+          repeat;
+        opacity: 0.3;
+      }
+
+      .total-label {
+        font-size: 20px;
+        font-weight: 300;
+        margin-bottom: 10px;
+        position: relative;
+        z-index: 2;
+      }
+
+      .total-amount {
+        font-size: 36px;
+        font-weight: 700;
+        font-family: "Courier New", monospace;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        position: relative;
+        z-index: 2;
+      }
+
+      .footer {
+        margin-top: 40px;
+        text-align: center;
+        padding: 20px;
+        background: #f8f9fa;
+        border-radius: 12px;
+        color: #6c757d;
+        font-size: 14px;
+        border-top: 3px solid #4dae4e;
+      }
+
+      .actions {
+        text-align: center;
+        margin-top: 20px;
+        padding: 20px;
+      }
+
+      .btn {
+        display: inline-block;
+        padding: 12px 24px;
+        margin: 0 10px;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        cursor: pointer;
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, #4dae4e 0%, #45a049 100%);
+        color: white;
+        box-shadow: 0 4px 15px rgba(77, 174, 78, 0.3);
+      }
+
+      .btn-secondary {
+        background: #6c757d;
+        color: white;
+        box-shadow: 0 4px 15px rgba(108, 117, 125, 0.3);
+      }
+
+      .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+      }
+
+      @media print {
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            padding: 20px;
-            min-height: 100vh;
+          background: white;
+          padding: 0;
         }
 
         .invoice-container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            border: 1px solid rgba(77, 174, 78, 0.1);
-        }
-
-        .invoice-header {
-            background: linear-gradient(135deg, #4dae4e 0%, #45a049 100%);
-            padding: 30px;
-            color: white;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .invoice-header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 100px;
-            height: 100px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            transform: translate(30px, -30px);
-        }
-
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: relative;
-            z-index: 2;
-        }
-
-        .company-info {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .company-logo {
-            width: 80px;
-            height: 80px;
-            border-radius: 12px;
-            object-fit: contain;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 8px;
-            transition: all 0.3s ease;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-        }
-
-        .company-logo:hover {
-            transform: scale(1.05);
-            border-color: rgba(255, 255, 255, 0.6);
-        }
-
-        .company-details h1 {
-            font-size: 28px;
-            font-weight: 700;
-            margin-bottom: 5px;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .company-details p {
-            font-size: 16px;
-            opacity: 0.9;
-        }
-
-        .invoice-number {
-            text-align: right;
-        }
-
-        .invoice-number h2 {
-            font-size: 32px;
-            font-weight: 300;
-            margin-bottom: 10px;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .invoice-number .number {
-            font-weight: 700;
-            font-size: 36px;
-        }
-
-        .invoice-body {
-            padding: 40px;
-        }
-
-        .invoice-info {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            margin-bottom: 40px;
-        }
-
-        .info-section {
-            background: #f8f9fa;
-            padding: 25px;
-            border-radius: 12px;
-            border-left: 5px solid #4dae4e;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-        }
-
-        .info-section h3 {
-            color: #4dae4e;
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .info-section h3::before {
-            content: '';
-            width: 8px;
-            height: 8px;
-            background: #4dae4e;
-            border-radius: 50%;
-        }
-
-        .info-item {
-            margin-bottom: 12px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .info-label {
-            font-weight: 600;
-            color: #6c757d;
-            font-size: 14px;
-        }
-
-        .info-value {
-            font-weight: 700;
-            color: #2c3e50;
-            font-size: 16px;
-        }
-
-        .products-table {
-            background: white;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
-            margin-bottom: 30px;
-            border: 1px solid rgba(77, 174, 78, 0.1);
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        thead {
-            background: linear-gradient(135deg, #4dae4e 0%, #45a049 100%);
-        }
-
-        th {
-            padding: 20px 15px;
-            color: white;
-            font-weight: 600;
-            font-size: 14px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            text-align: left;
-            position: relative;
-        }
-
-        th:not(:last-child)::after {
-            content: '';
-            position: absolute;
-            right: 0;
-            top: 25%;
-            height: 50%;
-            width: 1px;
-            background: rgba(255, 255, 255, 0.2);
-        }
-
-        tbody tr {
-            transition: all 0.3s ease;
-            border-bottom: 1px solid #e9ecef;
-        }
-
-        tbody tr:hover {
-            background: rgba(77, 174, 78, 0.05);
-            transform: translateY(-1px);
-        }
-
-        tbody tr:last-child {
-            border-bottom: none;
-        }
-
-        td {
-            padding: 18px 15px;
-            font-size: 15px;
-            color: #2c3e50;
-            vertical-align: middle;
-        }
-
-        .product-name {
-            font-weight: 600;
-            color: #4dae4e;
-        }
-
-        .quantity {
-            text-align: center;
-            font-weight: 600;
-            background: rgba(77, 174, 78, 0.1);
-            border-radius: 20px;
-            padding: 5px 12px;
-            display: inline-block;
-            min-width: 40px;
-        }
-
-        .price, .subtotal {
-            font-weight: 700;
-            text-align: right;
-            font-family: 'Courier New', monospace;
-        }
-
-        .total-section {
-            background: linear-gradient(135deg, #4dae4e 0%, #45a049 100%);
-            padding: 25px 30px;
-            border-radius: 12px;
-            color: white;
-            text-align: right;
-            box-shadow: 0 8px 25px rgba(77, 174, 78, 0.3);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .total-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="10" cy="10" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="30" cy="25" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="70" cy="15" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="90" cy="35" r="1" fill="rgba(255,255,255,0.1)"/></svg>') repeat;
-            opacity: 0.3;
-        }
-
-        .total-label {
-            font-size: 20px;
-            font-weight: 300;
-            margin-bottom: 10px;
-            position: relative;
-            z-index: 2;
-        }
-
-        .total-amount {
-            font-size: 36px;
-            font-weight: 700;
-            font-family: 'Courier New', monospace;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-            position: relative;
-            z-index: 2;
-        }
-
-        .footer {
-            margin-top: 40px;
-            text-align: center;
-            padding: 20px;
-            background: #f8f9fa;
-            border-radius: 12px;
-            color: #6c757d;
-            font-size: 14px;
-            border-top: 3px solid #4dae4e;
+          box-shadow: none;
+          border: none;
+          border-radius: 0;
         }
 
         .actions {
-            text-align: center;
-            margin-top: 20px;
-            padding: 20px;
+          display: none;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .invoice-container {
+          margin: 10px;
+          border-radius: 10px;
         }
 
-        .btn {
-            display: inline-block;
-            padding: 12px 24px;
-            margin: 0 10px;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            cursor: pointer;
+        .header-content {
+          flex-direction: column;
+          gap: 20px;
+          text-align: center;
         }
 
-        .btn-primary {
-            background: linear-gradient(135deg, #4dae4e 0%, #45a049 100%);
-            color: white;
-            box-shadow: 0 4px 15px rgba(77, 174, 78, 0.3);
+        .invoice-info {
+          grid-template-columns: 1fr;
+          gap: 20px;
         }
 
-        .btn-secondary {
-            background: #6c757d;
-            color: white;
-            box-shadow: 0 4px 15px rgba(108, 117, 125, 0.3);
+        .invoice-header,
+        .invoice-body {
+          padding: 20px;
         }
 
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        th,
+        td {
+          padding: 12px 8px;
+          font-size: 13px;
         }
 
-        @media print {
-            body {
-                background: white;
-                padding: 0;
-            }
-
-            .invoice-container {
-                box-shadow: none;
-                border: none;
-                border-radius: 0;
-            }
-
-            .actions {
-                display: none;
-            }
+        .total-amount {
+          font-size: 28px;
         }
-
-        @media (max-width: 768px) {
-            .invoice-container {
-                margin: 10px;
-                border-radius: 10px;
-            }
-
-            .header-content {
-                flex-direction: column;
-                gap: 20px;
-                text-align: center;
-            }
-
-            .invoice-info {
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
-
-            .invoice-header, .invoice-body {
-                padding: 20px;
-            }
-
-            th, td {
-                padding: 12px 8px;
-                font-size: 13px;
-            }
-
-            .total-amount {
-                font-size: 28px;
-            }
-        }
+      }
     </style>
-</head>
-<body>
-<div class="invoice-container">
-    <div class="invoice-header">
+  </head>
+  <body>
+    <div class="invoice-container">
+      <div class="invoice-header">
         <div class="header-content">
-            <div class="company-info">
-                <img src="/logoAPROAFA.jpg" class="company-logo" alt="Logo Aproafa" />
-                <div class="company-details">
-                    <h1>Aproafa</h1>
-                    <p>Sistema de Facturación</p>
-                </div>
+          <div class="company-info">
+            <img
+              src="/logoAPROAFA.jpg"
+              class="company-logo"
+              alt="Logo Aproafa"
+            />
+            <div class="company-details">
+              <h1>Aproafa</h1>
+              <p>Sistema de Facturación</p>
             </div>
-            <div class="invoice-number">
-                <h2>FACTURA</h2>
-                <div class="number">#<span th:text="${venta.idVenta}">001</span></div>
+          </div>
+          <div class="invoice-number">
+            <h2>FACTURA</h2>
+            <div class="number">
+              #<span th:text="${venta.idVenta}">001</span>
             </div>
+          </div>
         </div>
-    </div>
+      </div>
 
-    <div class="invoice-body">
+      <div class="invoice-body">
         <div class="invoice-info">
-            <div class="info-section">
-                <h3>Información de Factura</h3>
-                <div class="info-item">
-                    <span class="info-label">Fecha:</span>
-                    <span class="info-value" th:text="${fechaFormateada}">01/01/2024</span>
-                </div>
-                <div class="info-item">
-                    <span class="info-label">ID Empleado:</span>
-                    <span class="info-value" th:text="${venta.idEmpleado}">1</span>
-                </div>
-                <div class="info-item">
-                    <span class="info-label">Estado:</span>
-                    <span class="info-value">Pagado</span>
-                </div>
+          <div class="info-section">
+            <h3>Información de Factura</h3>
+            <div class="info-item">
+              <span class="info-label">Fecha:</span>
+              <span class="info-value" th:text="${fechaFormateada}"
+                >01/01/2024</span
+              >
             </div>
-            <div class="info-section">
-                <h3>Información del Cliente</h3>
-                <div class="info-item">
-                    <span class="info-label">ID Cliente:</span>
-                    <span class="info-value" th:text="${venta.idCliente}">1</span>
-                </div>
-                <div class="info-item">
-                    <span class="info-label">Método de Pago:</span>
-                    <span class="info-value" th:text="${metodoPagoFormateado}">Efectivo</span>
-                </div>
+            <div class="info-item">
+              <span class="info-label">ID Empleado:</span>
+              <span class="info-value" th:text="${venta.idEmpleado}">1</span>
             </div>
+            <div class="info-item">
+              <span class="info-label">Estado:</span>
+              <span class="info-value">Pagado</span>
+            </div>
+          </div>
+          <div class="info-section">
+            <h3>Información del Cliente</h3>
+            <div class="info-item">
+              <span class="info-label">ID Cliente:</span>
+              <span class="info-value" th:text="${venta.idCliente}">1</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Método de Pago:</span>
+              <span class="info-value" th:text="${metodoPagoFormateado}"
+                >Efectivo</span
+              >
+            </div>
+          </div>
         </div>
 
         <div class="products-table">
-            <table>
-                <thead>
-                <tr>
-                    <th>Producto (ID)</th>
-                    <th>Cantidad</th>
-                    <th>Precio Unitario</th>
-                    <th>Subtotal</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="item : ${items}" th:if="${items != null and not #lists.isEmpty(items)}">
-                    <td>
-                        <span class="product-name" th:text="'Producto #' + ${item.idProducto}">Producto #1</span>
-                    </td>
-                    <td>
-                        <span class="quantity" th:text="${item.cantidad}">1</span>
-                    </td>
-                    <td class="price">
-                        $<span th:text="${#numbers.formatDecimal(item.precioUnitario, 0, 'COMMA', 2, 'POINT')}">0.00</span>
-                    </td>
-                    <td class="subtotal">
-                        $<span th:text="${item.subtotal != null ? #numbers.formatDecimal(item.subtotal, 0, 'COMMA', 2, 'POINT') : #numbers.formatDecimal(item.precioUnitario * item.cantidad, 0, 'COMMA', 2, 'POINT')}">0.00</span>
-                    </td>
-                </tr>
-                <!-- Fila cuando no hay productos -->
-                <tr th:if="${items == null or #lists.isEmpty(items)}">
-                    <td colspan="4" style="text-align: center; color: #6c757d; font-style: italic;">
-                        No hay productos en esta venta
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+          <table>
+            <thead>
+              <tr>
+                <th>Producto (ID)</th>
+                <th>Cantidad</th>
+                <th>Precio Unitario</th>
+                <th>Subtotal</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                th:each="item : ${items}"
+                th:if="${items != null and not #lists.isEmpty(items)}"
+              >
+                <td>
+                  <span
+                    class="product-name"
+                    th:text="'Producto #' + ${item.idProducto}"
+                    >Producto #1</span
+                  >
+                </td>
+                <td>
+                  <span class="quantity" th:text="${item.cantidad}">1</span>
+                </td>
+                <td class="price">
+                  $<span
+                    th:text="${#numbers.formatDecimal(item.precioUnitario, 0, 'COMMA', 2, 'POINT')}"
+                    >0.00</span
+                  >
+                </td>
+                <td class="subtotal">
+                  $<span
+                    th:text="${item.subtotal != null ? #numbers.formatDecimal(item.subtotal, 0, 'COMMA', 2, 'POINT') : #numbers.formatDecimal(item.precioUnitario * item.cantidad, 0, 'COMMA', 2, 'POINT')}"
+                    >0.00</span
+                  >
+                </td>
+              </tr>
+              <!-- Fila cuando no hay productos -->
+              <tr th:if="${items == null or #lists.isEmpty(items)}">
+                <td
+                  colspan="4"
+                  style="text-align: center; color: #6c757d; font-style: italic"
+                >
+                  No hay productos en esta venta
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
 
         <div class="total-section">
-            <div class="total-label">Total a Pagar</div>
-            <div class="total-amount">
-                $<span th:text="${#numbers.formatDecimal(total, 0, 'COMMA', 2, 'POINT')}">0.00</span>
-            </div>
+          <div class="total-label">Total a Pagar</div>
+          <div class="total-amount">
+            $<span
+              th:text="${#numbers.formatDecimal(total, 0, 'COMMA', 2, 'POINT')}"
+              >0.00</span
+            >
+          </div>
         </div>
 
         <div class="footer">
-            <p>¡Gracias por su confianza! • Para cualquier consulta, contáctenos</p>
-            <p th:if="${esVistaPrevia}" style="color: #ff6b6b; font-weight: bold; margin-top: 10px;">
-                VISTA PREVIA - Esta factura puede no reflejar los datos finales
-            </p>
+          <p>
+            ¡Gracias por su confianza! • Para cualquier consulta, contáctenos
+          </p>
+          <p
+            th:if="${esVistaPrevia}"
+            style="color: #ff6b6b; font-weight: bold; margin-top: 10px"
+          >
+            VISTA PREVIA - Esta factura puede no reflejar los datos finales
+          </p>
         </div>
+      </div>
+
+      <!-- Botones de acción (solo visible en pantalla, no en impresión) -->
+      <div class="actions">
+        <button class="btn btn-primary" onclick="window.print()">
+          🖨️ Imprimir
+        </button>
+        <a
+          th:href="@{'/api/facturas/generar/' + ${venta.idVenta}}"
+          class="btn btn-secondary"
+          >📄 Descargar PDF</a
+        >
+        <button class="btn btn-secondary" onclick="window.history.back()">
+          ↩️ Volver
+        </button>
+      </div>
     </div>
 
-    <!-- Botones de acción (solo visible en pantalla, no en impresión) -->
-    <div class="actions">
-        <button class="btn btn-primary" onclick="window.print()">🖨️ Imprimir</button>
-        <a th:href="@{'/api/facturas/generar/' + ${venta.idVenta}}" class="btn btn-secondary">📄 Descargar PDF</a>
-        <button class="btn btn-secondary" onclick="window.history.back()">↩️ Volver</button>
-    </div>
-</div>
-
-<script>
-    // Script para mejorar la experiencia de usuario
-    document.addEventListener('DOMContentLoaded', function() {
+    <script>
+      // Script para mejorar la experiencia de usuario
+      document.addEventListener("DOMContentLoaded", function () {
         // Agregar efectos de hover a las filas de la tabla
-        const rows = document.querySelectorAll('tbody tr');
-        rows.forEach(row => {
-            row.addEventListener('mouseenter', function() {
-                this.style.transform = 'translateY(-2px)';
-            });
-            row.addEventListener('mouseleave', function() {
-                this.style.transform = 'translateY(0)';
-            });
+        const rows = document.querySelectorAll("tbody tr");
+        rows.forEach((row) => {
+          row.addEventListener("mouseenter", function () {
+            this.style.transform = "translateY(-2px)";
+          });
+          row.addEventListener("mouseleave", function () {
+            this.style.transform = "translateY(0)";
+          });
         });
 
         // Funcionalidad para copiar número de factura
-        const invoiceNumber = document.querySelector('.invoice-number .number');
+        const invoiceNumber = document.querySelector(".invoice-number .number");
         if (invoiceNumber) {
-            invoiceNumber.style.cursor = 'pointer';
-            invoiceNumber.title = 'Click para copiar número de factura';
-            invoiceNumber.addEventListener('click', function() {
-                const text = this.textContent;
-                navigator.clipboard.writeText(text).then(function() {
-                    // Mostrar feedback visual
-                    const original = invoiceNumber.style.backgroundColor;
-                    invoiceNumber.style.backgroundColor = 'rgba(255, 255, 255, 0.3)';
-                    invoiceNumber.style.borderRadius = '5px';
-                    setTimeout(() => {
-                        invoiceNumber.style.backgroundColor = original;
-                    }, 500);
-                });
+          invoiceNumber.style.cursor = "pointer";
+          invoiceNumber.title = "Click para copiar número de factura";
+          invoiceNumber.addEventListener("click", function () {
+            const text = this.textContent;
+            navigator.clipboard.writeText(text).then(function () {
+              // Mostrar feedback visual
+              const original = invoiceNumber.style.backgroundColor;
+              invoiceNumber.style.backgroundColor = "rgba(255, 255, 255, 0.3)";
+              invoiceNumber.style.borderRadius = "5px";
+              setTimeout(() => {
+                invoiceNumber.style.backgroundColor = original;
+              }, 500);
             });
+          });
         }
-    });
-</script>
-</body>
+      });
+    </script>
+  </body>
 </html>

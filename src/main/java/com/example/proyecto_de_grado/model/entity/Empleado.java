@@ -18,31 +18,31 @@ import lombok.Data;
 @Table(name = "empleado")
 public class Empleado {
 
-    /** Identificador único del empleado. */
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_empleado")
-    private Integer idEmpleado;
+  /** Identificador único del empleado. */
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "id_empleado")
+  private Integer idEmpleado;
 
-    /** Persona asociada al empleado (relación muchos a uno). */
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_persona", nullable = false)
-    private Persona persona;
+  /** Persona asociada al empleado (relación muchos a uno). */
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "id_persona", nullable = false)
+  private Persona persona;
 
-    /** Finca a la cual está asociado el empleado (relación muchos a uno). */
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_finca", nullable = false)
-    private Finca finca;
+  /** Finca a la cual está asociado el empleado (relación muchos a uno). */
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "id_finca", nullable = false)
+  private Finca finca;
 
-    /** Cargo del empleado dentro de la organización. */
-    @Column(name = "cargo", nullable = false, length = 100)
-    private String cargo;
+  /** Cargo del empleado dentro de la organización. */
+  @Column(name = "cargo", nullable = false, length = 100)
+  private String cargo;
 
-    /** Salario del empleado. */
-    @Column(name = "salario", nullable = false, precision = 10, scale = 2)
-    private BigDecimal salario;
+  /** Salario del empleado. */
+  @Column(name = "salario", nullable = false, precision = 10, scale = 2)
+  private BigDecimal salario;
 
-    /** Fecha en la que el empleado fue contratado. */
-    @Column(name = "fecha_contratacion", nullable = false)
-    private LocalDate fechaContratacion;
+  /** Fecha en la que el empleado fue contratado. */
+  @Column(name = "fecha_contratacion", nullable = false)
+  private LocalDate fechaContratacion;
 }
