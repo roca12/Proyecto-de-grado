@@ -6,8 +6,8 @@ import lombok.Data;
 /**
  * DTO (Data Transfer Object) para la gestión de detalles de venta.
  *
- * <p>Esta clase representa el detalle de cada producción vendida en una transacción,
- * incluyendo cantidad, precio unitario y subtotal de cada ítem.
+ * <p>Esta clase representa el detalle de cada producción vendida en una transacción, incluyendo
+ * cantidad, precio unitario y subtotal de cada ítem.
  */
 @Data
 public class DetalleVentaDTO {

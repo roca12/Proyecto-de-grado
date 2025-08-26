@@ -21,8 +21,7 @@ public enum MetodoPago {
       return MetodoPago.valueOf(value.toUpperCase());
     } catch (IllegalArgumentException e) {
       // Si falla, intentar con formato capitalizado
-      String capitalized = value.substring(0, 1).toUpperCase() +
-              value.substring(1).toLowerCase();
+      String capitalized = value.substring(0, 1).toUpperCase() + value.substring(1).toLowerCase();
       return MetodoPago.valueOf(capitalized);
     }
   }

@@ -1,12 +1,10 @@
 package com.example.proyecto_de_grado.model.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-
 import lombok.*;
 
 /**
@@ -43,8 +41,7 @@ public class Actividad {
   private TipoActividad tipoActividad;
 
   /** Fecha de inicio de la actividad. Debe ser hoy o una fecha futura. */
-  @NotNull
-  private LocalDate fechaInicio;
+  @NotNull private LocalDate fechaInicio;
 
   /** Fecha de finalización de la actividad (opcional). */
   private LocalDate fechaFin;
@@ -54,5 +51,4 @@ public class Actividad {
 
   @OneToMany(mappedBy = "actividad", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<UsoInsumo> usosInsumos = new ArrayList<>();
-
 }

@@ -1,10 +1,9 @@
 package com.example.proyecto_de_grado.repository;
 
 import com.example.proyecto_de_grado.model.entity.Producto;
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
 
 /**
  * Repositorio JPA para la entidad Producto.
@@ -18,6 +17,5 @@ import java.util.List;
 @Repository
 public interface ProductoRepository extends JpaRepository<Producto, Integer> {
 
-    List<Producto> findByFincaId(Integer idFinca);
-
+  List<Producto> findByFincaId(Integer idFinca);
 }

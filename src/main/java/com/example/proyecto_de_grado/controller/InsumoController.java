@@ -5,8 +5,8 @@ import com.example.proyecto_de_grado.model.entity.Finca;
 import com.example.proyecto_de_grado.model.entity.HistorialInsumo;
 import com.example.proyecto_de_grado.model.entity.Insumo;
 import com.example.proyecto_de_grado.model.entity.Proveedor;
-import com.example.proyecto_de_grado.repository.ProveedorRepository;
 import com.example.proyecto_de_grado.repository.FincaRepository;
+import com.example.proyecto_de_grado.repository.ProveedorRepository;
 import com.example.proyecto_de_grado.service.InsumoService;
 import java.math.BigDecimal;
 import java.util.List;
@@ -32,8 +32,7 @@ public class InsumoController {
   @Autowired private InsumoService insumoService;
 
   @Autowired private ProveedorRepository proveedorRepository;
-  @Autowired
-  private FincaRepository fincaRepository;
+  @Autowired private FincaRepository fincaRepository;
 
   /**
    * Obtiene todos los insumos registrados.
@@ -63,7 +62,6 @@ public class InsumoController {
     return ResponseEntity.ok(insumos);
   }
 
-
   /**
    * Consulta los insumos cuyo stock es inferior a un valor límite.
    *
@@ -92,16 +90,18 @@ public class InsumoController {
     }
 
     Proveedor proveedor =
-            proveedorRepository
-                    .findById(dto.getIdProveedor())
-                    .orElseThrow(
-                            () ->
-                                    new ResponseStatusException(HttpStatus.BAD_REQUEST, "Proveedor no encontrado"));
+        proveedorRepository
+            .findById(dto.getIdProveedor())
+            .orElseThrow(
+                () ->
+                    new ResponseStatusException(HttpStatus.BAD_REQUEST, "Proveedor no encontrado"));
 
     // Buscar la finca
-    Finca finca = fincaRepository.findById(dto.getIdFinca())
-            .orElseThrow(() ->
-                    new ResponseStatusException(HttpStatus.BAD_REQUEST, "Finca no encontrada"));
+    Finca finca =
+        fincaRepository
+            .findById(dto.getIdFinca())
+            .orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Finca no encontrada"));
 
     Insumo insumo = new Insumo();
     insumo.setNombre(dto.getNombre());
@@ -113,6 +113,7 @@ public class InsumoController {
 
     return ResponseEntity.ok(insumoService.saveInsumo(insumo));
   }
+
   /**
    * Registra el uso de una cantidad de insumo y actualiza su stock.
    *

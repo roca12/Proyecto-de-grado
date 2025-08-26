@@ -45,11 +45,11 @@ public class ProveedorController {
   }
 
   @GetMapping("/finca/{idFinca}")
-  public ResponseEntity<List<ProveedorDTO>> listarProveedoresPorFinca(@PathVariable Integer idFinca) {
+  public ResponseEntity<List<ProveedorDTO>> listarProveedoresPorFinca(
+      @PathVariable Integer idFinca) {
     List<ProveedorDTO> proveedores = proveedorService.listarProveedoresPorFinca(idFinca);
     return ResponseEntity.ok(proveedores);
   }
-
 
   /**
    * Obtiene un proveedor específico por su ID.

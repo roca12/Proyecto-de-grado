@@ -35,12 +35,13 @@ public class VentaController {
       System.out.println("=== TEST ENDPOINT ===");
       System.out.println("Request body: " + requestBody);
 
-      return ResponseEntity.ok().body("{\"message\": \"Test endpoint funcionando correctamente\", \"received\": true}");
+      return ResponseEntity.ok()
+          .body("{\"message\": \"Test endpoint funcionando correctamente\", \"received\": true}");
     } catch (Exception e) {
       System.err.println("Error en test endpoint: " + e.getMessage());
       e.printStackTrace();
       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-              .body("{\"error\": \"Error en test: " + e.getMessage().replace("\"", "'") + "\"}");
+          .body("{\"error\": \"Error en test: " + e.getMessage().replace("\"", "'") + "\"}");
     }
   }
 
@@ -50,16 +51,28 @@ public class VentaController {
     try {
       // Try to get valid payment methods from your service or enum
       // This is a guess - you'll need to adjust based on your actual enum
-      java.util.List<String> metodos = java.util.Arrays.asList(
-              "EFECTIVO", "TARJETA", "TRANSFERENCIA", // Spanish
-              "CASH", "CARD", "TRANSFER", // English
-              "CONTADO", "CREDITO", "DEBITO" // Other possibilities
-      );
+      java.util.List<String> metodos =
+          java.util.Arrays.asList(
+              "EFECTIVO",
+              "TARJETA",
+              "TRANSFERENCIA", // Spanish
+              "CASH",
+              "CARD",
+              "TRANSFER", // English
+              "CONTADO",
+              "CREDITO",
+              "DEBITO" // Other possibilities
+              );
 
-      return ResponseEntity.ok().body("{\"metodos\": " + metodos + ", \"message\": \"Estos son algunos valores posibles. Revisa tu enum de MetodoPago\"}");
+      return ResponseEntity.ok()
+          .body(
+              "{\"metodos\": "
+                  + metodos
+                  + ", \"message\": \"Estos son algunos valores posibles. Revisa tu enum de"
+                  + " MetodoPago\"}");
     } catch (Exception e) {
       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-              .body("{\"error\": \"Error obteniendo métodos de pago\"}");
+          .body("{\"error\": \"Error obteniendo métodos de pago\"}");
     }
   }
 
@@ -68,7 +81,6 @@ public class VentaController {
     List<VentaDTO> ventas = ventaService.obtenerVentasPorFinca(idFinca);
     return new ResponseEntity<>(ventas, HttpStatus.OK);
   }
-
 
   /** Obtiene todas las ventas registradas en el sistema. */
   @GetMapping
@@ -101,7 +113,7 @@ public class VentaController {
   /** Obtiene todos los detalles de productos asociados a una venta específica. */
   @GetMapping("/{idVenta}/detalles")
   public ResponseEntity<List<DetalleVentaDTO>> obtenerDetallesDeVenta(
-          @PathVariable Integer idVenta) {
+      @PathVariable Integer idVenta) {
     try {
       List<DetalleVentaDTO> detalles = ventaService.obtenerDetallesDeVenta(idVenta);
       return ResponseEntity.ok(detalles);
@@ -128,8 +140,7 @@ public class VentaController {
 
   /** Crea una nueva venta completa con sus detalles de productos. */
   @PostMapping("/con-detalles")
-  public ResponseEntity<?> crearVentaConDetalles(
-          @RequestBody VentaConDetallesRequest requestBody) {
+  public ResponseEntity<?> crearVentaConDetalles(@RequestBody VentaConDetallesRequest requestBody) {
     try {
       System.out.println("=== INICIO DEBUG CREAR VENTA CON DETALLES ===");
       System.out.println("Request body recibido: " + requestBody);
@@ -138,7 +149,7 @@ public class VentaController {
       if (requestBody == null) {
         System.err.println("ERROR: Request body es null");
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body("{\"error\": \"Request body es null\"}");
+            .body("{\"error\": \"Request body es null\"}");
       }
 
       System.out.println("Venta en request: " + requestBody.getVenta());
@@ -147,13 +158,13 @@ public class VentaController {
       if (requestBody.getVenta() == null) {
         System.err.println("ERROR: Venta en request body es null");
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body("{\"error\": \"Venta no puede ser null\"}");
+            .body("{\"error\": \"Venta no puede ser null\"}");
       }
 
       if (requestBody.getDetalles() == null || requestBody.getDetalles().isEmpty()) {
         System.err.println("ERROR: Detalles en request body son null o vacíos");
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body("{\"error\": \"Detalles no pueden ser null o vacíos\"}");
+            .body("{\"error\": \"Detalles no pueden ser null o vacíos\"}");
       }
 
       // Log individual fields for debugging
@@ -175,7 +186,7 @@ public class VentaController {
 
       System.out.println("Validación pasada, llamando al servicio");
       VentaDTO ventaGuardada =
-              ventaService.guardarVentaConDetalles(requestBody.getVenta(), requestBody.getDetalles());
+          ventaService.guardarVentaConDetalles(requestBody.getVenta(), requestBody.getDetalles());
 
       System.out.println("Venta guardada exitosamente: " + ventaGuardada);
       System.out.println("=== FIN DEBUG CREAR VENTA CON DETALLES ===");
@@ -184,19 +195,19 @@ public class VentaController {
       System.err.println("ERROR de validación al crear venta con detalles: " + e.getMessage());
       e.printStackTrace();
       return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-              .body("{\"error\": \"Error de validación: " + e.getMessage().replace("\"", "'") + "\"}");
+          .body("{\"error\": \"Error de validación: " + e.getMessage().replace("\"", "'") + "\"}");
     } catch (Exception e) {
       System.err.println("ERROR interno al crear venta con detalles: " + e.getMessage());
       e.printStackTrace();
       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-              .body("{\"error\": \"Error interno: " + e.getMessage().replace("\"", "'") + "\"}");
+          .body("{\"error\": \"Error interno: " + e.getMessage().replace("\"", "'") + "\"}");
     }
   }
 
   /** Actualiza una venta existente. */
   @PutMapping("/{idVenta}")
   public ResponseEntity<VentaDTO> actualizarVenta(
-          @PathVariable Integer idVenta, @Valid @RequestBody VentaDTO ventaDTO) {
+      @PathVariable Integer idVenta, @Valid @RequestBody VentaDTO ventaDTO) {
     try {
       VentaDTO ventaActualizada = ventaService.actualizarVenta(idVenta, ventaDTO);
       if (ventaActualizada != null) {
@@ -259,10 +270,7 @@ public class VentaController {
 
     @Override
     public String toString() {
-      return "VentaConDetallesRequest{" +
-              "venta=" + venta +
-              ", detalles=" + detalles +
-              '}';
+      return "VentaConDetallesRequest{" + "venta=" + venta + ", detalles=" + detalles + '}';
     }
   }
 }

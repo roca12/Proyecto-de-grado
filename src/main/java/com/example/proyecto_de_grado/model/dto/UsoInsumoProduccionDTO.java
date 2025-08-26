@@ -1,12 +1,12 @@
 package com.example.proyecto_de_grado.model.dto;
 
-import lombok.Data;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import lombok.Data;
 
 @Data
 public class UsoInsumoProduccionDTO {
-    private Integer idInsumo;
-    private BigDecimal cantidad;
-    private LocalDate fechaUso;
+  private Integer idInsumo;
+  private BigDecimal cantidad;
+  private LocalDate fechaUso;
 }

@@ -30,7 +30,7 @@ public class FacturaService {
    * @throws IOException Si ocurre un error de entrada/salida.
    */
   public byte[] generarFacturaPdf(VentaDTO venta, List<DetalleVentaDTO> detalles)
-          throws DocumentException, IOException {
+      throws DocumentException, IOException {
 
     Document document = new Document();
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -83,10 +83,10 @@ public class FacturaService {
 
     if (venta.getFechaVenta() != null) {
       document.add(
-              new Paragraph(
-                      "Fecha: "
-                              + venta.getFechaVenta().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")),
-                      infoFont));
+          new Paragraph(
+              "Fecha: "
+                  + venta.getFechaVenta().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")),
+              infoFont));
     }
 
     if (venta.getMetodoPago() != null) {
@@ -103,7 +103,7 @@ public class FacturaService {
    * @throws DocumentException Si ocurre un error al construir la tabla.
    */
   private void agregarTablaProducciones(Document document, List<DetalleVentaDTO> detalles)
-          throws DocumentException {
+      throws DocumentException {
 
     PdfPTable table = new PdfPTable(5);
     table.setWidthPercentage(100);
@@ -113,14 +113,14 @@ public class FacturaService {
 
     // Encabezados actualizados
     Stream.of("ID Producción", "Cantidad", "Precio Unitario", "Subtotal", "ID Detalle")
-            .forEach(
-                    header -> {
-                      PdfPCell cell = new PdfPCell(new Phrase(header));
-                      cell.setBackgroundColor(BaseColor.LIGHT_GRAY);
-                      cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-                      cell.setPadding(8);
-                      table.addCell(cell);
-                    });
+        .forEach(
+            header -> {
+              PdfPCell cell = new PdfPCell(new Phrase(header));
+              cell.setBackgroundColor(BaseColor.LIGHT_GRAY);
+              cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+              cell.setPadding(8);
+              table.addCell(cell);
+            });
 
     for (DetalleVentaDTO detalle : detalles) {
       agregarFilaProduccion(table, detalle);
@@ -140,7 +140,7 @@ public class FacturaService {
     table.addCell(crearCeldaCentrada(String.valueOf(detalle.getCantidad())));
 
     String precioStr =
-            detalle.getPrecioUnitario() != null ? "$" + detalle.getPrecioUnitario() : "$0.00";
+        detalle.getPrecioUnitario() != null ? "$" + detalle.getPrecioUnitario() : "$0.00";
     table.addCell(crearCeldaDerecha(precioStr));
 
     String subtotalStr = detalle.getSubtotal() != null ? "$" + detalle.getSubtotal() : "$0.00";

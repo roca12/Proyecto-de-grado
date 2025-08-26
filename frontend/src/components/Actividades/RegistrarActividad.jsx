@@ -4,11 +4,7 @@ import { useNavigate } from "react-router-dom";
 import authService from "../authService";
 import logo from "./../assets/APROAFA2.png";
 import watermarkImage from "./../assets/LogoBosque.png";
-import {
-  FaSignOutAlt,
-  FaPlus,
-  FaTrash
-} from "react-icons/fa";
+import { FaSignOutAlt, FaPlus, FaTrash } from "react-icons/fa";
 
 const RegistrarActividad = () => {
   const [user, setUser] = useState(null);
@@ -60,19 +56,18 @@ const RegistrarActividad = () => {
 
         setLoadingInsumos(true);
         const insumosResponse = await fetch(
-            `http://localhost:8080/insumos/finca/${currentUser.idFinca}`,
-            {
-              headers: {
-                Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-              },
-            }
+          `http://localhost:8080/insumos/finca/${currentUser.idFinca}`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+            },
+          },
         );
 
         if (!insumosResponse.ok) throw new Error("Error al obtener insumos");
         const insumosData = await insumosResponse.json();
         setInsumosDisponibles(insumosData);
         setLoadingInsumos(false);
-
       } catch (error) {
         console.error("Error al cargar datos iniciales:", error);
         setError(error.message);
@@ -99,8 +94,8 @@ const RegistrarActividad = () => {
       {
         idInsumo: "",
         cantidad: "",
-        fecha: formData.fechaInicio || new Date().toISOString().split('T')[0]
-      }
+        fecha: formData.fechaInicio || new Date().toISOString().split("T")[0],
+      },
     ]);
   };
 
@@ -128,18 +123,24 @@ const RegistrarActividad = () => {
     }
 
     if (formData.fechaFin && formData.fechaFin < formData.fechaInicio) {
-      setError("La fecha de finalización no puede ser anterior a la fecha de inicio");
+      setError(
+        "La fecha de finalización no puede ser anterior a la fecha de inicio",
+      );
       return false;
     }
 
     for (let i = 0; i < usosInsumos.length; i++) {
       const insumo = usosInsumos[i];
       if (insumo.idInsumo && (!insumo.cantidad || insumo.cantidad <= 0)) {
-        setError(`Debe especificar una cantidad válida para el insumo ${i + 1}`);
+        setError(
+          `Debe especificar una cantidad válida para el insumo ${i + 1}`,
+        );
         return false;
       }
       if (insumo.cantidad && !insumo.idInsumo) {
-        setError(`Debe seleccionar un insumo para la cantidad especificada en la posición ${i + 1}`);
+        setError(
+          `Debe seleccionar un insumo para la cantidad especificada en la posición ${i + 1}`,
+        );
         return false;
       }
     }
@@ -160,7 +161,7 @@ const RegistrarActividad = () => {
       setError(null);
 
       const insumosValidos = usosInsumos.filter(
-          insumo => insumo.idInsumo && insumo.cantidad && insumo.cantidad > 0
+        (insumo) => insumo.idInsumo && insumo.cantidad && insumo.cantidad > 0,
       );
 
       const actividadData = {
@@ -169,16 +170,16 @@ const RegistrarActividad = () => {
         fechaInicio: formData.fechaInicio,
         fechaFin: formData.fechaFin || null,
         descripcion: formData.descripcion || "",
-        usosInsumos: insumosValidos
+        usosInsumos: insumosValidos,
       };
 
       const response = await authService.authFetch(
-          "http://localhost:8080/actividades",
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(actividadData),
-          }
+        "http://localhost:8080/actividades",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(actividadData),
+        },
       );
 
       if (!response.ok) {
@@ -191,7 +192,6 @@ const RegistrarActividad = () => {
       setTimeout(() => {
         navigate("/actividades");
       }, 1500);
-
     } catch (error) {
       console.error("Error al registrar actividad:", error);
       setError(error.message);
@@ -208,253 +208,282 @@ const RegistrarActividad = () => {
   const handleCancel = () => navigate("/actividades");
 
   const obtenerInsumoDisponible = (idInsumo) => {
-    return insumosDisponibles.find(i => i.idInsumo === parseInt(idInsumo));
+    return insumosDisponibles.find((i) => i.idInsumo === parseInt(idInsumo));
   };
 
   return (
-      <div className="app-container">
-        {/* Barra superior */}
-        <div className="topbar">
-          <img src={logo} alt="Logo" className="logo-mini" />
-          <div className="user-dropdown" onClick={toggleDropdown}>
-            <span className="username">
-              {user?.nombre || "Usuario"} ▼
-            </span>
-            {showDropdown && (
-                <div className="dropdown-menu">
-                  <button
-                      onClick={handleLogout}
-                      className="dropdown-btn"
-                  >
-                    <FaSignOutAlt style={{ marginRight: "8px" }} /> Cerrar sesión
-                  </button>
-                </div>
-            )}
-          </div>
-        </div>
-
-        {/* Contenido principal */}
-        <div className="content-area">
-          <div className="registro-actividad-container">
-            <div className="registro-header">
-              <h2 className="registro-title">
-                Registrar Nueva Actividad
-              </h2>
-              <p className="registro-subtitle">
-                Complete la información de la actividad y opcionalmente agregue insumos utilizados
-              </p>
+    <div className="app-container">
+      {/* Barra superior */}
+      <div className="topbar">
+        <img src={logo} alt="Logo" className="logo-mini" />
+        <div className="user-dropdown" onClick={toggleDropdown}>
+          <span className="username">{user?.nombre || "Usuario"} ▼</span>
+          {showDropdown && (
+            <div className="dropdown-menu">
+              <button onClick={handleLogout} className="dropdown-btn">
+                <FaSignOutAlt style={{ marginRight: "8px" }} /> Cerrar sesión
+              </button>
             </div>
+          )}
+        </div>
+      </div>
 
-            {/* Mensajes de estado */}
-            {error && (
-                <div className="message error-message">
-                  <strong>Error:</strong> {error}
+      {/* Contenido principal */}
+      <div className="content-area">
+        <div className="registro-actividad-container">
+          <div className="registro-header">
+            <h2 className="registro-title">Registrar Nueva Actividad</h2>
+            <p className="registro-subtitle">
+              Complete la información de la actividad y opcionalmente agregue
+              insumos utilizados
+            </p>
+          </div>
+
+          {/* Mensajes de estado */}
+          {error && (
+            <div className="message error-message">
+              <strong>Error:</strong> {error}
+            </div>
+          )}
+
+          {success && (
+            <div className="message success-message">
+              <strong>¡Éxito!</strong> Actividad registrada correctamente.
+              Redirigiendo...
+            </div>
+          )}
+
+          {/* Formulario */}
+          <form className="registro-form" onSubmit={(e) => e.preventDefault()}>
+            {/* Información básica de la actividad */}
+            <div className="form-section">
+              <h3 className="section-title">Información de la Actividad</h3>
+
+              <div className="form-group">
+                <label htmlFor="idTipoActividad">Tipo de Actividad *</label>
+                <select
+                  id="idTipoActividad"
+                  name="idTipoActividad"
+                  className="registro-input"
+                  value={formData.idTipoActividad}
+                  onChange={handleInputChange}
+                  required
+                  disabled={loading}
+                >
+                  <option value="">Seleccione un tipo de actividad</option>
+                  {tiposActividad.map((tipo) => (
+                    <option key={tipo.id} value={tipo.id}>
+                      {tipo.nombre}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="form-row">
+                <div className="form-group">
+                  <label htmlFor="fechaInicio">Fecha de Inicio *</label>
+                  <input
+                    id="fechaInicio"
+                    type="date"
+                    name="fechaInicio"
+                    className="registro-input"
+                    value={formData.fechaInicio}
+                    onChange={handleInputChange}
+                    required
+                    disabled={loading}
+                  />
                 </div>
-            )}
-
-            {success && (
-                <div className="message success-message">
-                  <strong>¡Éxito!</strong> Actividad registrada correctamente. Redirigiendo...
-                </div>
-            )}
-
-            {/* Formulario */}
-            <form className="registro-form" onSubmit={(e) => e.preventDefault()}>
-              {/* Información básica de la actividad */}
-              <div className="form-section">
-                <h3 className="section-title">Información de la Actividad</h3>
 
                 <div className="form-group">
-                  <label htmlFor="idTipoActividad">Tipo de Actividad *</label>
-                  <select
-                      id="idTipoActividad"
-                      name="idTipoActividad"
-                      className="registro-input"
-                      value={formData.idTipoActividad}
-                      onChange={handleInputChange}
-                      required
-                      disabled={loading}
-                  >
-                    <option value="">Seleccione un tipo de actividad</option>
-                    {tiposActividad.map((tipo) => (
-                        <option key={tipo.id} value={tipo.id}>
-                          {tipo.nombre}
-                        </option>
-                    ))}
-                  </select>
-                </div>
-
-                <div className="form-row">
-                  <div className="form-group">
-                    <label htmlFor="fechaInicio">Fecha de Inicio *</label>
-                    <input
-                        id="fechaInicio"
-                        type="date"
-                        name="fechaInicio"
-                        className="registro-input"
-                        value={formData.fechaInicio}
-                        onChange={handleInputChange}
-                        required
-                        disabled={loading}
-                    />
-                  </div>
-
-                  <div className="form-group">
-                    <label htmlFor="fechaFin">Fecha de Finalización</label>
-                    <input
-                        id="fechaFin"
-                        type="date"
-                        name="fechaFin"
-                        className="registro-input"
-                        value={formData.fechaFin}
-                        onChange={handleInputChange}
-                        disabled={loading}
-                        min={formData.fechaInicio}
-                    />
-                  </div>
-                </div>
-
-                <div className="form-group">
-                  <label htmlFor="descripcion">Descripción</label>
-                  <textarea
-                      id="descripcion"
-                      name="descripcion"
-                      placeholder="Descripción detallada de la actividad (opcional)"
-                      className="registro-textarea"
-                      value={formData.descripcion}
-                      onChange={handleInputChange}
-                      disabled={loading}
-                      rows="3"
+                  <label htmlFor="fechaFin">Fecha de Finalización</label>
+                  <input
+                    id="fechaFin"
+                    type="date"
+                    name="fechaFin"
+                    className="registro-input"
+                    value={formData.fechaFin}
+                    onChange={handleInputChange}
+                    disabled={loading}
+                    min={formData.fechaInicio}
                   />
                 </div>
               </div>
 
-              {/* Sección de insumos */}
-              <div className="form-section">
-                <div className="section-header">
-                  <h3 className="section-title">Insumos Utilizados (Opcional)</h3>
-                  <button
-                      type="button"
-                      onClick={agregarInsumo}
-                      className="btn-agregar-insumo"
-                      disabled={loading || loadingInsumos}
-                  >
-                    <FaPlus /> Agregar Insumo
-                  </button>
+              <div className="form-group">
+                <label htmlFor="descripcion">Descripción</label>
+                <textarea
+                  id="descripcion"
+                  name="descripcion"
+                  placeholder="Descripción detallada de la actividad (opcional)"
+                  className="registro-textarea"
+                  value={formData.descripcion}
+                  onChange={handleInputChange}
+                  disabled={loading}
+                  rows="3"
+                />
+              </div>
+            </div>
+
+            {/* Sección de insumos */}
+            <div className="form-section">
+              <div className="section-header">
+                <h3 className="section-title">Insumos Utilizados (Opcional)</h3>
+                <button
+                  type="button"
+                  onClick={agregarInsumo}
+                  className="btn-agregar-insumo"
+                  disabled={loading || loadingInsumos}
+                >
+                  <FaPlus /> Agregar Insumo
+                </button>
+              </div>
+
+              {loadingInsumos && (
+                <div className="loading-insumos">
+                  Cargando insumos disponibles...
                 </div>
+              )}
 
-                {loadingInsumos && (
-                    <div className="loading-insumos">
-                      Cargando insumos disponibles...
-                    </div>
-                )}
+              {usosInsumos.length === 0 ? (
+                <div className="no-insumos">
+                  <p>No hay insumos agregados.</p>
+                  <p>
+                    <small>
+                      Los insumos son opcionales. Puede agregar los que
+                      utilizará en esta actividad.
+                    </small>
+                  </p>
+                </div>
+              ) : (
+                <div className="insumos-list">
+                  {usosInsumos.map((insumo, index) => {
+                    const insumoSeleccionado = obtenerInsumoDisponible(
+                      insumo.idInsumo,
+                    );
+                    return (
+                      <div key={index} className="insumo-item">
+                        <div className="insumo-header">
+                          <span className="insumo-numero">
+                            Insumo #{index + 1}
+                          </span>
+                          <button
+                            type="button"
+                            onClick={() => eliminarInsumo(index)}
+                            className="btn-eliminar-insumo"
+                            disabled={loading}
+                          >
+                            <FaTrash />
+                          </button>
+                        </div>
 
-                {usosInsumos.length === 0 ? (
-                    <div className="no-insumos">
-                      <p>No hay insumos agregados.</p>
-                      <p><small>Los insumos son opcionales. Puede agregar los que utilizará en esta actividad.</small></p>
-                    </div>
-                ) : (
-                    <div className="insumos-list">
-                      {usosInsumos.map((insumo, index) => {
-                        const insumoSeleccionado = obtenerInsumoDisponible(insumo.idInsumo);
-                        return (
-                            <div key={index} className="insumo-item">
-                              <div className="insumo-header">
-                                <span className="insumo-numero">Insumo #{index + 1}</span>
-                                <button
-                                    type="button"
-                                    onClick={() => eliminarInsumo(index)}
-                                    className="btn-eliminar-insumo"
-                                    disabled={loading}
-                                >
-                                  <FaTrash />
-                                </button>
-                              </div>
+                        <div className="insumo-fields">
+                          <div className="form-group">
+                            <label>Seleccionar Insumo</label>
+                            <select
+                              value={insumo.idInsumo}
+                              onChange={(e) =>
+                                actualizarInsumo(
+                                  index,
+                                  "idInsumo",
+                                  parseInt(e.target.value),
+                                )
+                              }
+                              className="registro-input"
+                              disabled={loading}
+                            >
+                              <option value="">Seleccione un insumo</option>
+                              {insumosDisponibles.map((i) => (
+                                <option key={i.idInsumo} value={i.idInsumo}>
+                                  {i.nombre} (Disponible: {i.cantidadDisponible}{" "}
+                                  {i.unidadMedida || ""})
+                                </option>
+                              ))}
+                            </select>
+                          </div>
 
-                              <div className="insumo-fields">
-                                <div className="form-group">
-                                  <label>Seleccionar Insumo</label>
-                                  <select
-                                      value={insumo.idInsumo}
-                                      onChange={(e) => actualizarInsumo(index, 'idInsumo', parseInt(e.target.value))}
-                                      className="registro-input"
-                                      disabled={loading}
-                                  >
-                                    <option value="">Seleccione un insumo</option>
-                                    {insumosDisponibles.map((i) => (
-                                        <option key={i.idInsumo} value={i.idInsumo}>
-                                          {i.nombre} (Disponible: {i.cantidadDisponible} {i.unidadMedida || ''})
-                                        </option>
-                                    ))}
-                                  </select>
-                                </div>
+                          <div className="form-group">
+                            <label>Cantidad</label>
+                            <input
+                              type="number"
+                              step="0.01"
+                              min="0.01"
+                              max={
+                                insumoSeleccionado
+                                  ? insumoSeleccionado.cantidadDisponible
+                                  : undefined
+                              }
+                              placeholder="Cantidad a utilizar"
+                              value={insumo.cantidad}
+                              onChange={(e) =>
+                                actualizarInsumo(
+                                  index,
+                                  "cantidad",
+                                  parseFloat(e.target.value),
+                                )
+                              }
+                              className="registro-input"
+                              disabled={loading}
+                            />
+                            {insumoSeleccionado && (
+                              <small className="stock-info">
+                                Stock disponible:{" "}
+                                {insumoSeleccionado.cantidadDisponible}{" "}
+                                {insumoSeleccionado.unidadMedida || ""}
+                              </small>
+                            )}
+                          </div>
 
-                                <div className="form-group">
-                                  <label>Cantidad</label>
-                                  <input
-                                      type="number"
-                                      step="0.01"
-                                      min="0.01"
-                                      max={insumoSeleccionado ? insumoSeleccionado.cantidadDisponible : undefined}
-                                      placeholder="Cantidad a utilizar"
-                                      value={insumo.cantidad}
-                                      onChange={(e) => actualizarInsumo(index, 'cantidad', parseFloat(e.target.value))}
-                                      className="registro-input"
-                                      disabled={loading}
-                                  />
-                                  {insumoSeleccionado && (
-                                      <small className="stock-info">
-                                        Stock disponible: {insumoSeleccionado.cantidadDisponible} {insumoSeleccionado.unidadMedida || ''}
-                                      </small>
-                                  )}
-                                </div>
+                          <div className="form-group">
+                            <label>Fecha de Uso</label>
+                            <input
+                              type="date"
+                              value={insumo.fecha}
+                              onChange={(e) =>
+                                actualizarInsumo(index, "fecha", e.target.value)
+                              }
+                              className="registro-input"
+                              disabled={loading}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
 
-                                <div className="form-group">
-                                  <label>Fecha de Uso</label>
-                                  <input
-                                      type="date"
-                                      value={insumo.fecha}
-                                      onChange={(e) => actualizarInsumo(index, 'fecha', e.target.value)}
-                                      className="registro-input"
-                                      disabled={loading}
-                                  />
-                                </div>
-                              </div>
-                            </div>
-                        );
-                      })}
-                    </div>
-                )}
-              </div>
-
-              {/* Botones de acción */}
-              <div className="registro-botones">
-                <button
-                    type="button"
-                    onClick={handleCancel}
-                    className="btn-cancelar"
-                    disabled={loading}
-                >
-                  Cancelar
-                </button>
-                <button
-                    type="button"
-                    onClick={handleRegister}
-                    className="btn-registrar"
-                    disabled={loading || success}
-                >
-                  {loading ? "Registrando..." : success ? "Registrado ✓" : "Registrar Actividad"}
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-
-        <div className="watermark">
-          <img src={watermarkImage} alt="Marca de agua" />
+            {/* Botones de acción */}
+            <div className="registro-botones">
+              <button
+                type="button"
+                onClick={handleCancel}
+                className="btn-cancelar"
+                disabled={loading}
+              >
+                Cancelar
+              </button>
+              <button
+                type="button"
+                onClick={handleRegister}
+                className="btn-registrar"
+                disabled={loading || success}
+              >
+                {loading
+                  ? "Registrando..."
+                  : success
+                    ? "Registrado ✓"
+                    : "Registrar Actividad"}
+              </button>
+            </div>
+          </form>
         </div>
       </div>
+
+      <div className="watermark">
+        <img src={watermarkImage} alt="Marca de agua" />
+      </div>
+    </div>
   );
 };
 

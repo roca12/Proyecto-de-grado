@@ -29,7 +29,6 @@ public class Insumo {
   @JsonIgnore
   private Finca finca;
 
-
   /** Nombre del insumo. */
   @Column(name = "nombre", length = 100, nullable = false)
   private String nombre;

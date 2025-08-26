@@ -94,5 +94,4 @@ public class Produccion {
 
   @OneToMany(mappedBy = "produccion", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<UsoInsumoProduccion> usosInsumos = new ArrayList<>();
-
 }

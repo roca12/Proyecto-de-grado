@@ -4,12 +4,11 @@ import com.example.proyecto_de_grado.model.dto.DetalleVentaDTO;
 import com.example.proyecto_de_grado.model.dto.VentaDTO;
 import com.example.proyecto_de_grado.model.entity.*;
 import com.example.proyecto_de_grado.repository.DetalleVentaRepository;
+import com.example.proyecto_de_grado.repository.ProduccionRepository;
 import com.example.proyecto_de_grado.repository.VentaRepository;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Arrays;
-import com.example.proyecto_de_grado.repository.ProduccionRepository;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -25,7 +24,8 @@ public class VentaService {
   private final DetalleVentaRepository detalleVentaRepository;
 
   @Autowired
-  public VentaService(VentaRepository ventaRepository, DetalleVentaRepository detalleVentaRepository) {
+  public VentaService(
+      VentaRepository ventaRepository, DetalleVentaRepository detalleVentaRepository) {
     this.ventaRepository = ventaRepository;
     this.detalleVentaRepository = detalleVentaRepository;
   }
@@ -66,8 +66,8 @@ public class VentaService {
     return convertirAVentaDTO(ventaGuardada);
   }
 
-  @Autowired
-  private ProduccionRepository produccionRepository;
+  @Autowired private ProduccionRepository produccionRepository;
+
   public VentaDTO guardarVentaConDetalles(VentaDTO ventaDTO, List<DetalleVentaDTO> detallesDTO) {
     if (ventaDTO.getMetodoPago() == null || ventaDTO.getMetodoPago().trim().isEmpty()) {
       throw new IllegalArgumentException("El método de pago es obligatorio");
@@ -79,7 +79,9 @@ public class VentaService {
 
     BigDecimal totalCalculado = BigDecimal.ZERO;
     for (DetalleVentaDTO detalleDTO : detallesDTO) {
-      if (detalleDTO.getIdProduccion() == null || detalleDTO.getCantidad() == null || detalleDTO.getPrecioUnitario() == null) {
+      if (detalleDTO.getIdProduccion() == null
+          || detalleDTO.getCantidad() == null
+          || detalleDTO.getPrecioUnitario() == null) {
         throw new IllegalArgumentException("Todos los campos del detalle son obligatorios");
       }
 
@@ -144,7 +146,8 @@ public class VentaService {
     }
     venta.setIdCliente(ventaDTO.getIdCliente() != null ? ventaDTO.getIdCliente() : 0);
     venta.setIdPersona(ventaDTO.getIdPersona() != null ? ventaDTO.getIdPersona() : 0);
-    venta.setFechaVenta(ventaDTO.getFechaVenta() != null ? ventaDTO.getFechaVenta() : LocalDateTime.now());
+    venta.setFechaVenta(
+        ventaDTO.getFechaVenta() != null ? ventaDTO.getFechaVenta() : LocalDateTime.now());
 
     if (ventaDTO.getIdFinca() != null) {
       Finca finca = new Finca(ventaDTO.getIdFinca());
@@ -154,8 +157,11 @@ public class VentaService {
       try {
         venta.setMetodoPago(MetodoPago.fromString(ventaDTO.getMetodoPago().trim()));
       } catch (IllegalArgumentException e) {
-        throw new IllegalArgumentException("Método de pago inválido: " + ventaDTO.getMetodoPago() +
-                ". Valores aceptados: " + Arrays.toString(MetodoPago.values()));
+        throw new IllegalArgumentException(
+            "Método de pago inválido: "
+                + ventaDTO.getMetodoPago()
+                + ". Valores aceptados: "
+                + Arrays.toString(MetodoPago.values()));
       }
     }
 
@@ -166,10 +172,9 @@ public class VentaService {
   @Transactional(readOnly = true)
   public List<VentaDTO> obtenerVentasPorFinca(Integer idFinca) {
     return ventaRepository.findByFinca_Id(idFinca).stream()
-            .map(this::convertirAVentaDTO)
-            .collect(Collectors.toList());
+        .map(this::convertirAVentaDTO)
+        .collect(Collectors.toList());
   }
-
 
   private DetalleVentaDTO convertirADetalleVentaDTO(DetalleVenta detalle) {
     DetalleVentaDTO dto = new DetalleVentaDTO();

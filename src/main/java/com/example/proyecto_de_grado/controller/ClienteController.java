@@ -42,7 +42,6 @@ public class ClienteController {
     return ResponseEntity.ok(clientes);
   }
 
-
   /**
    * Obtiene una lista de todos los clientes registrados en el sistema.
    *

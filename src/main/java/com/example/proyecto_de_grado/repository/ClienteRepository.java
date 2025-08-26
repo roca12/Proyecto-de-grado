@@ -1,8 +1,6 @@
 package com.example.proyecto_de_grado.repository;
 
-import com.example.proyecto_de_grado.model.entity.Actividad;
 import com.example.proyecto_de_grado.model.entity.Cliente;
-
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;

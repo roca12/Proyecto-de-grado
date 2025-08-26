@@ -27,7 +27,6 @@ import authService from "./components/authService";
 import Cultivos from "./components/Cultivos/Cultivos";
 import Reporte from "./components/Reportes/Reporte";
 
-
 function App() {
   return (
     <Router>
@@ -48,7 +47,10 @@ function App() {
             <Route path="/registrar-insumo" element={<RegistrarInsumo />} />
             <Route path="/actividades" element={<Actividades />} />
             <Route path="/produccion" element={<Produccion />} />
-            <Route path="/registrar-compra/:idInsumo" element={<RegistrarCompra />} />
+            <Route
+              path="/registrar-compra/:idInsumo"
+              element={<RegistrarCompra />}
+            />
             <Route path="/reportes-finca" element={<Reporte />} />
             <Route
               path="/registrar-produccion"
@@ -63,14 +65,17 @@ function App() {
           {/* Rutas protegidas solo para administradores */}
           <Route element={<ProtectedRoute requiredRole="ADMIN" />}>
             <Route path="/menu" element={<Menu />} />
-            <Route path="/personas" element={<Personas />} />  cvm,
+            <Route path="/personas" element={<Personas />} /> cvm,
             <Route path="/registrar-persona" element={<RegistrarPersona />} />
             <Route path="/insumos" element={<Insumos />} />
             <Route path="/registrar-insumo" element={<RegistrarInsumo />} />
             <Route path="/actividades" element={<Actividades />} />
             <Route path="/produccion" element={<Produccion />} />
             <Route path="/registrar-producto" element={<RegistrarProducto />} />
-            <Route path="/registrar-compra/:idInsumo" element={<RegistrarCompra />} />
+            <Route
+              path="/registrar-compra/:idInsumo"
+              element={<RegistrarCompra />}
+            />
             <Route path="/reportes-finca" element={<Reporte />} />
             <Route
               path="/registrar-produccion"

@@ -1,111 +1,115 @@
 .documentos-container {
-    width: 90%;
-    max-width: 900px;
-    background-color: white;
-    border: 2px solid #4caf50;
-    border-radius: 10px;
-    padding: 20px;
-    box-sizing: border-box;
-    color: #333;
-    margin-left: -100px;
-    margin-top: 5px;
+  width: 90%;
+  max-width: 900px;
+  background-color: white;
+  border: 2px solid #4caf50;
+  border-radius: 10px;
+  padding: 20px;
+  box-sizing: border-box;
+  color: #333;
+  margin-left: -100px;
+  margin-top: 5px;
 }
 
 .documentos-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
 .documentos-title {
-    font-size: 28px;
-    font-weight: bold;
-    color: #4caf50;
-    margin: 0;
+  font-size: 28px;
+  font-weight: bold;
+  color: #4caf50;
+  margin: 0;
 }
 
 .upload-form {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
 }
 
 .upload-form input[type="file"] {
-    flex: 1;
+  flex: 1;
 }
 
 .upload-form button {
-    background-color: #4caf50;
-    color: white;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 4px;
-    cursor: pointer;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
 }
 
 .upload-form button:hover {
-    background-color: #45a049;
+  background-color: #45a049;
 }
 
 .documentos-table {
-    width: 100%;
-    border-collapse: collapse;
-    text-align: center;
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center;
 }
 
 .documentos-table th,
 .documentos-table td {
-    border: 1px solid #4caf50;
-    padding: 10px;
+  border: 1px solid #4caf50;
+  padding: 10px;
 }
 
 .documentos-table th {
-    background-color: #4caf50;
-    color: white;
+  background-color: #4caf50;
+  color: white;
 }
 
 .btn-ver {
-    background-color: #2196f3;
-    color: white;
-    padding: 5px 10px;
-    border-radius: 4px;
-    text-decoration: none;
+  background-color: #2196f3;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 4px;
+  text-decoration: none;
 }
 
 .btn-ver:hover {
-    background-color: #1976d2;
+  background-color: #1976d2;
 }
 .documentos-container {
-    padding: 20px;
+  padding: 20px;
 }
 
 .upload-form {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 .documentos-lista {
-    list-style: none;
-    padding: 0;
+  list-style: none;
+  padding: 0;
 }
 
 .documentos-lista li {
-    margin-bottom: 10px;
+  margin-bottom: 10px;
 }
 
 .documentos-lista a {
-    color: #007bff;
-    text-decoration: none;
+  color: #007bff;
+  text-decoration: none;
 }
 .documentos-lista a:hover {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .spin {
-    animation: spin 1s linear infinite;
-    margin-right: 8px;
+  animation: spin 1s linear infinite;
+  margin-right: 8px;
 }

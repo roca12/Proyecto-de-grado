@@ -49,11 +49,11 @@ public class Venta {
   private Cliente cliente;
 
   public Venta(
-          Integer idCliente,
-          Integer idPersona,
-          LocalDateTime fechaVenta,
-          MetodoPago metodoPago,
-          BigDecimal total) {
+      Integer idCliente,
+      Integer idPersona,
+      LocalDateTime fechaVenta,
+      MetodoPago metodoPago,
+      BigDecimal total) {
     this.idCliente = idCliente;
     this.idPersona = idPersona;
     this.fechaVenta = fechaVenta;
@@ -68,9 +68,9 @@ public class Venta {
 
   public void calcularTotalDesdeDetalles() {
     this.total =
-            detalles.stream()
-                    .map(DetalleVenta::getSubtotal)
-                    .filter(subtotal -> subtotal != null)
-                    .reduce(BigDecimal.ZERO, BigDecimal::add);
+        detalles.stream()
+            .map(DetalleVenta::getSubtotal)
+            .filter(subtotal -> subtotal != null)
+            .reduce(BigDecimal.ZERO, BigDecimal::add);
   }
 }

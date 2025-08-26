@@ -33,5 +33,4 @@ public class InsumoDTO {
   private BigDecimal cantidadDisponible;
 
   private Integer idFinca;
-
 }

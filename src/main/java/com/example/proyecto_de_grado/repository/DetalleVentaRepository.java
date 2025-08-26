@@ -8,9 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-/**
- * Repositorio para operaciones de persistencia de detalles de venta.
- */
+/** Repositorio para operaciones de persistencia de detalles de venta. */
 @Repository
 public interface DetalleVentaRepository extends JpaRepository<DetalleVenta, Integer> {
 

@@ -185,7 +185,7 @@ const Cultivos = () => {
             <button onClick={() => navigate("/produccion")}>
               <FaCheck /> {isOpen && "Producción"}
             </button>
-            <button  onClick={() => navigate("/ventas")}>
+            <button onClick={() => navigate("/ventas")}>
               <FaCreditCard /> {isOpen && "Ventas"}
             </button>
             {/*<button onClick={() => navigate("/documentos")}>

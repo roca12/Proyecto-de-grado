@@ -1,14 +1,11 @@
 package com.example.proyecto_de_grado.controller;
 
 import com.example.proyecto_de_grado.model.dto.ActividadDTO;
-import com.example.proyecto_de_grado.model.entity.Usuario;
 import com.example.proyecto_de_grado.repository.UsuarioRepository;
 import com.example.proyecto_de_grado.service.ActividadService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -33,11 +30,12 @@ public class ActividadController {
   /**
    * Obtiene la lista de todas las actividades registradas en el sistema.
    *
-   * <p>Este endpoint retorna todas las actividades sin importar la finca a la que pertenecen.
-   * Es útil para los usuarios con rol de administrador que requieren una vista general de
-   * todas las actividades del sistema.
+   * <p>Este endpoint retorna todas las actividades sin importar la finca a la que pertenecen. Es
+   * útil para los usuarios con rol de administrador que requieren una vista general de todas las
+   * actividades del sistema.
    *
-   * @return ResponseEntity con la lista de todas las actividades en formato DTO y estado HTTP 200 (OK)
+   * @return ResponseEntity con la lista de todas las actividades en formato DTO y estado HTTP 200
+   *     (OK)
    */
   @GetMapping
   public ResponseEntity<List<ActividadDTO>> listarTodas() {
@@ -73,7 +71,7 @@ public class ActividadController {
    */
   @GetMapping("/finca/{idFinca}")
   public ResponseEntity<List<ActividadDTO>> obtenerActividadesPorFinca(
-          @PathVariable Integer idFinca) {
+      @PathVariable Integer idFinca) {
     // Obtener las actividades de la finca solicitada
     List<ActividadDTO> actividades = actividadService.listarPorFinca(idFinca);
     return ResponseEntity.ok(actividades);
@@ -89,9 +87,9 @@ public class ActividadController {
   @GetMapping("/{id}")
   public ResponseEntity<ActividadDTO> obtenerActividadPorId(@PathVariable Integer id) {
     return actividadService
-            .obtenerPorId(id)
-            .map(ResponseEntity::ok)
-            .orElse(ResponseEntity.notFound().build());
+        .obtenerPorId(id)
+        .map(ResponseEntity::ok)
+        .orElse(ResponseEntity.notFound().build());
   }
 
   /**
@@ -103,7 +101,7 @@ public class ActividadController {
    */
   @PutMapping("/{id}")
   public ResponseEntity<ActividadDTO> actualizarActividad(
-          @PathVariable Integer id, @RequestBody ActividadDTO dto) {
+      @PathVariable Integer id, @RequestBody ActividadDTO dto) {
     ActividadDTO actualizada = actividadService.actualizarActividad(id, dto);
     return ResponseEntity.ok(actualizada);
   }

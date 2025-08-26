@@ -11,32 +11,26 @@ import com.example.proyecto_de_grado.model.entity.UsoInsumoProduccion;
 import com.example.proyecto_de_grado.repository.InsumoRepository;
 import com.example.proyecto_de_grado.repository.ProduccionRepository;
 import com.example.proyecto_de_grado.repository.UsoInsumoProduccionRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ProduccionService {
 
-  @Autowired
-  private ProduccionRepository produccionRepo;
+  @Autowired private ProduccionRepository produccionRepo;
 
-  @Autowired
-  private InventarioProductoService inventarioService;
+  @Autowired private InventarioProductoService inventarioService;
 
-  @Autowired
-  private UsoInsumoProduccionRepository usoInsumoProduccionRepo;
+  @Autowired private UsoInsumoProduccionRepository usoInsumoProduccionRepo;
 
-  @Autowired
-  private InsumoRepository insumoRepository;
+  @Autowired private InsumoRepository insumoRepository;
 
-  @Autowired
-  private InsumoService insumoService;
+  @Autowired private InsumoService insumoService;
 
   @Transactional
   public ProduccionDTO crearProduccion(ProduccionDTO dto) {
@@ -56,8 +50,13 @@ public class ProduccionService {
 
     if (dto.getUsosInsumos() != null && !dto.getUsosInsumos().isEmpty()) {
       for (UsoInsumoProduccionDTO usoDto : dto.getUsosInsumos()) {
-        Insumo insumo = insumoRepository.findById(usoDto.getIdInsumo())
-                .orElseThrow(() -> new RuntimeException("Insumo no encontrado con ID: " + usoDto.getIdInsumo()));
+        Insumo insumo =
+            insumoRepository
+                .findById(usoDto.getIdInsumo())
+                .orElseThrow(
+                    () ->
+                        new RuntimeException(
+                            "Insumo no encontrado con ID: " + usoDto.getIdInsumo()));
 
         if (insumo.getCantidadDisponible().compareTo(usoDto.getCantidad()) < 0) {
           throw new RuntimeException("Stock insuficiente para el insumo: " + insumo.getNombre());
@@ -81,7 +80,9 @@ public class ProduccionService {
 
   @Transactional
   public void cosechar(Integer idProduccion, BigDecimal cantidadCosechada, LocalDate fechaCosecha) {
-    Produccion prod = produccionRepo.findById(idProduccion)
+    Produccion prod =
+        produccionRepo
+            .findById(idProduccion)
             .orElseThrow(() -> new RuntimeException("Producción no encontrada"));
 
     prod.setCantidadCosechada(cantidadCosechada);
@@ -92,26 +93,27 @@ public class ProduccionService {
   }
 
   public List<ProduccionDTO> listarProducciones() {
-    return produccionRepo.findAll().stream()
-            .map(this::convertirADTO)
-            .collect(Collectors.toList());
+    return produccionRepo.findAll().stream().map(this::convertirADTO).collect(Collectors.toList());
   }
 
   public ProduccionDTO obtenerProduccionPorId(Integer id) {
-    return produccionRepo.findById(id)
-            .map(this::convertirADTO)
-            .orElseThrow(() -> new RuntimeException("Producción no encontrada"));
+    return produccionRepo
+        .findById(id)
+        .map(this::convertirADTO)
+        .orElseThrow(() -> new RuntimeException("Producción no encontrada"));
   }
 
   public List<UsoInsumoProduccionDTO> obtenerInsumosPorProduccion(Integer idProduccion) {
     return usoInsumoProduccionRepo.findByProduccionIdProduccion(idProduccion).stream()
-            .map(this::convertirUsoInsumoADTO)
-            .collect(Collectors.toList());
+        .map(this::convertirUsoInsumoADTO)
+        .collect(Collectors.toList());
   }
 
   @Transactional
   public void actualizarEstado(Integer idProduccion, EstadoProduccion nuevoEstado) {
-    Produccion prod = produccionRepo.findById(idProduccion)
+    Produccion prod =
+        produccionRepo
+            .findById(idProduccion)
             .orElseThrow(() -> new RuntimeException("Producción no encontrada"));
 
     if (prod.getEstado() == EstadoProduccion.COSECHADO) {
@@ -124,13 +126,15 @@ public class ProduccionService {
 
   public List<ProduccionDTO> listarPorFinca(Integer idFinca) {
     return produccionRepo.findByFinca_Id(idFinca).stream()
-            .map(this::convertirADTO)
-            .collect(Collectors.toList());
+        .map(this::convertirADTO)
+        .collect(Collectors.toList());
   }
 
   @Transactional
   public void eliminarProduccion(Integer idProduccion) {
-    Produccion prod = produccionRepo.findById(idProduccion)
+    Produccion prod =
+        produccionRepo
+            .findById(idProduccion)
             .orElseThrow(() -> new RuntimeException("Producción no encontrada"));
 
     if (prod.getEstado() == EstadoProduccion.COSECHADO) {
@@ -158,7 +162,8 @@ public class ProduccionService {
     dto.setEstado(produccion.getEstado());
 
     if (produccion.getUsosInsumos() != null) {
-      List<UsoInsumoProduccionDTO> usosDTO = produccion.getUsosInsumos().stream()
+      List<UsoInsumoProduccionDTO> usosDTO =
+          produccion.getUsosInsumos().stream()
               .map(this::convertirUsoInsumoADTO)
               .collect(Collectors.toList());
       dto.setUsosInsumos(usosDTO);
@@ -177,7 +182,9 @@ public class ProduccionService {
 
   @Transactional
   public ProduccionDTO actualizarProduccion(Integer idProduccion, ProduccionDTO dto) {
-    Produccion prod = produccionRepo.findById(idProduccion)
+    Produccion prod =
+        produccionRepo
+            .findById(idProduccion)
             .orElseThrow(() -> new RuntimeException("Producción no encontrada"));
 
     if (prod.getEstado() == EstadoProduccion.COSECHADO) {
@@ -190,17 +197,21 @@ public class ProduccionService {
     prod.setEstado(dto.getEstado());
 
     // Manejo de insumos
-    List<UsoInsumoProduccion> usosActuales = usoInsumoProduccionRepo.findByProduccionIdProduccion(idProduccion);
+    List<UsoInsumoProduccion> usosActuales =
+        usoInsumoProduccionRepo.findByProduccionIdProduccion(idProduccion);
 
     // Eliminar usos que ya no están en el DTO
     for (UsoInsumoProduccion usoExistente : usosActuales) {
-      boolean encontrado = dto.getUsosInsumos().stream()
-              .anyMatch(usoDto -> usoDto.getIdInsumo().equals(usoExistente.getInsumo().getIdInsumo()));
+      boolean encontrado =
+          dto.getUsosInsumos().stream()
+              .anyMatch(
+                  usoDto -> usoDto.getIdInsumo().equals(usoExistente.getInsumo().getIdInsumo()));
 
       if (!encontrado) {
         // Devolver insumo al stock
         Insumo insumo = usoExistente.getInsumo();
-        insumo.setCantidadDisponible(insumo.getCantidadDisponible().add(usoExistente.getCantidad()));
+        insumo.setCantidadDisponible(
+            insumo.getCantidadDisponible().add(usoExistente.getCantidad()));
         insumoRepository.save(insumo);
         usoInsumoProduccionRepo.delete(usoExistente);
       }
@@ -214,14 +225,21 @@ public class ProduccionService {
       }
 
       // Obtener el insumo con validación
-      Insumo insumo = insumoRepository.findById(usoDto.getIdInsumo())
-              .orElseThrow(() -> new RuntimeException("Insumo no encontrado con ID: " + usoDto.getIdInsumo()));
+      Insumo insumo =
+          insumoRepository
+              .findById(usoDto.getIdInsumo())
+              .orElseThrow(
+                  () ->
+                      new RuntimeException("Insumo no encontrado con ID: " + usoDto.getIdInsumo()));
 
       // Buscar uso existente con manejo de nulos seguro
-      UsoInsumoProduccion usoExistente = usosActuales.stream()
-              .filter(u -> u != null &&
-                      u.getInsumo() != null &&
-                      usoDto.getIdInsumo().equals(u.getInsumo().getIdInsumo()))
+      UsoInsumoProduccion usoExistente =
+          usosActuales.stream()
+              .filter(
+                  u ->
+                      u != null
+                          && u.getInsumo() != null
+                          && usoDto.getIdInsumo().equals(u.getInsumo().getIdInsumo()))
               .findFirst()
               .orElse(null);
 
@@ -234,12 +252,10 @@ public class ProduccionService {
         if (diferencia.compareTo(BigDecimal.ZERO) > 0) {
           // Verificar stock suficiente para la diferencia
           if (insumo.getCantidadDisponible().compareTo(diferencia) < 0) {
-            throw new RuntimeException(String.format(
+            throw new RuntimeException(
+                String.format(
                     "Stock insuficiente para el insumo %s. Disponible: %s, Requerido: %s",
-                    insumo.getNombre(),
-                    insumo.getCantidadDisponible(),
-                    diferencia
-            ));
+                    insumo.getNombre(), insumo.getCantidadDisponible(), diferencia));
           }
           insumo.setCantidadDisponible(insumo.getCantidadDisponible().subtract(diferencia));
         } else if (diferencia.compareTo(BigDecimal.ZERO) < 0) {
@@ -249,18 +265,17 @@ public class ProduccionService {
 
         // Actualizar el uso existente
         usoExistente.setCantidad(nuevaCantidad);
-        usoExistente.setFecha(usoDto.getFechaUso() != null ? usoDto.getFechaUso() : LocalDate.now());
+        usoExistente.setFecha(
+            usoDto.getFechaUso() != null ? usoDto.getFechaUso() : LocalDate.now());
         insumoRepository.save(insumo);
         usoInsumoProduccionRepo.save(usoExistente);
       } else {
         // Crear nuevo uso con validación de stock
         if (insumo.getCantidadDisponible().compareTo(usoDto.getCantidad()) < 0) {
-          throw new RuntimeException(String.format(
+          throw new RuntimeException(
+              String.format(
                   "Stock insuficiente para el insumo %s. Disponible: %s, Requerido: %s",
-                  insumo.getNombre(),
-                  insumo.getCantidadDisponible(),
-                  usoDto.getCantidad()
-          ));
+                  insumo.getNombre(), insumo.getCantidadDisponible(), usoDto.getCantidad()));
         }
 
         // Crear y guardar el nuevo uso

@@ -1,6 +1,5 @@
 package com.example.proyecto_de_grado.repository;
 
-import com.example.proyecto_de_grado.model.entity.Cliente;
 import com.example.proyecto_de_grado.model.entity.Insumo;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -26,5 +25,4 @@ public interface InsumoRepository extends JpaRepository<Insumo, Integer> {
   List<Insumo> findByProveedorIdProveedor(int idProveedor);
 
   List<Insumo> findByFinca_Id(Integer idFinca);
-
 }

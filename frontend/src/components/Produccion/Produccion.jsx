@@ -71,7 +71,7 @@ const Produccion = () => {
           produccionesResponse,
           productosResponse,
           fincasResponse,
-          insumosResponse
+          insumosResponse,
         ] = await Promise.all([
           fetch(`http://localhost:8080/produccion/finca/${idFincaUsuario}`, {
             headers: {
@@ -80,13 +80,13 @@ const Produccion = () => {
           }),
           fetch("http://localhost:8080/api/productos"),
           fetch("http://localhost:8080/api/fincas"),
-          fetch("http://localhost:8080/insumos")
+          fetch("http://localhost:8080/insumos"),
         ]);
 
         if (!produccionesResponse.ok) {
           const errorData = await produccionesResponse.json().catch(() => ({}));
           throw new Error(
-              errorData.message ||
+            errorData.message ||
               `Error ${produccionesResponse.status}: ${produccionesResponse.statusText}`,
           );
         }
@@ -106,8 +106,8 @@ const Produccion = () => {
           // Solo para tener referencia de la finca del usuario
           if (currentUser && fincasData.length > 0) {
             const fincaDelUsuario =
-                fincasData.find((finca) => finca.idUsuario === currentUser.id) ||
-                fincasData[0];
+              fincasData.find((finca) => finca.idUsuario === currentUser.id) ||
+              fincasData[0];
             setFincaUsuario(fincaDelUsuario);
           }
         }
@@ -115,7 +115,7 @@ const Produccion = () => {
         if (insumosResponse.ok) {
           const insumosData = await insumosResponse.json();
           const nombresMap = {};
-          insumosData.forEach(insumo => {
+          insumosData.forEach((insumo) => {
             nombresMap[insumo.idInsumo] = insumo.nombre;
           });
           setNombresInsumos(nombresMap);
@@ -177,8 +177,8 @@ const Produccion = () => {
       {
         idInsumo: "",
         cantidad: "",
-        fecha: formData.fechaSiembra || new Date().toISOString().split('T')[0]
-      }
+        fecha: formData.fechaSiembra || new Date().toISOString().split("T")[0],
+      },
     ]);
   };
 
@@ -201,19 +201,19 @@ const Produccion = () => {
   const handleEliminarProduccion = async (idProduccion) => {
     try {
       const response = await fetch(
-          `http://localhost:8080/produccion/${idProduccion}`,
-          {
-            method: "DELETE",
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-            },
+        `http://localhost:8080/produccion/${idProduccion}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
           },
+        },
       );
 
       if (!response.ok) throw new Error("Error al eliminar producción");
 
       setProducciones(
-          producciones.filter((p) => p.idProduccion !== idProduccion),
+        producciones.filter((p) => p.idProduccion !== idProduccion),
       );
     } catch (error) {
       console.error("Error:", error.message);
@@ -231,12 +231,12 @@ const Produccion = () => {
     if (produccion.idProduccion) {
       try {
         const response = await fetch(
-            `http://localhost:8080/produccion/${produccion.idProduccion}/insumos`,
-            {
-              headers: {
-                Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-              },
-            }
+          `http://localhost:8080/produccion/${produccion.idProduccion}/insumos`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+            },
+          },
         );
 
         if (response.ok) {
@@ -278,19 +278,19 @@ const Produccion = () => {
     try {
       // Filtrar insumos válidos
       const insumosValidos = usosInsumos.filter(
-          insumo => insumo.idInsumo && insumo.cantidad && insumo.cantidad > 0
+        (insumo) => insumo.idInsumo && insumo.cantidad && insumo.cantidad > 0,
       );
 
       // Si es cosechado, llamar al endpoint específico
       if (formData.estado === "COSECHADO") {
         const response = await fetch(
-            `http://localhost:8080/produccion/${produccionEditando.idProduccion}/cosechar?cantidadCosechada=${formData.cantidadCosechada}&fechaCosecha=${formData.fechaCosecha}`,
-            {
-              method: "PUT",
-              headers: {
-                Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-              },
+          `http://localhost:8080/produccion/${produccionEditando.idProduccion}/cosechar?cantidadCosechada=${formData.cantidadCosechada}&fechaCosecha=${formData.fechaCosecha}`,
+          {
+            method: "PUT",
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("authToken")}`,
             },
+          },
         );
 
         if (!response.ok) {
@@ -305,24 +305,28 @@ const Produccion = () => {
       // Actualizar el resto de datos
       const produccionData = {
         idProducto: parseInt(formData.idProducto),
-        idFinca: fincaUsuario ? fincaUsuario.idFinca : parseInt(formData.idFinca),
+        idFinca: fincaUsuario
+          ? fincaUsuario.idFinca
+          : parseInt(formData.idFinca),
         fechaSiembra: formData.fechaSiembra,
         fechaCosecha: formData.fechaCosecha,
         estado: formData.estado,
-        cantidadCosechada: formData.cantidadCosechada ? parseFloat(formData.cantidadCosechada) : null,
-        usosInsumos: insumosValidos
+        cantidadCosechada: formData.cantidadCosechada
+          ? parseFloat(formData.cantidadCosechada)
+          : null,
+        usosInsumos: insumosValidos,
       };
 
       const updateResponse = await fetch(
-          `http://localhost:8080/produccion/${produccionEditando.idProduccion}`,
-          {
-            method: "PUT",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-            },
-            body: JSON.stringify(produccionData),
-          }
+        `http://localhost:8080/produccion/${produccionEditando.idProduccion}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+          },
+          body: JSON.stringify(produccionData),
+        },
       );
 
       if (!updateResponse.ok) {
@@ -338,9 +342,11 @@ const Produccion = () => {
       }
 
       setProducciones(
-          producciones.map((p) =>
-              p.idProduccion === produccionEditando.idProduccion ? updatedProduccion : p,
-          ),
+        producciones.map((p) =>
+          p.idProduccion === produccionEditando.idProduccion
+            ? updatedProduccion
+            : p,
+        ),
       );
 
       cerrarModal();
@@ -361,110 +367,130 @@ const Produccion = () => {
   };
 
   return (
-      <div className="main-container">
-        {/* Barra superior */}
-        <div className="topbar">
-          <img src={logo} alt="Logo" className="logo-mini" />
-          <div className="user-dropdown" onClick={toggleDropdown}>
-            <span className="username">Usuario ▼</span>
-            {showDropdown && (
-                <div className="dropdown-menu">
-                  <button className="dropdown-btn" onClick={handleLogout}>
-                    <FaSignOutAlt style={{ marginRight: "8px" }} /> Cerrar sesión
-                  </button>
-                </div>
-            )}
-          </div>
-        </div>
-
-        {/* Contenedor principal con menú lateral y contenido */}
-        <div className="content-wrapper">
-          {/* Menú lateral */}
-          <div className={`sidebar ${isOpen ? "open" : "collapsed"}`}>
-            <button className="toggle-button" onClick={toggleMenu}>
-              {isOpen ? <FaTimes /> : <FaBars />}
-              <span>{isOpen ? "Ocultar menú" : ""}</span>
-            </button>
-
-            <div className="menu-items">
-              <button onClick={() => navigate("/actividades")}>
-                <FaAddressBook /> {isOpen && "Actividades"}
-              </button>
-              <button onClick={() => navigate("/personas")}>
-                <FaUser /> {isOpen && "Personas"}
-              </button>
-              <button onClick={() => navigate("/insumos")}>
-                <FaTruck /> {isOpen && "Insumos"}
-              </button>
-              <button onClick={() => navigate("/produccion")}>
-                <FaCheck /> {isOpen && "Producción"}
-              </button>
-              <button onClick={() => navigate("/ventas")}>
-                <FaCreditCard /> {isOpen && "Ventas"}
-              </button>
-              <button onClick={() => navigate("/reportes-finca")}>
-                <FaChartArea /> {isOpen && "Reportes"}
-              </button>
-              <button onClick={() => navigate("/cultivo")}>
-                <FaTable /> {isOpen && "Cultivos"}
+    <div className="main-container">
+      {/* Barra superior */}
+      <div className="topbar">
+        <img src={logo} alt="Logo" className="logo-mini" />
+        <div className="user-dropdown" onClick={toggleDropdown}>
+          <span className="username">Usuario ▼</span>
+          {showDropdown && (
+            <div className="dropdown-menu">
+              <button className="dropdown-btn" onClick={handleLogout}>
+                <FaSignOutAlt style={{ marginRight: "8px" }} /> Cerrar sesión
               </button>
             </div>
+          )}
+        </div>
+      </div>
 
-            <img src={logoMini} alt="Logo inferior" className="footer-img" />
+      {/* Contenedor principal con menú lateral y contenido */}
+      <div className="content-wrapper">
+        {/* Menú lateral */}
+        <div className={`sidebar ${isOpen ? "open" : "collapsed"}`}>
+          <button className="toggle-button" onClick={toggleMenu}>
+            {isOpen ? <FaTimes /> : <FaBars />}
+            <span>{isOpen ? "Ocultar menú" : ""}</span>
+          </button>
+
+          <div className="menu-items">
+            <button onClick={() => navigate("/actividades")}>
+              <FaAddressBook /> {isOpen && "Actividades"}
+            </button>
+            <button onClick={() => navigate("/personas")}>
+              <FaUser /> {isOpen && "Personas"}
+            </button>
+            <button onClick={() => navigate("/insumos")}>
+              <FaTruck /> {isOpen && "Insumos"}
+            </button>
+            <button onClick={() => navigate("/produccion")}>
+              <FaCheck /> {isOpen && "Producción"}
+            </button>
+            <button onClick={() => navigate("/ventas")}>
+              <FaCreditCard /> {isOpen && "Ventas"}
+            </button>
+            <button onClick={() => navigate("/reportes-finca")}>
+              <FaChartArea /> {isOpen && "Reportes"}
+            </button>
+            <button onClick={() => navigate("/cultivo")}>
+              <FaTable /> {isOpen && "Cultivos"}
+            </button>
           </div>
 
-          {/* Contenido principal */}
-          <div className="main-content">
-            <div className="produccion-container">
-              <div className="produccion-header">
-                <h2 className="produccion-title">Producción Agrícola</h2>
-                <div style={{ display: 'flex', alignItems: 'center', position: 'relative' }}>
-                  <button
-                      style={{ marginRight: '10px' }}
-                      className="btn-registrar"
-                      onClick={irARegistrarProduccion}
+          <img src={logoMini} alt="Logo inferior" className="footer-img" />
+        </div>
+
+        {/* Contenido principal */}
+        <div className="main-content">
+          <div className="produccion-container">
+            <div className="produccion-header">
+              <h2 className="produccion-title">Producción Agrícola</h2>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  position: "relative",
+                }}
+              >
+                <button
+                  style={{ marginRight: "10px" }}
+                  className="btn-registrar"
+                  onClick={irARegistrarProduccion}
+                >
+                  Registrar Producción
+                </button>
+                <button
+                  className="btn-registrar"
+                  onClick={() => navigate("/registrar-producto")}
+                >
+                  Registrar Producto
+                </button>
+                <button
+                  className="help-button"
+                  onMouseEnter={() => setShowHelp(true)}
+                  onMouseLeave={() => setShowHelp(false)}
+                  onClick={toggleHelp}
+                >
+                  ?
+                </button>
+                {showHelp && (
+                  <div
+                    className="help-tooltip"
+                    onMouseEnter={() => setShowHelp(true)}
+                    onMouseLeave={() => setShowHelp(false)}
                   >
-                    Registrar Producción
-                  </button>
-                  <button
-                      className="btn-registrar"
-                      onClick={() => navigate("/registrar-producto")}
-                  >
-                    Registrar Producto
-                  </button>
-                  <button
-                      className="help-button"
-                      onMouseEnter={() => setShowHelp(true)}
-                      onMouseLeave={() => setShowHelp(false)}
-                      onClick={toggleHelp}
-                  >
-                    ?
-                  </button>
-                  {showHelp && (
-                      <div className="help-tooltip"
-                           onMouseEnter={() => setShowHelp(true)}
-                           onMouseLeave={() => setShowHelp(false)}>
-                        <h4>Ayuda - Funciones de los botones</h4>
-                        <ul>
-                          <li><strong>Registrar Producción:</strong> Abre el formulario para crear una nueva producción.</li>
-                          <li><strong>Registrar Producto:</strong> Abre el formulario para crear un nuevo producto.</li>
-                          <li><strong>Actualizar:</strong> Permite modificar los datos de una producción existente.</li>
-                          <li><strong>Eliminar:</strong> Elimina permanentemente la producción seleccionada.</li>
-                        </ul>
-                      </div>
-                  )}
-                </div>
+                    <h4>Ayuda - Funciones de los botones</h4>
+                    <ul>
+                      <li>
+                        <strong>Registrar Producción:</strong> Abre el
+                        formulario para crear una nueva producción.
+                      </li>
+                      <li>
+                        <strong>Registrar Producto:</strong> Abre el formulario
+                        para crear un nuevo producto.
+                      </li>
+                      <li>
+                        <strong>Actualizar:</strong> Permite modificar los datos
+                        de una producción existente.
+                      </li>
+                      <li>
+                        <strong>Eliminar:</strong> Elimina permanentemente la
+                        producción seleccionada.
+                      </li>
+                    </ul>
+                  </div>
+                )}
               </div>
+            </div>
 
-              {/* Mensajes de estado */}
-              {loading && (
-                  <div className="loading-message">Cargando producciones...</div>
-              )}
-              {error && <div className="error-message">{error}</div>}
+            {/* Mensajes de estado */}
+            {loading && (
+              <div className="loading-message">Cargando producciones...</div>
+            )}
+            {error && <div className="error-message">{error}</div>}
 
-              {/* Tabla de producciones */}
-              <table className="produccion-table">
-                <thead>
+            {/* Tabla de producciones */}
+            <table className="produccion-table">
+              <thead>
                 <tr>
                   <th>Producto</th>
                   <th>Finca</th>
@@ -475,248 +501,283 @@ const Produccion = () => {
                   <th>Insumos</th>
                   <th>Acciones</th>
                 </tr>
-                </thead>
-                <tbody>
+              </thead>
+              <tbody>
                 {producciones.map((produccion) => (
-                    <tr key={produccion.idProduccion}>
-                      <td>{getNombreProducto(produccion.idProducto)}</td>
-                      <td>{getNombreFinca(produccion.idFinca)}</td>
-                      <td>{formatDate(produccion.fechaSiembra)}</td>
-                      <td>{formatDate(produccion.fechaCosecha)}</td>
-                      <td>{produccion.estado}</td>
-                      <td>{produccion.cantidadCosechada || "-"}</td>
-                      <td>
-                        {produccion.usosInsumos && produccion.usosInsumos.length > 0 ? (
-                            <ul style={{ paddingLeft: '1em', margin: 0 }}>
-                              {produccion.usosInsumos.map((uso, idx) => (
-                                  <li key={idx}>
-                                    {obtenerNombreInsumo(uso.idInsumo)} - {uso.cantidad} unidad(es) {uso.fechaUso ? `(${uso.fechaUso})` : ""}
-                                  </li>
-                              ))}
-                            </ul>
-                        ) : (
-                            "Sin insumos"
-                        )}
-                      </td>
-                      <td className="actions-cell">
-                        <button
-                            className="btn-actualizar"
-                            onClick={() => abrirModalActualizar(produccion)}
-                        >
-                          <FaEdit /> Actualizar
-                        </button>
-                        <button
-                            className="btn-eliminar"
-                            onClick={() =>
-                                handleEliminarProduccion(produccion.idProduccion)
-                            }
-                        >
-                          <FaTrash /> Eliminar
-                        </button>
-                      </td>
-                    </tr>
+                  <tr key={produccion.idProduccion}>
+                    <td>{getNombreProducto(produccion.idProducto)}</td>
+                    <td>{getNombreFinca(produccion.idFinca)}</td>
+                    <td>{formatDate(produccion.fechaSiembra)}</td>
+                    <td>{formatDate(produccion.fechaCosecha)}</td>
+                    <td>{produccion.estado}</td>
+                    <td>{produccion.cantidadCosechada || "-"}</td>
+                    <td>
+                      {produccion.usosInsumos &&
+                      produccion.usosInsumos.length > 0 ? (
+                        <ul style={{ paddingLeft: "1em", margin: 0 }}>
+                          {produccion.usosInsumos.map((uso, idx) => (
+                            <li key={idx}>
+                              {obtenerNombreInsumo(uso.idInsumo)} -{" "}
+                              {uso.cantidad} unidad(es){" "}
+                              {uso.fechaUso ? `(${uso.fechaUso})` : ""}
+                            </li>
+                          ))}
+                        </ul>
+                      ) : (
+                        "Sin insumos"
+                      )}
+                    </td>
+                    <td className="actions-cell">
+                      <button
+                        className="btn-actualizar"
+                        onClick={() => abrirModalActualizar(produccion)}
+                      >
+                        <FaEdit /> Actualizar
+                      </button>
+                      <button
+                        className="btn-eliminar"
+                        onClick={() =>
+                          handleEliminarProduccion(produccion.idProduccion)
+                        }
+                      >
+                        <FaTrash /> Eliminar
+                      </button>
+                    </td>
+                  </tr>
                 ))}
-                </tbody>
-              </table>
-            </div>
+              </tbody>
+            </table>
           </div>
         </div>
+      </div>
 
-        {/* Modal de actualización */}
-        {showModal && (
-            <div className="modal-overlay">
-              <div className="modal-content" style={{ maxWidth: '800px', maxHeight: '90vh', overflowY: 'auto' }}>
-                <h3>Actualizar Producción</h3>
-                <form onSubmit={handleSubmit}>
-                  <div className="form-group">
-                    <label>Producto:</label>
-                    <select
-                        name="idProducto"
-                        value={formData.idProducto}
-                        onChange={handleInputChange}
-                        required
-                        disabled={produccionEditando.estado === "COSECHADO"} // Deshabilitar si ya fue cosechado
+      {/* Modal de actualización */}
+      {showModal && (
+        <div className="modal-overlay">
+          <div
+            className="modal-content"
+            style={{ maxWidth: "800px", maxHeight: "90vh", overflowY: "auto" }}
+          >
+            <h3>Actualizar Producción</h3>
+            <form onSubmit={handleSubmit}>
+              <div className="form-group">
+                <label>Producto:</label>
+                <select
+                  name="idProducto"
+                  value={formData.idProducto}
+                  onChange={handleInputChange}
+                  required
+                  disabled={produccionEditando.estado === "COSECHADO"} // Deshabilitar si ya fue cosechado
+                >
+                  <option value="">Seleccione un producto</option>
+                  {productos.map((producto) => (
+                    <option
+                      key={producto.idProducto}
+                      value={producto.idProducto}
                     >
-                      <option value="">Seleccione un producto</option>
-                      {productos.map((producto) => (
-                          <option
-                              key={producto.idProducto}
-                              value={producto.idProducto}
-                          >
-                            {producto.nombre}
-                          </option>
-                      ))}
-                    </select>
-                  </div>
+                      {producto.nombre}
+                    </option>
+                  ))}
+                </select>
+              </div>
 
-                  <div className="form-group">
-                    <label>Finca:</label>
-                    <div className="finca-asignada">
-                      {fincaUsuario
-                          ? getNombreFinca(fincaUsuario.idFinca)
-                          : "Cargando finca..."}
-                    </div>
-                  </div>
+              <div className="form-group">
+                <label>Finca:</label>
+                <div className="finca-asignada">
+                  {fincaUsuario
+                    ? getNombreFinca(fincaUsuario.idFinca)
+                    : "Cargando finca..."}
+                </div>
+              </div>
 
+              <div className="form-group">
+                <label>Fecha de Siembra:</label>
+                <input
+                  type="date"
+                  name="fechaSiembra"
+                  value={formData.fechaSiembra}
+                  onChange={handleInputChange}
+                  required
+                  disabled={produccionEditando.estado === "COSECHADO"} // Deshabilitar si ya fue cosechado
+                />
+              </div>
+              <div className="form-group">
+                <label>Estado:</label>
+                <select
+                  name="estado"
+                  value={formData.estado}
+                  onChange={handleInputChange}
+                  required
+                  disabled={produccionEditando.estado === "COSECHADO"} // No cambiar estado si ya fue cosechado
+                >
+                  <option value="">Seleccione un estado</option>
+                  <option value="SEMBRADO">SEMBRADO</option>
+                  <option value="EN_CRECIMIENTO">EN CRECIMIENTO</option>
+                  <option value="COSECHADO">COSECHADO</option>
+                </select>
+              </div>
+              {formData.estado === "COSECHADO" && (
+                <>
                   <div className="form-group">
-                    <label>Fecha de Siembra:</label>
+                    <label>Fecha de Cosecha:</label>
                     <input
-                        type="date"
-                        name="fechaSiembra"
-                        value={formData.fechaSiembra}
-                        onChange={handleInputChange}
-                        required
-                        disabled={produccionEditando.estado === "COSECHADO"} // Deshabilitar si ya fue cosechado
+                      type="date"
+                      name="fechaCosecha"
+                      value={formData.fechaCosecha}
+                      onChange={handleInputChange}
+                      required={formData.estado === "COSECHADO"}
+                      disabled={produccionEditando.estado === "COSECHADO"} // Evitar editar si ya está cosechado
                     />
                   </div>
                   <div className="form-group">
-                    <label>Estado:</label>
+                    <label>Cantidad Cosechada:</label>
+                    <input
+                      type="number"
+                      name="cantidadCosechada"
+                      value={formData.cantidadCosechada}
+                      onChange={handleInputChange}
+                      step="0.01"
+                      min="0"
+                      required={formData.estado === "COSECHADO"}
+                      disabled={produccionEditando.estado === "COSECHADO"} // Evitar editar
+                    />
+                  </div>
+                </>
+              )}
+
+              {/* Sección de insumos */}
+              <div className="insumos-section">
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    marginBottom: "10px",
+                  }}
+                >
+                  <h4>Insumos utilizados (opcional)</h4>
+                  <button
+                    type="button"
+                    onClick={agregarInsumo}
+                    className="btn-agregar-insumo"
+                    disabled={
+                      loadingInsumos ||
+                      produccionEditando.estado === "COSECHADO"
+                    } // Evitar agregar insumos si está cosechado
+                  >
+                    + Agregar insumo
+                  </button>
+                </div>
+
+                {usosInsumos.map((insumo, index) => (
+                  <div
+                    key={index}
+                    className="insumo-item"
+                    style={{
+                      display: "flex",
+                      gap: "10px",
+                      marginBottom: "10px",
+                      alignItems: "center",
+                      padding: "10px",
+                      border: "1px solid #ddd",
+                      borderRadius: "5px",
+                      backgroundColor: "#f9f9f9",
+                    }}
+                  >
                     <select
-                        name="estado"
-                        value={formData.estado}
-                        onChange={handleInputChange}
-                        required
-                        disabled={produccionEditando.estado === "COSECHADO"} // No cambiar estado si ya fue cosechado
+                      value={insumo.idInsumo}
+                      onChange={(e) =>
+                        actualizarInsumo(
+                          index,
+                          "idInsumo",
+                          parseInt(e.target.value),
+                        )
+                      }
+                      style={{ flex: "2" }}
+                      disabled={produccionEditando.estado === "COSECHADO"} // Evitar cambios
                     >
-                      <option value="">Seleccione un estado</option>
-                      <option value="SEMBRADO">SEMBRADO</option>
-                      <option value="EN_CRECIMIENTO">EN CRECIMIENTO</option>
-                      <option value="COSECHADO">COSECHADO</option>
+                      <option value="">Seleccione un insumo</option>
+                      {insumosDisponibles.map((i) => (
+                        <option key={i.idInsumo} value={i.idInsumo}>
+                          {i.nombre} (Stock: {i.cantidadDisponible})
+                        </option>
+                      ))}
                     </select>
-                  </div>
-                  {formData.estado === "COSECHADO" && (
-                      <>
-                        <div className="form-group">
-                          <label>Fecha de Cosecha:</label>
-                          <input
-                              type="date"
-                              name="fechaCosecha"
-                              value={formData.fechaCosecha}
-                              onChange={handleInputChange}
-                              required={formData.estado === "COSECHADO"}
-                              disabled={produccionEditando.estado === "COSECHADO"} // Evitar editar si ya está cosechado
-                          />
-                        </div>
-                        <div className="form-group">
-                          <label>Cantidad Cosechada:</label>
-                          <input
-                              type="number"
-                              name="cantidadCosechada"
-                              value={formData.cantidadCosechada}
-                              onChange={handleInputChange}
-                              step="0.01"
-                              min="0"
-                              required={formData.estado === "COSECHADO"}
-                              disabled={produccionEditando.estado === "COSECHADO"} // Evitar editar
-                          />
-                        </div>
-                      </>
-                  )}
 
-                  {/* Sección de insumos */}
-                  <div className="insumos-section">
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
-                      <h4>Insumos utilizados (opcional)</h4>
-                      <button
-                          type="button"
-                          onClick={agregarInsumo}
-                          className="btn-agregar-insumo"
-                          disabled={loadingInsumos || produccionEditando.estado === "COSECHADO"} // Evitar agregar insumos si está cosechado
-                      >
-                        + Agregar insumo
-                      </button>
-                    </div>
+                    <input
+                      type="number"
+                      step="0.01"
+                      min="0.01"
+                      placeholder="Cantidad"
+                      value={insumo.cantidad}
+                      onChange={(e) =>
+                        actualizarInsumo(
+                          index,
+                          "cantidad",
+                          parseFloat(e.target.value),
+                        )
+                      }
+                      style={{ flex: "1" }}
+                      disabled={produccionEditando.estado === "COSECHADO"} // Evitar cambios
+                    />
 
-                    {usosInsumos.map((insumo, index) => (
-                        <div key={index} className="insumo-item" style={{
-                          display: 'flex',
-                          gap: '10px',
-                          marginBottom: '10px',
-                          alignItems: 'center',
-                          padding: '10px',
-                          border: '1px solid #ddd',
-                          borderRadius: '5px',
-                          backgroundColor: '#f9f9f9'
-                        }}>
-                          <select
-                              value={insumo.idInsumo}
-                              onChange={(e) => actualizarInsumo(index, 'idInsumo', parseInt(e.target.value))}
-                              style={{ flex: '2' }}
-                              disabled={produccionEditando.estado === "COSECHADO"} // Evitar cambios
-                          >
-                            <option value="">Seleccione un insumo</option>
-                            {insumosDisponibles.map((i) => (
-                                <option key={i.idInsumo} value={i.idInsumo}>
-                                  {i.nombre} (Stock: {i.cantidadDisponible})
-                                </option>
-                            ))}
-                          </select>
+                    <input
+                      type="date"
+                      value={insumo.fecha}
+                      onChange={(e) =>
+                        actualizarInsumo(index, "fecha", e.target.value)
+                      }
+                      style={{ flex: "1" }}
+                      disabled={produccionEditando.estado === "COSECHADO"} // Evitar cambios
+                    />
 
-                          <input
-                              type="number"
-                              step="0.01"
-                              min="0.01"
-                              placeholder="Cantidad"
-                              value={insumo.cantidad}
-                              onChange={(e) => actualizarInsumo(index, 'cantidad', parseFloat(e.target.value))}
-                              style={{ flex: '1' }}
-                              disabled={produccionEditando.estado === "COSECHADO"} // Evitar cambios
-                          />
-
-                          <input
-                              type="date"
-                              value={insumo.fecha}
-                              onChange={(e) => actualizarInsumo(index, 'fecha', e.target.value)}
-                              style={{ flex: '1' }}
-                              disabled={produccionEditando.estado === "COSECHADO"} // Evitar cambios
-                          />
-
-                          <button
-                              type="button"
-                              onClick={() => eliminarInsumo(index)}
-                              className="btn-eliminar-insumo"
-                              style={{
-                                backgroundColor: '#dc3545',
-                                color: 'white',
-                                border: 'none',
-                                padding: '5px 10px',
-                                borderRadius: '3px',
-                                cursor: 'pointer'
-                              }}
-                              disabled={produccionEditando.estado === "COSECHADO"} // Evitar eliminar
-                          >
-                            ✕
-                          </button>
-                        </div>
-                    ))}
-
-                    {usosInsumos.length === 0 && (
-                        <p style={{ color: '#666', fontStyle: 'italic' }}>
-                          No hay insumos agregados. Puedes agregar insumos opcionalmente.
-                        </p>
-                    )}
-                  </div>
-
-                  <div className="modal-buttons">
                     <button
-                        type="button"
-                        className="btn-cancelar"
-                        onClick={cerrarModal}
+                      type="button"
+                      onClick={() => eliminarInsumo(index)}
+                      className="btn-eliminar-insumo"
+                      style={{
+                        backgroundColor: "#dc3545",
+                        color: "white",
+                        border: "none",
+                        padding: "5px 10px",
+                        borderRadius: "3px",
+                        cursor: "pointer",
+                      }}
+                      disabled={produccionEditando.estado === "COSECHADO"} // Evitar eliminar
                     >
-                      Cancelar
-                    </button>
-                    <button type="submit" className="btn-guardar">
-                      Guardar Cambios
+                      ✕
                     </button>
                   </div>
-                </form>
+                ))}
+
+                {usosInsumos.length === 0 && (
+                  <p style={{ color: "#666", fontStyle: "italic" }}>
+                    No hay insumos agregados. Puedes agregar insumos
+                    opcionalmente.
+                  </p>
+                )}
               </div>
-            </div>
-        )}
-        <div className="watermark">
-          <img src={watermarkImage} alt="Marca de agua" />
+
+              <div className="modal-buttons">
+                <button
+                  type="button"
+                  className="btn-cancelar"
+                  onClick={cerrarModal}
+                >
+                  Cancelar
+                </button>
+                <button type="submit" className="btn-guardar">
+                  Guardar Cambios
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
+      )}
+      <div className="watermark">
+        <img src={watermarkImage} alt="Marca de agua" />
       </div>
+    </div>
   );
 };
 

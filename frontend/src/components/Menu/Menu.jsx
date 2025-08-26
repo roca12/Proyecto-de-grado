@@ -97,7 +97,7 @@ const Menu = () => {
           <button onClick={() => navigate("/produccion")}>
             <FaCheck /> {isOpen && "Produccion"}
           </button>
-          <button  onClick={() => navigate("/ventas")}>
+          <button onClick={() => navigate("/ventas")}>
             <FaCreditCard /> {isOpen && "Ventas"}
           </button>
           {/*<button onClick={() => navigate("/documentos")}>

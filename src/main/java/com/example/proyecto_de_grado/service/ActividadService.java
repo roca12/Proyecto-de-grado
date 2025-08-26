@@ -10,14 +10,13 @@ import com.example.proyecto_de_grado.repository.ActividadRepository;
 import com.example.proyecto_de_grado.repository.InsumoRepository;
 import com.example.proyecto_de_grado.repository.TipoActividadRepository;
 import com.example.proyecto_de_grado.repository.UsoInsumoRepository;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Map;
-import java.util.stream.Collectors;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -47,9 +46,9 @@ public class ActividadService {
   public ActividadDTO crearActividad(ActividadDTO dto) {
     // Buscar el tipo de actividad
     TipoActividad tipoActividad =
-            tipoActividadRepository
-                    .findById(dto.getIdTipoActividad())
-                    .orElseThrow(() -> new RuntimeException("Tipo de actividad no encontrado"));
+        tipoActividadRepository
+            .findById(dto.getIdTipoActividad())
+            .orElseThrow(() -> new RuntimeException("Tipo de actividad no encontrado"));
 
     // Crear y guardar la entidad Actividad
     Actividad actividad = new Actividad();
@@ -64,7 +63,8 @@ public class ActividadService {
     if (dto.getUsosInsumos() != null) {
       for (UsoInsumoDTO usoDto : dto.getUsosInsumos()) {
         // Buscar el insumo
-        Insumo insumo = insumoRepository
+        Insumo insumo =
+            insumoRepository
                 .findById(usoDto.getIdInsumo())
                 .orElseThrow(() -> new RuntimeException("Insumo no encontrado"));
 
@@ -105,9 +105,7 @@ public class ActividadService {
    * @return Una lista de DTOs que representan todas las actividades.
    */
   public List<ActividadDTO> listarTodas() {
-    return actividadRepository.findAll().stream()
-            .map(this::toDTO)
-            .collect(Collectors.toList());
+    return actividadRepository.findAll().stream().map(this::toDTO).collect(Collectors.toList());
   }
 
   /**
@@ -118,8 +116,8 @@ public class ActividadService {
    */
   public List<ActividadDTO> listarPorFinca(Integer idFinca) {
     return actividadRepository.findByIdFinca(idFinca).stream()
-            .map(this::toDTO)
-            .collect(Collectors.toList());
+        .map(this::toDTO)
+        .collect(Collectors.toList());
   }
 
   /**
@@ -140,10 +138,14 @@ public class ActividadService {
    * @return El DTO actualizado de la actividad.
    */
   public ActividadDTO actualizarActividad(Integer idActividad, ActividadDTO dto) {
-    Actividad actividad = actividadRepository.findById(idActividad)
+    Actividad actividad =
+        actividadRepository
+            .findById(idActividad)
             .orElseThrow(() -> new RuntimeException("Actividad no encontrada"));
 
-    TipoActividad tipoActividad = tipoActividadRepository.findById(dto.getIdTipoActividad())
+    TipoActividad tipoActividad =
+        tipoActividadRepository
+            .findById(dto.getIdTipoActividad())
             .orElseThrow(() -> new RuntimeException("Tipo de actividad no encontrado"));
 
     actividad.setIdFinca(dto.getIdFinca());
@@ -156,15 +158,17 @@ public class ActividadService {
     List<UsoInsumo> usosAnteriores = usoInsumoRepository.findByActividadIdActividad(idActividad);
 
     // Mapear insumos anteriores por ID
-    Map<Integer, UsoInsumo> mapaAnterior = usosAnteriores.stream()
-            .collect(Collectors.toMap(u -> u.getInsumo().getIdInsumo(), u -> u));
+    Map<Integer, UsoInsumo> mapaAnterior =
+        usosAnteriores.stream().collect(Collectors.toMap(u -> u.getInsumo().getIdInsumo(), u -> u));
 
     // Limpiar lista actual para ser reemplazada
     actividad.getUsosInsumos().clear();
 
     if (dto.getUsosInsumos() != null) {
       for (UsoInsumoDTO usoDto : dto.getUsosInsumos()) {
-        Insumo insumo = insumoRepository.findById(usoDto.getIdInsumo())
+        Insumo insumo =
+            insumoRepository
+                .findById(usoDto.getIdInsumo())
                 .orElseThrow(() -> new RuntimeException("Insumo no encontrado"));
 
         BigDecimal nuevaCantidad = usoDto.getCantidad();
@@ -194,7 +198,8 @@ public class ActividadService {
         nuevoUso.setActividad(actividad);
         nuevoUso.setInsumo(insumo);
         nuevoUso.setCantidad(nuevaCantidad);
-        nuevoUso.setFecha(usoDto.getFecha_uso() != null ? usoDto.getFecha_uso() : dto.getFechaInicio());
+        nuevoUso.setFecha(
+            usoDto.getFecha_uso() != null ? usoDto.getFecha_uso() : dto.getFechaInicio());
 
         actividad.getUsosInsumos().add(nuevoUso);
       }
@@ -217,7 +222,9 @@ public class ActividadService {
    * @param idActividad El ID de la actividad a eliminar.
    */
   public void eliminarActividad(Integer idActividad) {
-    Actividad actividad = actividadRepository.findById(idActividad)
+    Actividad actividad =
+        actividadRepository
+            .findById(idActividad)
             .orElseThrow(() -> new RuntimeException("Actividad no encontrada"));
 
     for (UsoInsumo uso : actividad.getUsosInsumos()) {
@@ -238,23 +245,22 @@ public class ActividadService {
   private ActividadDTO toDTO(Actividad actividad) {
     List<UsoInsumoDTO> usosDTO = new ArrayList<>();
     if (actividad.getUsosInsumos() != null) {
-      usosDTO = actividad.getUsosInsumos().stream()
-              .map(uso -> new UsoInsumoDTO(
-                      uso.getInsumo().getIdInsumo(),
-                      uso.getCantidad(),
-                      uso.getFecha()
-              ))
+      usosDTO =
+          actividad.getUsosInsumos().stream()
+              .map(
+                  uso ->
+                      new UsoInsumoDTO(
+                          uso.getInsumo().getIdInsumo(), uso.getCantidad(), uso.getFecha()))
               .collect(Collectors.toList());
     }
 
     return new ActividadDTO(
-            actividad.getIdActividad(),
-            actividad.getIdFinca(),
-            actividad.getTipoActividad().getIdTipoActividad(),
-            actividad.getFechaInicio(),
-            actividad.getFechaFin(),
-            actividad.getDescripcion(),
-            usosDTO
-    );
+        actividad.getIdActividad(),
+        actividad.getIdFinca(),
+        actividad.getTipoActividad().getIdTipoActividad(),
+        actividad.getFechaInicio(),
+        actividad.getFechaFin(),
+        actividad.getDescripcion(),
+        usosDTO);
   }
 }

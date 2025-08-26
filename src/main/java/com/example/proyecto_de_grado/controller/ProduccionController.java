@@ -39,11 +39,11 @@ public class ProduccionController {
   }
 
   @GetMapping("/finca/{idFinca}")
-  public ResponseEntity<List<ProduccionDTO>> listarProduccionesPorFinca(@PathVariable Integer idFinca) {
+  public ResponseEntity<List<ProduccionDTO>> listarProduccionesPorFinca(
+      @PathVariable Integer idFinca) {
     List<ProduccionDTO> proveedores = produccionService.listarPorFinca(idFinca);
     return ResponseEntity.ok(proveedores);
   }
-
 
   /**
    * Marca una producción como cosechada.
@@ -109,9 +109,9 @@ public class ProduccionController {
   }
 
   @GetMapping("/{id}/insumos")
-  public ResponseEntity<List<UsoInsumoProduccionDTO>> obtenerInsumosProduccion(@PathVariable Integer id) {
+  public ResponseEntity<List<UsoInsumoProduccionDTO>> obtenerInsumosProduccion(
+      @PathVariable Integer id) {
     List<UsoInsumoProduccionDTO> insumos = produccionService.obtenerInsumosPorProduccion(id);
     return ResponseEntity.ok(insumos);
   }
-
 }

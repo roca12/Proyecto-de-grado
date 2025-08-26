@@ -6,9 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/**
- * Entidad que representa el detalle de una venta, basado en producción.
- */
+/** Entidad que representa el detalle de una venta, basado en producción. */
 @Entity
 @Table(name = "detalle_venta")
 @Data
@@ -33,7 +31,13 @@ public class DetalleVenta {
   @Column(name = "precio_unitario", precision = 10, scale = 2, nullable = false)
   private BigDecimal precioUnitario;
 
-  @Column(name = "subtotal", precision = 10, scale = 2, nullable = false, insertable = false, updatable = false)
+  @Column(
+      name = "subtotal",
+      precision = 10,
+      scale = 2,
+      nullable = false,
+      insertable = false,
+      updatable = false)
   private BigDecimal subtotal;
 
   @ManyToOne(fetch = FetchType.LAZY)
@@ -44,7 +48,8 @@ public class DetalleVenta {
   @JoinColumn(name = "id_produccion", insertable = false, updatable = false)
   private Produccion produccion;
 
-  public DetalleVenta(Integer idVenta, Integer idProduccion, Integer cantidad, BigDecimal precioUnitario) {
+  public DetalleVenta(
+      Integer idVenta, Integer idProduccion, Integer cantidad, BigDecimal precioUnitario) {
     this.idVenta = idVenta;
     this.idProduccion = idProduccion;
     this.cantidad = cantidad;

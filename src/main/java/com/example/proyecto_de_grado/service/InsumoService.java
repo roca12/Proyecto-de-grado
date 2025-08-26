@@ -120,5 +120,4 @@ public class InsumoService {
   public List<Insumo> listarPorFinca(Integer idFinca) {
     return insumoRepository.findByFinca_Id(idFinca);
   }
-
 }

@@ -4,7 +4,6 @@ import com.example.proyecto_de_grado.model.entity.EstadoProduccion;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
-
 import lombok.Data;
 
 /**

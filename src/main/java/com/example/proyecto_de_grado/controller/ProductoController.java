@@ -42,7 +42,6 @@ public class ProductoController {
     return new ResponseEntity<>(productos, HttpStatus.OK);
   }
 
-
   /**
    * Obtiene todos los productos almacenados.
    *

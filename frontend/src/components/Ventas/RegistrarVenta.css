@@ -6,379 +6,379 @@
 
 /* Contenedor principal - CORREGIDO para permitir scroll */
 .main-container {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    width: 100%;
-    position: relative;
-    background-color: #f5f5f5;
-    overflow-y: auto; /* Permitir scroll vertical */
-    overflow-x: hidden; /* Ocultar scroll horizontal */
-    padding-bottom: 20px; /* Espacio extra al final */
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  width: 100%;
+  position: relative;
+  background-color: #f5f5f5;
+  overflow-y: auto; /* Permitir scroll vertical */
+  overflow-x: hidden; /* Ocultar scroll horizontal */
+  padding-bottom: 20px; /* Espacio extra al final */
 }
 
 /* Barra superior fija */
 .topbar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 50px;
-    background-color: white;
-    border-bottom: 1px solid #ccc;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 20px;
-    z-index: 999;
-    box-sizing: border-box;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 50px;
+  background-color: white;
+  border-bottom: 1px solid #ccc;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  z-index: 999;
+  box-sizing: border-box;
 }
 
 /* Logo mini en la barra superior */
 .logo-mini {
-    height: 30px;
+  height: 30px;
 }
 
 /* Dropdown de usuario */
 .user-dropdown {
-    position: relative;
-    color: #4caf50;
-    font-weight: bold;
-    cursor: pointer;
-    margin-right: 60px;
+  position: relative;
+  color: #4caf50;
+  font-weight: bold;
+  cursor: pointer;
+  margin-right: 60px;
 }
 
 /* Nombre de usuario */
 .username {
-    color: #4caf50;
+  color: #4caf50;
 }
 
 /* Menú desplegable */
 .dropdown-menu {
-    position: absolute;
-    right: 0;
-    top: 50px;
-    background-color: white;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    padding: 10px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
+  position: absolute;
+  right: 0;
+  top: 50px;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
 }
 
 /* Botón del dropdown */
 .dropdown-btn {
-    background-color: white;
-    border: 2px solid #4caf50;
-    border-radius: 12px;
-    color: #4caf50;
-    font-weight: bold;
-    padding: 6px 12px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    transition: 0.3s;
+  background-color: white;
+  border: 2px solid #4caf50;
+  border-radius: 12px;
+  color: #4caf50;
+  font-weight: bold;
+  padding: 6px 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: 0.3s;
 }
 
 .dropdown-btn:hover {
-    background-color: #e6f4ea;
+  background-color: #e6f4ea;
 }
 
 /* Contenedor General del Formulario - CORREGIDO */
 .registro-venta-container {
-    margin: 80px auto 40px; /* Margen superior mayor para evitar superposición con topbar */
-    padding: 30px;
-    background-color: rgba(255, 255, 255, 0.95); /* Más opacidad */
-    border-radius: 16px;
-    width: 90%;
-    max-width: 800px; /* Ancho máximo */
-    position: relative;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    border: 2px solid #4caf50;
-    min-height: auto; /* Permitir altura automática */
-    box-sizing: border-box;
+  margin: 80px auto 40px; /* Margen superior mayor para evitar superposición con topbar */
+  padding: 30px;
+  background-color: rgba(255, 255, 255, 0.95); /* Más opacidad */
+  border-radius: 16px;
+  width: 90%;
+  max-width: 800px; /* Ancho máximo */
+  position: relative;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border: 2px solid #4caf50;
+  min-height: auto; /* Permitir altura automática */
+  box-sizing: border-box;
 }
 
 /* Título flotante sobre el contenedor del formulario */
 .registro-title {
-    position: absolute;
-    top: -30px;
-    left: 20px;
-    font-size: 24px;
-    font-weight: bold;
-    color: #4caf50;
-    background-color: white;
-    padding: 5px 15px;
-    border-radius: 10px;
-    white-space: nowrap;
+  position: absolute;
+  top: -30px;
+  left: 20px;
+  font-size: 24px;
+  font-weight: bold;
+  color: #4caf50;
+  background-color: white;
+  padding: 5px 15px;
+  border-radius: 10px;
+  white-space: nowrap;
 }
 
 /* Estructura del Formulario */
 .registro-form {
-    margin-top: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 }
 
 /* Form groups para mejor organización */
 .form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 }
 
 .form-group label {
-    font-weight: bold;
-    color: #4caf50;
-    font-size: 14px;
+  font-weight: bold;
+  color: #4caf50;
+  font-size: 14px;
 }
 
 /* Inputs y Select */
 .registro-input {
-    padding: 12px 15px;
-    border: 2px solid #4caf50;
-    border-radius: 12px;
-    font-size: 16px;
-    outline: none;
-    background-color: white;
-    transition: all 0.3s ease;
-    box-sizing: border-box;
+  padding: 12px 15px;
+  border: 2px solid #4caf50;
+  border-radius: 12px;
+  font-size: 16px;
+  outline: none;
+  background-color: white;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
 }
 
 .registro-input:focus {
-    border-color: #45a049;
-    box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
+  border-color: #45a049;
+  box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
 }
 
 /* Información del registro */
 .registro-info {
-    background-color: #e8f5e8;
-    padding: 10px 15px;
-    border-radius: 8px;
-    border-left: 4px solid #4caf50;
-    font-style: italic;
-    color: #2e7d32;
+  background-color: #e8f5e8;
+  padding: 10px 15px;
+  border-radius: 8px;
+  border-left: 4px solid #4caf50;
+  font-style: italic;
+  color: #2e7d32;
 }
 
 /* Display del total */
 .total-display {
-    padding: 12px 15px;
-    font-size: 18px;
-    color: #4caf50;
-    text-align: right;
-    background-color: #f0f8f0;
-    border-radius: 8px;
-    border: 1px solid #4caf50;
-    font-weight: bold;
+  padding: 12px 15px;
+  font-size: 18px;
+  color: #4caf50;
+  text-align: right;
+  background-color: #f0f8f0;
+  border-radius: 8px;
+  border: 1px solid #4caf50;
+  font-weight: bold;
 }
 
 /* Sección de detalles */
 .detalles-title {
-    color: #4caf50;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-top: 20px;
-    margin-bottom: 10px;
-    font-size: 18px;
-    font-weight: bold;
+  color: #4caf50;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  font-size: 18px;
+  font-weight: bold;
 }
 
 /* Formulario para agregar detalles - MEJORADO */
 .detalle-form {
-    display: grid;
-    grid-template-columns: 2fr 1fr 1fr auto;
-    gap: 10px;
-    align-items: end; /* Alinear al final para que los botones queden bien */
-    padding: 15px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    border: 1px solid #e0e0e0;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr auto;
+  gap: 10px;
+  align-items: end; /* Alinear al final para que los botones queden bien */
+  padding: 15px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
 }
 
 .btn-agregar {
-    background-color: #4caf50;
-    color: white;
-    border: none;
-    border-radius: 12px;
-    padding: 12px 15px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 5px;
-    font-weight: bold;
-    transition: all 0.3s ease;
-    height: 44px; /* Altura fija para alineación */
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 12px 15px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  height: 44px; /* Altura fija para alineación */
 }
 
 .btn-agregar:hover {
-    background-color: #3e8e41;
-    transform: translateY(-1px);
+  background-color: #3e8e41;
+  transform: translateY(-1px);
 }
 
 .btn-agregar:disabled {
-    background-color: #cccccc;
-    cursor: not-allowed;
-    transform: none;
+  background-color: #cccccc;
+  cursor: not-allowed;
+  transform: none;
 }
 
 /* Lista de detalles - MEJORADA */
 .detalles-list {
-    margin-top: 15px;
-    max-height: 400px; /* Altura máxima aumentada */
-    overflow-y: auto;
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    background-color: white;
+  margin-top: 15px;
+  max-height: 400px; /* Altura máxima aumentada */
+  overflow-y: auto;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background-color: white;
 }
 
 .detalles-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 0;
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0;
 }
 
 .detalles-table th,
 .detalles-table td {
-    border: 1px solid #ddd;
-    padding: 12px 8px;
-    text-align: center;
-    font-size: 14px;
+  border: 1px solid #ddd;
+  padding: 12px 8px;
+  text-align: center;
+  font-size: 14px;
 }
 
 .detalles-table th {
-    background-color: #4caf50;
-    color: white;
-    font-weight: bold;
-    position: sticky;
-    top: 0;
-    z-index: 10;
+  background-color: #4caf50;
+  color: white;
+  font-weight: bold;
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }
 
 .detalles-table td {
-    background-color: white;
+  background-color: white;
 }
 
 .detalles-table tbody tr:nth-child(even) {
-    background-color: #f9f9f9;
+  background-color: #f9f9f9;
 }
 
 .detalles-table tbody tr:hover {
-    background-color: #e8f5e8;
+  background-color: #e8f5e8;
 }
 
 .btn-eliminar-detalle {
-    background-color: #f44336;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    padding: 6px 10px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s ease;
+  background-color: #f44336;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
 }
 
 .btn-eliminar-detalle:hover {
-    background-color: #d32f2f;
-    transform: scale(1.05);
+  background-color: #d32f2f;
+  transform: scale(1.05);
 }
 
 .no-detalles {
-    text-align: center;
-    color: #666;
-    font-style: italic;
-    padding: 20px;
-    background-color: #f5f5f5;
+  text-align: center;
+  color: #666;
+  font-style: italic;
+  padding: 20px;
+  background-color: #f5f5f5;
 }
 
 /* Contenedor de Botones (Cancelar y Registrar) */
 .registro-botones {
-    display: flex;
-    justify-content: space-between;
-    gap: 15px;
-    margin-top: 25px;
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  margin-top: 25px;
 }
 
 /* Botón Cancelar */
 .btn-cancelar {
-    background-color: #757575;
-    color: white;
-    padding: 12px 25px;
-    border: none;
-    border-radius: 12px;
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: bold;
-    transition: all 0.3s ease;
-    flex: 1;
-    max-width: 200px;
+  background-color: #757575;
+  color: white;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  flex: 1;
+  max-width: 200px;
 }
 
 .btn-cancelar:hover {
-    background-color: #616161;
-    transform: translateY(-1px);
+  background-color: #616161;
+  transform: translateY(-1px);
 }
 
 .btn-cancelar:disabled {
-    background-color: #cccccc;
-    cursor: not-allowed;
-    transform: none;
+  background-color: #cccccc;
+  cursor: not-allowed;
+  transform: none;
 }
 
 /* Botón Registrar */
 .btn-registrar {
-    background-color: #4caf50;
-    color: white;
-    padding: 12px 25px;
-    border: none;
-    border-radius: 12px;
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: bold;
-    transition: all 0.3s ease;
-    flex: 1;
-    max-width: 200px;
+  background-color: #4caf50;
+  color: white;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  flex: 1;
+  max-width: 200px;
 }
 
 .btn-registrar:hover {
-    background-color: #3e8e41;
-    transform: translateY(-1px);
+  background-color: #3e8e41;
+  transform: translateY(-1px);
 }
 
 .btn-registrar:disabled {
-    background-color: #cccccc;
-    cursor: not-allowed;
-    transform: none;
+  background-color: #cccccc;
+  cursor: not-allowed;
+  transform: none;
 }
 
 /* Mensaje de error */
 .error-message {
-    color: #f44336;
-    padding: 12px 15px;
-    background-color: #ffebee;
-    border-radius: 8px;
-    margin-bottom: 15px;
-    border: 1px solid #f44336;
-    font-weight: bold;
+  color: #f44336;
+  padding: 12px 15px;
+  background-color: #ffebee;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  border: 1px solid #f44336;
+  font-weight: bold;
 }
 
 /* Marca de agua */
 .watermark {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    z-index: 1002;
-    opacity: 0.7;
-    transition: all 0.3s ease;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1002;
+  opacity: 0.7;
+  transition: all 0.3s ease;
 }
 
 .watermark img {
-    width: 100px;
-    height: auto;
+  width: 100px;
+  height: auto;
 }
 
 /* ==========================================================================
@@ -386,235 +386,235 @@
    ========================================================================== */
 
 @media (max-width: 1024px) {
-    .registro-venta-container {
-        width: 95%;
-        padding: 25px;
-    }
+  .registro-venta-container {
+    width: 95%;
+    padding: 25px;
+  }
 
-    .detalle-form {
-        grid-template-columns: 1fr 1fr 1fr auto;
-        gap: 8px;
-    }
+  .detalle-form {
+    grid-template-columns: 1fr 1fr 1fr auto;
+    gap: 8px;
+  }
 }
 
 @media (max-width: 900px) {
-    .registro-venta-container {
-        width: 95%;
-        padding: 25px;
-        margin-top: 70px;
-    }
+  .registro-venta-container {
+    width: 95%;
+    padding: 25px;
+    margin-top: 70px;
+  }
 
-    .detalle-form {
-        grid-template-columns: 1fr 1fr;
-        gap: 10px;
-    }
+  .detalle-form {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
 
-    .btn-agregar {
-        grid-column: span 2;
-        margin-top: 10px;
-    }
+  .btn-agregar {
+    grid-column: span 2;
+    margin-top: 10px;
+  }
 
-    .detalles-table th,
-    .detalles-table td {
-        padding: 8px 6px;
-        font-size: 13px;
-    }
+  .detalles-table th,
+  .detalles-table td {
+    padding: 8px 6px;
+    font-size: 13px;
+  }
 }
 
 @media (max-width: 768px) {
-    .main-container {
-        padding-bottom: 30px;
-    }
+  .main-container {
+    padding-bottom: 30px;
+  }
 
-    .topbar {
-        padding: 0 15px;
-    }
+  .topbar {
+    padding: 0 15px;
+  }
 
-    .user-dropdown {
-        margin-right: 20px;
-    }
+  .user-dropdown {
+    margin-right: 20px;
+  }
 
-    .registro-venta-container {
-        width: 98%;
-        padding: 20px;
-        margin: 70px auto 30px;
-    }
+  .registro-venta-container {
+    width: 98%;
+    padding: 20px;
+    margin: 70px auto 30px;
+  }
 
-    .registro-title {
-        font-size: 20px;
-        top: -25px;
-        left: 15px;
-    }
+  .registro-title {
+    font-size: 20px;
+    top: -25px;
+    left: 15px;
+  }
 
-    .registro-input {
-        padding: 10px 12px;
-        font-size: 15px;
-    }
+  .registro-input {
+    padding: 10px 12px;
+    font-size: 15px;
+  }
 
-    .detalle-form {
-        grid-template-columns: 1fr;
-        gap: 10px;
-        padding: 12px;
-    }
+  .detalle-form {
+    grid-template-columns: 1fr;
+    gap: 10px;
+    padding: 12px;
+  }
 
-    .btn-agregar {
-        grid-column: span 1;
-        margin-top: 5px;
-    }
+  .btn-agregar {
+    grid-column: span 1;
+    margin-top: 5px;
+  }
 
-    .registro-botones {
-        flex-direction: column;
-        gap: 10px;
-    }
+  .registro-botones {
+    flex-direction: column;
+    gap: 10px;
+  }
 
-    .btn-cancelar,
-    .btn-registrar {
-        width: 100%;
-        max-width: none;
-        padding: 10px 15px;
-    }
+  .btn-cancelar,
+  .btn-registrar {
+    width: 100%;
+    max-width: none;
+    padding: 10px 15px;
+  }
 
-    .detalles-list {
-        max-height: 300px;
-    }
+  .detalles-list {
+    max-height: 300px;
+  }
 
-    .detalles-table {
-        font-size: 12px;
-    }
+  .detalles-table {
+    font-size: 12px;
+  }
 
-    .detalles-table th,
-    .detalles-table td {
-        padding: 6px 4px;
-    }
+  .detalles-table th,
+  .detalles-table td {
+    padding: 6px 4px;
+  }
 
-    /* Hacer la tabla horizontalmente scrollable en móviles */
-    .detalles-list {
-        overflow-x: auto;
-    }
+  /* Hacer la tabla horizontalmente scrollable en móviles */
+  .detalles-list {
+    overflow-x: auto;
+  }
 
-    .detalles-table {
-        min-width: 500px;
-    }
+  .detalles-table {
+    min-width: 500px;
+  }
 }
 
 @media (max-width: 576px) {
-    .registro-venta-container {
-        padding: 15px;
-        margin: 60px 5px 25px;
-        width: calc(100% - 10px);
-    }
+  .registro-venta-container {
+    padding: 15px;
+    margin: 60px 5px 25px;
+    width: calc(100% - 10px);
+  }
 
-    .registro-title {
-        font-size: 18px;
-        top: -20px;
-        padding: 4px 12px;
-    }
+  .registro-title {
+    font-size: 18px;
+    top: -20px;
+    padding: 4px 12px;
+  }
 
-    .registro-form {
-        gap: 12px;
-    }
+  .registro-form {
+    gap: 12px;
+  }
 
-    .registro-input {
-        padding: 8px 10px;
-        font-size: 14px;
-    }
+  .registro-input {
+    padding: 8px 10px;
+    font-size: 14px;
+  }
 
-    .detalle-form {
-        padding: 10px;
-        gap: 8px;
-    }
+  .detalle-form {
+    padding: 10px;
+    gap: 8px;
+  }
 
-    .form-group label {
-        font-size: 13px;
-    }
+  .form-group label {
+    font-size: 13px;
+  }
 
-    .total-display {
-        font-size: 16px;
-        padding: 10px 12px;
-    }
+  .total-display {
+    font-size: 16px;
+    padding: 10px 12px;
+  }
 
-    .detalles-title {
-        font-size: 16px;
-    }
+  .detalles-title {
+    font-size: 16px;
+  }
 
-    .detalles-table th,
-    .detalles-table td {
-        padding: 5px 3px;
-        font-size: 11px;
-    }
+  .detalles-table th,
+  .detalles-table td {
+    padding: 5px 3px;
+    font-size: 11px;
+  }
 
-    .btn-eliminar-detalle {
-        padding: 4px 6px;
-    }
+  .btn-eliminar-detalle {
+    padding: 4px 6px;
+  }
 
-    .watermark {
-        bottom: 10px;
-        right: 10px;
-    }
+  .watermark {
+    bottom: 10px;
+    right: 10px;
+  }
 
-    .watermark img {
-        width: 60px;
-    }
+  .watermark img {
+    width: 60px;
+  }
 }
 
 @media (max-width: 400px) {
-    .registro-venta-container {
-        padding: 12px;
-        margin: 60px 3px 20px;
-        width: calc(100% - 6px);
-    }
+  .registro-venta-container {
+    padding: 12px;
+    margin: 60px 3px 20px;
+    width: calc(100% - 6px);
+  }
 
-    .registro-input {
-        padding: 6px 8px;
-        font-size: 13px;
-    }
+  .registro-input {
+    padding: 6px 8px;
+    font-size: 13px;
+  }
 
-    .btn-cancelar,
-    .btn-registrar {
-        padding: 8px 12px;
-        font-size: 13px;
-    }
+  .btn-cancelar,
+  .btn-registrar {
+    padding: 8px 12px;
+    font-size: 13px;
+  }
 
-    .detalles-table th,
-    .detalles-table td {
-        padding: 4px 2px;
-        font-size: 10px;
-    }
+  .detalles-table th,
+  .detalles-table td {
+    padding: 4px 2px;
+    font-size: 10px;
+  }
 }
 
 /* Estilos adicionales para mejorar la experiencia de scroll */
 .main-container::-webkit-scrollbar {
-    width: 8px;
+  width: 8px;
 }
 
 .main-container::-webkit-scrollbar-track {
-    background: #f1f1f1;
-    border-radius: 10px;
+  background: #f1f1f1;
+  border-radius: 10px;
 }
 
 .main-container::-webkit-scrollbar-thumb {
-    background: #4caf50;
-    border-radius: 10px;
+  background: #4caf50;
+  border-radius: 10px;
 }
 
 .main-container::-webkit-scrollbar-thumb:hover {
-    background: #45a049;
+  background: #45a049;
 }
 
 .detalles-list::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
+  width: 6px;
+  height: 6px;
 }
 
 .detalles-list::-webkit-scrollbar-track {
-    background: #f1f1f1;
+  background: #f1f1f1;
 }
 
 .detalles-list::-webkit-scrollbar-thumb {
-    background: #888;
-    border-radius: 3px;
+  background: #888;
+  border-radius: 3px;
 }
 
 .detalles-list::-webkit-scrollbar-thumb:hover {
-    background: #555;
+  background: #555;
 }
