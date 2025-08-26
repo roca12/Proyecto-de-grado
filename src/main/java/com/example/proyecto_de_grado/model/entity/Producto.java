@@ -41,6 +41,10 @@ public class Producto {
   @Column(name = "id_producto")
   private Integer idProducto;
 
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "id_finca", nullable = false)
+  private Finca finca;
+
   /** Nombre del producto (obligatorio, hasta 100 caracteres). */
   @Column(length = 100, nullable = false)
   private String nombre;

@@ -19,6 +19,7 @@ public class Persona {
 
   /** Identificador único de la persona. */
   @Id
+  @Column(name = "id_persona")
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int idPersona;
 

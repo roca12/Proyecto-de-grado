@@ -1,6 +1,9 @@
 package com.example.proyecto_de_grado.repository;
 
+import com.example.proyecto_de_grado.model.entity.Actividad;
 import com.example.proyecto_de_grado.model.entity.Cliente;
+
+import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -32,4 +35,12 @@ public interface ClienteRepository extends JpaRepository<Cliente, Integer> {
    * @return Un {@link Optional} que contiene el cliente si existe.
    */
   Optional<Cliente> findByPersona_NumeroIdentificacion(String numeroIdentificacion);
+
+  /**
+   * Obtiene una lista de actividades asociadas a una finca específica.
+   *
+   * @param idFinca El identificador de la finca.
+   * @return Una lista de actividades asociadas a la finca con el id especificado.
+   */
+  List<Cliente> findByFinca_Id(Integer idFinca);
 }

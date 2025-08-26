@@ -1,80 +1,89 @@
 package com.example.proyecto_de_grado.service;
 
 import com.example.proyecto_de_grado.model.dto.ProduccionDTO;
+import com.example.proyecto_de_grado.model.dto.UsoInsumoProduccionDTO;
 import com.example.proyecto_de_grado.model.entity.EstadoProduccion;
 import com.example.proyecto_de_grado.model.entity.Finca;
+import com.example.proyecto_de_grado.model.entity.Insumo;
 import com.example.proyecto_de_grado.model.entity.Produccion;
 import com.example.proyecto_de_grado.model.entity.Producto;
+import com.example.proyecto_de_grado.model.entity.UsoInsumoProduccion;
+import com.example.proyecto_de_grado.repository.InsumoRepository;
 import com.example.proyecto_de_grado.repository.ProduccionRepository;
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.util.List;
-import java.util.stream.Collectors;
+import com.example.proyecto_de_grado.repository.UsoInsumoProduccionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
- * Servicio para gestionar las operaciones relacionadas con la producción agrícola. Permite crear,
- * cosechar, listar, actualizar y eliminar producciones, así como gestionar su estado y relación con
- * fincas y productos.
- *
- * @author Anderson Zuluaga
- * @version 1.0
- * @since 2023
- */
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class ProduccionService {
 
-  @Autowired private ProduccionRepository produccionRepo;
+  @Autowired
+  private ProduccionRepository produccionRepo;
 
-  @Autowired private InventarioProductoService inventarioService;
+  @Autowired
+  private InventarioProductoService inventarioService;
 
-  /**
-   * Crea una nueva producción agrícola con los datos proporcionados.
-   *
-   * @param dto Objeto DTO con los datos de la producción a crear
-   * @return DTO de la producción creada con su ID asignado
-   * @throws RuntimeException si ocurre un error durante la creación
-   */
+  @Autowired
+  private UsoInsumoProduccionRepository usoInsumoProduccionRepo;
+
+  @Autowired
+  private InsumoRepository insumoRepository;
+
+  @Autowired
+  private InsumoService insumoService;
+
   @Transactional
   public ProduccionDTO crearProduccion(ProduccionDTO dto) {
     Produccion prod = new Produccion();
     prod.setProducto(new Producto(dto.getIdProducto()));
     prod.setFinca(new Finca(dto.getIdFinca()));
     prod.setFechaSiembra(dto.getFechaSiembra());
-    prod.setEstado(dto.getEstado()); // Usar el estado del DTO
+    prod.setEstado(dto.getEstado());
 
-    // Solo establecer fechaCosecha y cantidadCosechada si el estado es COSECHADO
     if (dto.getEstado() == EstadoProduccion.COSECHADO) {
       prod.setFechaCosecha(dto.getFechaCosecha());
       prod.setCantidadCosechada(dto.getCantidadCosechada());
-
-      // Actualizar el inventario si es cosechado
       inventarioService.actualizarInventario(dto.getIdProducto(), dto.getCantidadCosechada());
     }
 
     prod = produccionRepo.save(prod);
-    dto.setIdProduccion(prod.getIdProduccion());
-    return dto;
+
+    if (dto.getUsosInsumos() != null && !dto.getUsosInsumos().isEmpty()) {
+      for (UsoInsumoProduccionDTO usoDto : dto.getUsosInsumos()) {
+        Insumo insumo = insumoRepository.findById(usoDto.getIdInsumo())
+                .orElseThrow(() -> new RuntimeException("Insumo no encontrado con ID: " + usoDto.getIdInsumo()));
+
+        if (insumo.getCantidadDisponible().compareTo(usoDto.getCantidad()) < 0) {
+          throw new RuntimeException("Stock insuficiente para el insumo: " + insumo.getNombre());
+        }
+
+        insumoService.registrarUsoInsumo(usoDto.getIdInsumo(), usoDto.getCantidad());
+
+        UsoInsumoProduccion uso = new UsoInsumoProduccion();
+        uso.setProduccion(prod);
+        uso.setInsumo(insumo);
+        uso.setCantidad(usoDto.getCantidad());
+        uso.setFecha(usoDto.getFechaUso() != null ? usoDto.getFechaUso() : dto.getFechaSiembra());
+
+        usoInsumoProduccionRepo.save(uso);
+        prod.getUsosInsumos().add(uso);
+      }
+    }
+
+    return convertirADTO(prod);
   }
 
-  /**
-   * Registra la cosecha de una producción existente. Actualiza la cantidad cosechada, la fecha de
-   * cosecha y el estado a COSECHADO. Además, actualiza el inventario de productos con la cantidad
-   * cosechada.
-   *
-   * @param idProduccion ID de la producción a cosechar
-   * @param cantidadCosechada Cantidad cosechada del producto
-   * @param fechaCosecha Fecha en que se realiza la cosecha
-   * @throws RuntimeException si la producción no se encuentra
-   */
   @Transactional
   public void cosechar(Integer idProduccion, BigDecimal cantidadCosechada, LocalDate fechaCosecha) {
-    Produccion prod =
-        produccionRepo
-            .findById(idProduccion)
+    Produccion prod = produccionRepo.findById(idProduccion)
             .orElseThrow(() -> new RuntimeException("Producción no encontrada"));
+
     prod.setCantidadCosechada(cantidadCosechada);
     prod.setFechaCosecha(fechaCosecha);
     prod.setEstado(EstadoProduccion.COSECHADO);
@@ -82,43 +91,27 @@ public class ProduccionService {
     inventarioService.actualizarInventario(prod.getProducto().getIdProducto(), cantidadCosechada);
   }
 
-  /**
-   * Obtiene todas las producciones registradas en el sistema.
-   *
-   * @return Lista de todas las producciones en formato DTO
-   */
   public List<ProduccionDTO> listarProducciones() {
-    return produccionRepo.findAll().stream().map(this::convertirADTO).collect(Collectors.toList());
+    return produccionRepo.findAll().stream()
+            .map(this::convertirADTO)
+            .collect(Collectors.toList());
   }
 
-  /**
-   * Obtiene una producción específica por su ID.
-   *
-   * @param id ID de la producción a buscar
-   * @return DTO de la producción encontrada
-   * @throws RuntimeException si la producción no se encuentra
-   */
   public ProduccionDTO obtenerProduccionPorId(Integer id) {
-    return produccionRepo
-        .findById(id)
-        .map(this::convertirADTO)
-        .orElseThrow(() -> new RuntimeException("Producción no encontrada"));
+    return produccionRepo.findById(id)
+            .map(this::convertirADTO)
+            .orElseThrow(() -> new RuntimeException("Producción no encontrada"));
   }
 
-  /**
-   * Actualiza el estado de una producción existente. No permite actualizar producciones que ya han
-   * sido cosechadas.
-   *
-   * @param idProduccion ID de la producción a actualizar
-   * @param nuevoEstado Nuevo estado a asignar a la producción
-   * @throws RuntimeException si la producción no se encuentra
-   * @throws IllegalStateException si se intenta modificar una producción ya cosechada
-   */
+  public List<UsoInsumoProduccionDTO> obtenerInsumosPorProduccion(Integer idProduccion) {
+    return usoInsumoProduccionRepo.findByProduccionIdProduccion(idProduccion).stream()
+            .map(this::convertirUsoInsumoADTO)
+            .collect(Collectors.toList());
+  }
+
   @Transactional
   public void actualizarEstado(Integer idProduccion, EstadoProduccion nuevoEstado) {
-    Produccion prod =
-        produccionRepo
-            .findById(idProduccion)
+    Produccion prod = produccionRepo.findById(idProduccion)
             .orElseThrow(() -> new RuntimeException("Producción no encontrada"));
 
     if (prod.getEstado() == EstadoProduccion.COSECHADO) {
@@ -129,45 +122,31 @@ public class ProduccionService {
     produccionRepo.save(prod);
   }
 
-  /**
-   * Obtiene todas las producciones asociadas a una finca específica.
-   *
-   * @param idFinca ID de la finca para filtrar las producciones
-   * @return Lista de producciones de la finca en formato DTO
-   */
   public List<ProduccionDTO> listarPorFinca(Integer idFinca) {
     return produccionRepo.findByFinca_Id(idFinca).stream()
-        .map(this::convertirADTO)
-        .collect(Collectors.toList());
+            .map(this::convertirADTO)
+            .collect(Collectors.toList());
   }
 
-  /**
-   * Elimina una producción existente. No permite eliminar producciones que ya han sido cosechadas.
-   *
-   * @param idProduccion ID de la producción a eliminar
-   * @throws RuntimeException si la producción no se encuentra
-   * @throws IllegalStateException si se intenta eliminar una producción ya cosechada
-   */
   @Transactional
   public void eliminarProduccion(Integer idProduccion) {
-    Produccion prod =
-        produccionRepo
-            .findById(idProduccion)
+    Produccion prod = produccionRepo.findById(idProduccion)
             .orElseThrow(() -> new RuntimeException("Producción no encontrada"));
 
     if (prod.getEstado() == EstadoProduccion.COSECHADO) {
       throw new IllegalStateException("No se puede eliminar una producción cosechada");
     }
 
+    // Devolver insumos usados al stock
+    for (UsoInsumoProduccion uso : prod.getUsosInsumos()) {
+      Insumo insumo = uso.getInsumo();
+      insumo.setCantidadDisponible(insumo.getCantidadDisponible().add(uso.getCantidad()));
+      insumoRepository.save(insumo);
+    }
+
     produccionRepo.delete(prod);
   }
 
-  /**
-   * Convierte una entidad Produccion a su correspondiente DTO.
-   *
-   * @param produccion Entidad Produccion a convertir
-   * @return DTO con los datos de la producción
-   */
   private ProduccionDTO convertirADTO(Produccion produccion) {
     ProduccionDTO dto = new ProduccionDTO();
     dto.setIdProduccion(produccion.getIdProduccion());
@@ -177,6 +156,128 @@ public class ProduccionService {
     dto.setFechaCosecha(produccion.getFechaCosecha());
     dto.setCantidadCosechada(produccion.getCantidadCosechada());
     dto.setEstado(produccion.getEstado());
+
+    if (produccion.getUsosInsumos() != null) {
+      List<UsoInsumoProduccionDTO> usosDTO = produccion.getUsosInsumos().stream()
+              .map(this::convertirUsoInsumoADTO)
+              .collect(Collectors.toList());
+      dto.setUsosInsumos(usosDTO);
+    }
+
     return dto;
+  }
+
+  private UsoInsumoProduccionDTO convertirUsoInsumoADTO(UsoInsumoProduccion uso) {
+    UsoInsumoProduccionDTO dto = new UsoInsumoProduccionDTO();
+    dto.setIdInsumo(uso.getInsumo().getIdInsumo());
+    dto.setCantidad(uso.getCantidad());
+    dto.setFechaUso(uso.getFecha());
+    return dto;
+  }
+
+  @Transactional
+  public ProduccionDTO actualizarProduccion(Integer idProduccion, ProduccionDTO dto) {
+    Produccion prod = produccionRepo.findById(idProduccion)
+            .orElseThrow(() -> new RuntimeException("Producción no encontrada"));
+
+    if (prod.getEstado() == EstadoProduccion.COSECHADO) {
+      throw new IllegalStateException("No se puede modificar una producción ya cosechada");
+    }
+
+    prod.setProducto(new Producto(dto.getIdProducto()));
+    prod.setFinca(new Finca(dto.getIdFinca()));
+    prod.setFechaSiembra(dto.getFechaSiembra());
+    prod.setEstado(dto.getEstado());
+
+    // Manejo de insumos
+    List<UsoInsumoProduccion> usosActuales = usoInsumoProduccionRepo.findByProduccionIdProduccion(idProduccion);
+
+    // Eliminar usos que ya no están en el DTO
+    for (UsoInsumoProduccion usoExistente : usosActuales) {
+      boolean encontrado = dto.getUsosInsumos().stream()
+              .anyMatch(usoDto -> usoDto.getIdInsumo().equals(usoExistente.getInsumo().getIdInsumo()));
+
+      if (!encontrado) {
+        // Devolver insumo al stock
+        Insumo insumo = usoExistente.getInsumo();
+        insumo.setCantidadDisponible(insumo.getCantidadDisponible().add(usoExistente.getCantidad()));
+        insumoRepository.save(insumo);
+        usoInsumoProduccionRepo.delete(usoExistente);
+      }
+    }
+
+    // Agregar o actualizar usos
+    for (UsoInsumoProduccionDTO usoDto : dto.getUsosInsumos()) {
+      // Validar que el DTO tenga los datos necesarios
+      if (usoDto.getIdInsumo() == null || usoDto.getCantidad() == null) {
+        throw new RuntimeException("Datos incompletos en el uso de insumo");
+      }
+
+      // Obtener el insumo con validación
+      Insumo insumo = insumoRepository.findById(usoDto.getIdInsumo())
+              .orElseThrow(() -> new RuntimeException("Insumo no encontrado con ID: " + usoDto.getIdInsumo()));
+
+      // Buscar uso existente con manejo de nulos seguro
+      UsoInsumoProduccion usoExistente = usosActuales.stream()
+              .filter(u -> u != null &&
+                      u.getInsumo() != null &&
+                      usoDto.getIdInsumo().equals(u.getInsumo().getIdInsumo()))
+              .findFirst()
+              .orElse(null);
+
+      if (usoExistente != null) {
+        // Actualizar uso existente
+        BigDecimal cantidadAnterior = usoExistente.getCantidad();
+        BigDecimal nuevaCantidad = usoDto.getCantidad();
+        BigDecimal diferencia = nuevaCantidad.subtract(cantidadAnterior);
+
+        if (diferencia.compareTo(BigDecimal.ZERO) > 0) {
+          // Verificar stock suficiente para la diferencia
+          if (insumo.getCantidadDisponible().compareTo(diferencia) < 0) {
+            throw new RuntimeException(String.format(
+                    "Stock insuficiente para el insumo %s. Disponible: %s, Requerido: %s",
+                    insumo.getNombre(),
+                    insumo.getCantidadDisponible(),
+                    diferencia
+            ));
+          }
+          insumo.setCantidadDisponible(insumo.getCantidadDisponible().subtract(diferencia));
+        } else if (diferencia.compareTo(BigDecimal.ZERO) < 0) {
+          // Devolver diferencia al stock
+          insumo.setCantidadDisponible(insumo.getCantidadDisponible().add(diferencia.abs()));
+        }
+
+        // Actualizar el uso existente
+        usoExistente.setCantidad(nuevaCantidad);
+        usoExistente.setFecha(usoDto.getFechaUso() != null ? usoDto.getFechaUso() : LocalDate.now());
+        insumoRepository.save(insumo);
+        usoInsumoProduccionRepo.save(usoExistente);
+      } else {
+        // Crear nuevo uso con validación de stock
+        if (insumo.getCantidadDisponible().compareTo(usoDto.getCantidad()) < 0) {
+          throw new RuntimeException(String.format(
+                  "Stock insuficiente para el insumo %s. Disponible: %s, Requerido: %s",
+                  insumo.getNombre(),
+                  insumo.getCantidadDisponible(),
+                  usoDto.getCantidad()
+          ));
+        }
+
+        // Crear y guardar el nuevo uso
+        UsoInsumoProduccion nuevoUso = new UsoInsumoProduccion();
+        nuevoUso.setProduccion(prod);
+        nuevoUso.setInsumo(insumo);
+        nuevoUso.setCantidad(usoDto.getCantidad());
+        nuevoUso.setFecha(usoDto.getFechaUso() != null ? usoDto.getFechaUso() : LocalDate.now());
+
+        // Actualizar stock
+        insumo.setCantidadDisponible(insumo.getCantidadDisponible().subtract(usoDto.getCantidad()));
+        insumoRepository.save(insumo);
+        usoInsumoProduccionRepo.save(nuevoUso);
+      }
+    }
+
+    produccionRepo.save(prod);
+    return convertirADTO(prod);
   }
 }

@@ -51,6 +51,14 @@ public class ClienteService {
     return clienteRepository.findByPersona_NumeroIdentificacion(numeroIdentificacion);
   }
 
+  public List<ClienteDTO> listarClientesPorFinca(Integer idFinca) {
+    return clienteRepository.findByFinca_Id(idFinca)
+            .stream()
+            .map(this::convertirAClienteDTO) // O el mapper que uses: clienteMapper::toDto
+            .collect(Collectors.toList());
+  }
+
+
   /**
    * Crea un nuevo cliente.
    *

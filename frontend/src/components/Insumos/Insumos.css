@@ -286,3 +286,110 @@
   width: 100px; /* Ajusta el tamaño según necesites */
   height: auto;
 }
+/* ==========================================================================
+   Estilos Responsive para el Contenedor de Insumos
+   ========================================================================== */
+
+@media (max-width: 1200px) {
+  .insumos-container {
+    width: 95%;
+    margin-left: 0;
+  }
+
+  .insumos-table th,
+  .insumos-table td {
+    padding: 8px;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 992px) {
+  .insumos-container {
+    width: 98%;
+    padding: 15px;
+  }
+
+  .insumos-title {
+    font-size: 24px;
+  }
+
+  .btn-registrar {
+    padding: 8px 16px;
+  }
+
+  .insumos-table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 768px) {
+  .insumos-container {
+    width: 100%;
+    padding: 12px;
+    margin-left: 0;
+  }
+
+  .insumos-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 15px;
+  }
+
+  .insumos-table th,
+  .insumos-table td {
+    padding: 6px;
+    font-size: 12px;
+  }
+
+  .btn-registrar {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+@media (max-width: 576px) {
+  .insumos-title {
+    font-size: 20px;
+  }
+
+  .insumos-table th,
+  .insumos-table td {
+    padding: 5px 3px;
+    font-size: 11px;
+  }
+
+  .watermark img {
+    width: 70px;
+  }
+}
+
+@media (max-width: 400px) {
+  .insumos-table th,
+  .insumos-table td {
+    padding: 4px 2px;
+    font-size: 10px;
+  }
+
+  .watermark img {
+    width: 60px;
+  }
+}
+
+@media (max-height: 500px) and (orientation: landscape) {
+  .insumos-container {
+    padding: 8px;
+  }
+
+  .insumos-title {
+    font-size: 18px;
+  }
+
+  .insumos-table th,
+  .insumos-table td {
+    padding: 4px;
+  }
+}
+

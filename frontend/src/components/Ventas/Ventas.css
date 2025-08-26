@@ -1,0 +1,212 @@
+/* ==========================================================================
+   Estilos de Ventas
+   Descripción: Define el diseño y los estilos visuales para la interfaz de Ventas de la aplicación.
+   ========================================================================== */
+
+/* Contenedor de ventas */
+.ventas-container {
+    width: 90%;
+    max-width: 1200px;
+    background-color: white;
+    border: 2px solid #4caf50;
+    border-radius: 10px;
+    padding: 20px;
+    box-sizing: border-box;
+    color: #333;
+    margin-left: -100px;
+    margin-top: 5px;
+}
+
+/* Encabezado del contenedor de ventas */
+.ventas-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+/* Título dentro del contenedor de ventas */
+.ventas-title {
+    font-size: 28px;
+    font-weight: bold;
+    color: #4caf50;
+    margin: 0;
+}
+
+/* Tabla de ventas */
+.ventas-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+/* Celdas de la tabla */
+.ventas-table th,
+.ventas-table td {
+    border: 1px solid #4caf50;
+    padding: 10px;
+    font-size: 14px;
+}
+
+/* Cabeceras de la tabla */
+.ventas-table th {
+    background-color: #4caf50;
+    color: white;
+    font-weight: bold;
+}
+
+/* Celdas de la tabla */
+.ventas-table td {
+    background-color: #f9f9f9;
+}
+
+/* Tabla de detalles dentro del modal */
+.detalles-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+    font-size: 14px;
+}
+
+.detalles-table th,
+.detalles-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+.detalles-table th {
+    background-color: #f2f2f2;
+}
+
+/* Estilos responsivos */
+@media (max-width: 1200px) {
+    .ventas-container {
+        width: 95%;
+        margin-left: 0;
+    }
+
+    .ventas-table th,
+    .ventas-table td {
+        padding: 8px;
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 992px) {
+    .ventas-container {
+        width: 98%;
+        padding: 15px;
+    }
+
+    .ventas-title {
+        font-size: 24px;
+    }
+
+    .btn-registrar {
+        padding: 8px 16px;
+    }
+}
+
+@media (max-width: 768px) {
+    .ventas-container {
+        width: 100%;
+        padding: 12px;
+    }
+
+    .ventas-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+        margin-bottom: 15px;
+    }
+
+    .ventas-table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    .ventas-table th,
+    .ventas-table td {
+        padding: 6px;
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 576px) {
+    .ventas-title {
+        font-size: 20px;
+    }
+
+    .ventas-table th,
+    .ventas-table td {
+        padding: 5px 3px;
+        font-size: 11px;
+    }
+
+    .btn-registrar {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+/* --------------------------------------------------------------------------
+   Estilos para el botón de ayuda y tooltip
+   -------------------------------------------------------------------------- */
+.help-button {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    font-weight: bold;
+    margin-left: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.help-button:hover {
+    background-color: #45a049;
+}
+
+.help-tooltip {
+    position: absolute;
+    right: 0;
+    top: 100%;
+    width: 300px;
+    background-color: white;
+    border: 1px solid #4caf50;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    font-size: 14px;
+}
+
+.help-tooltip h4 {
+    color: #4caf50;
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.help-tooltip ul {
+    padding-left: 20px;
+    margin: 0;
+}
+
+.help-tooltip li {
+    margin-bottom: 8px;
+}
+
+.help-tooltip li:last-child {
+    margin-bottom: 0;
+}
+
+.help-tooltip strong {
+    color: #4caf50;
+}

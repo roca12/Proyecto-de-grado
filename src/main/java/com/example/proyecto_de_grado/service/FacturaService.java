@@ -24,13 +24,13 @@ public class FacturaService {
    * Genera un documento PDF que representa la factura de una venta.
    *
    * @param venta La venta que contiene los datos generales de la transacción.
-   * @param detalles La lista de productos vendidos (detalles de la venta).
+   * @param detalles La lista de producciones vendidas (detalles de la venta).
    * @return Un arreglo de bytes que representa el archivo PDF generado.
    * @throws DocumentException Si ocurre un error al generar el documento PDF.
    * @throws IOException Si ocurre un error de entrada/salida.
    */
   public byte[] generarFacturaPdf(VentaDTO venta, List<DetalleVentaDTO> detalles)
-      throws DocumentException, IOException {
+          throws DocumentException, IOException {
 
     Document document = new Document();
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -41,7 +41,7 @@ public class FacturaService {
 
       agregarEncabezado(document);
       agregarInformacionVenta(document, venta);
-      agregarTablaProductos(document, detalles);
+      agregarTablaProducciones(document, detalles);
       agregarTotal(document, venta);
       agregarPie(document);
 
@@ -79,36 +79,31 @@ public class FacturaService {
     Font infoFont = new Font(Font.FontFamily.HELVETICA, 12);
     document.add(new Paragraph("Número de Factura: " + venta.getIdVenta(), infoFont));
     document.add(new Paragraph("ID Cliente: " + venta.getIdCliente(), infoFont));
-    document.add(new Paragraph("ID Empleado: " + venta.getIdEmpleado(), infoFont));
+    document.add(new Paragraph("ID Empleado: " + venta.getIdPersona(), infoFont));
 
     if (venta.getFechaVenta() != null) {
       document.add(
-          new Paragraph(
-              "Fecha: "
-                  + venta.getFechaVenta().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")),
-              infoFont));
+              new Paragraph(
+                      "Fecha: "
+                              + venta.getFechaVenta().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")),
+                      infoFont));
     }
 
     if (venta.getMetodoPago() != null) {
       document.add(new Paragraph("Método de pago: " + venta.getMetodoPago(), infoFont));
     }
-
-    if (venta.getIdMetodoPago() != null) {
-      document.add(new Paragraph("ID Método de pago: " + venta.getIdMetodoPago(), infoFont));
-    }
-
     document.add(Chunk.NEWLINE);
   }
 
   /**
-   * Agrega una tabla con los productos vendidos (detalles de la venta).
+   * Agrega una tabla con las producciones vendidas (detalles de la venta).
    *
    * @param document Documento PDF.
-   * @param detalles Lista de productos vendidos.
+   * @param detalles Lista de producciones vendidas.
    * @throws DocumentException Si ocurre un error al construir la tabla.
    */
-  private void agregarTablaProductos(Document document, List<DetalleVentaDTO> detalles)
-      throws DocumentException {
+  private void agregarTablaProducciones(Document document, List<DetalleVentaDTO> detalles)
+          throws DocumentException {
 
     PdfPTable table = new PdfPTable(5);
     table.setWidthPercentage(100);
@@ -116,35 +111,36 @@ public class FacturaService {
     table.setSpacingAfter(10f);
     table.setWidths(new float[] {2f, 1.5f, 2f, 2f, 1.5f});
 
-    Stream.of("ID Producto", "Cantidad", "Precio Unitario", "Subtotal", "ID Detalle")
-        .forEach(
-            header -> {
-              PdfPCell cell = new PdfPCell(new Phrase(header));
-              cell.setBackgroundColor(BaseColor.LIGHT_GRAY);
-              cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-              cell.setPadding(8);
-              table.addCell(cell);
-            });
+    // Encabezados actualizados
+    Stream.of("ID Producción", "Cantidad", "Precio Unitario", "Subtotal", "ID Detalle")
+            .forEach(
+                    header -> {
+                      PdfPCell cell = new PdfPCell(new Phrase(header));
+                      cell.setBackgroundColor(BaseColor.LIGHT_GRAY);
+                      cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                      cell.setPadding(8);
+                      table.addCell(cell);
+                    });
 
     for (DetalleVentaDTO detalle : detalles) {
-      agregarFilaProducto(table, detalle);
+      agregarFilaProduccion(table, detalle);
     }
 
     document.add(table);
   }
 
   /**
-   * Agrega una fila en la tabla de productos con los datos de un detalle.
+   * Agrega una fila en la tabla con los datos de una producción vendida.
    *
    * @param table Tabla PDF a la que se agregará la fila.
    * @param detalle Detalle individual de la venta.
    */
-  private void agregarFilaProducto(PdfPTable table, DetalleVentaDTO detalle) {
-    table.addCell(crearCeldaCentrada(String.valueOf(detalle.getIdProducto())));
+  private void agregarFilaProduccion(PdfPTable table, DetalleVentaDTO detalle) {
+    table.addCell(crearCeldaCentrada(String.valueOf(detalle.getIdProduccion()))); // ✅ Actualizado
     table.addCell(crearCeldaCentrada(String.valueOf(detalle.getCantidad())));
 
     String precioStr =
-        detalle.getPrecioUnitario() != null ? "$" + detalle.getPrecioUnitario() : "$0.00";
+            detalle.getPrecioUnitario() != null ? "$" + detalle.getPrecioUnitario() : "$0.00";
     table.addCell(crearCeldaDerecha(precioStr));
 
     String subtotalStr = detalle.getSubtotal() != null ? "$" + detalle.getSubtotal() : "$0.00";

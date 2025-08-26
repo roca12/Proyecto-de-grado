@@ -185,13 +185,13 @@ const Cultivos = () => {
             <button onClick={() => navigate("/produccion")}>
               <FaCheck /> {isOpen && "Producción"}
             </button>
-            <button>
+            <button  onClick={() => navigate("/ventas")}>
               <FaCreditCard /> {isOpen && "Ventas"}
             </button>
-            <button>
-              <FaFile /> {isOpen && "Documentos"}
-            </button>
-            <button>
+            {/*<button onClick={() => navigate("/documentos")}>
+                <FaFile /> {isOpen && "Documentos"}
+              </button>*/}
+            <button onClick={() => navigate("/reportes-finca")}>
               <FaChartArea /> {isOpen && "Reportes"}
             </button>
             <button>

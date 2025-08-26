@@ -4,8 +4,12 @@ import com.example.proyecto_de_grado.model.entity.CompraInsumo;
 import com.example.proyecto_de_grado.service.CompraInsumoService;
 import jakarta.validation.Valid;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -65,7 +69,14 @@ public class CompraInsumoController {
    * @throws IllegalArgumentException si ocurre algún error en la validación de la compra
    */
   @PostMapping
-  public ResponseEntity<?> createCompra(@Valid @RequestBody CompraInsumo compra) {
+  public ResponseEntity<?> createCompra(@Valid @RequestBody CompraInsumo compra, BindingResult result) {
+    if (result.hasErrors()) {
+      return ResponseEntity.badRequest()
+              .body(result.getAllErrors().stream()
+                      .map(DefaultMessageSourceResolvable::getDefaultMessage)
+                      .collect(Collectors.joining(", ")));
+    }
+
     try {
       compraInsumoService.saveCompra(compra);
       return ResponseEntity.ok("Compra registrada y stock actualizado.");

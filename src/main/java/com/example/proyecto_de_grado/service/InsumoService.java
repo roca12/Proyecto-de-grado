@@ -116,4 +116,9 @@ public class InsumoService {
   public List<HistorialInsumo> getHistorialInsumo(int idInsumo) {
     return historialInsumoRepository.findByInsumoIdInsumo(idInsumo);
   }
+
+  public List<Insumo> listarPorFinca(Integer idFinca) {
+    return insumoRepository.findByFinca_Id(idFinca);
+  }
+
 }

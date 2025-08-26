@@ -5,6 +5,8 @@ import com.example.proyecto_de_grado.repository.PersonaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * Servicio encargado de gestionar las operaciones relacionadas con las personas.
  *
@@ -27,6 +29,28 @@ public class PersonaService {
   public boolean findByNumeroIdentificacion(String numero) {
     return personaRepository.existsByNumeroIdentificacion(numero);
   }
+  // ... lo que ya tienes arriba
+
+  /**
+   * Obtiene una lista de todas las personas registradas.
+   *
+   * @return Lista de personas.
+   */
+  public List<Persona> getAllPersonas() {
+    return personaRepository.findAll();
+  }
+
+  /**
+   * Busca una persona por su ID.
+   *
+   * @param id El ID de la persona.
+   * @return La persona si existe, o null si no se encuentra.
+   */
+  public Persona getPersonaById(Integer id) {
+    return personaRepository.findById(id).orElse(null);
+  }
+
+
 
   /**
    * Guarda una persona en el sistema.

@@ -1,5 +1,6 @@
 package com.example.proyecto_de_grado.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 import lombok.Data;
@@ -22,6 +23,12 @@ public class Insumo {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id_insumo")
   private int idInsumo;
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "id_finca", nullable = false)
+  @JsonIgnore
+  private Finca finca;
+
 
   /** Nombre del insumo. */
   @Column(name = "nombre", length = 100, nullable = false)

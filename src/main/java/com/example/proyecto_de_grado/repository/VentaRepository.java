@@ -3,6 +3,8 @@ package com.example.proyecto_de_grado.repository;
 import com.example.proyecto_de_grado.model.entity.Venta;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
+
 /**
  * Repositorio para la entidad {@link Venta}. Proporciona métodos CRUD y operaciones adicionales
  * para acceder a los datos de ventas en la base de datos.
@@ -12,4 +14,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
  *
  * @author Anderson Zuluaga
  */
-public interface VentaRepository extends JpaRepository<Venta, Integer> {}
+public interface VentaRepository extends JpaRepository<Venta, Integer> {
+
+    List<Venta> findByFinca_Id(Integer idFinca);
+
+}

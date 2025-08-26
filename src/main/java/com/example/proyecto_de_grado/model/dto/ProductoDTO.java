@@ -13,6 +13,8 @@ public class ProductoDTO {
   /** Identificador único del producto. */
   private Integer idProducto;
 
+  private Integer idFinca;
+
   /** Nombre descriptivo del producto. */
   private String nombre;
 

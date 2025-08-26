@@ -3,6 +3,7 @@ package com.example.proyecto_de_grado.model.entity;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import lombok.Data;
 
@@ -90,4 +91,8 @@ public class Produccion {
   public Produccion(Integer idProduccion) {
     this.idProduccion = idProduccion;
   }
+
+  @OneToMany(mappedBy = "produccion", cascade = CascadeType.ALL, orphanRemoval = true)
+  private List<UsoInsumoProduccion> usosInsumos = new ArrayList<>();
+
 }

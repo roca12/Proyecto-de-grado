@@ -66,7 +66,7 @@ const Menu = () => {
       <div className="topbar">
         <img src={logo} alt="Logo" className="logo-mini" />
         <div className="user-dropdown" onClick={toggleDropdown}>
-          <span className="username">Usuario ▼</span>
+          <span className="username">{user?.nombre || "Usuario"} ▼</span>
           {showDropdown && (
             <div className="dropdown-menu">
               <button className="dropdown-btn" onClick={handleLogout}>
@@ -97,13 +97,13 @@ const Menu = () => {
           <button onClick={() => navigate("/produccion")}>
             <FaCheck /> {isOpen && "Produccion"}
           </button>
-          <button>
+          <button  onClick={() => navigate("/ventas")}>
             <FaCreditCard /> {isOpen && "Ventas"}
           </button>
-          <button>
-            <FaFile /> {isOpen && "Documentos"}
-          </button>
-          <button>
+          {/*<button onClick={() => navigate("/documentos")}>
+                <FaFile /> {isOpen && "Documentos"}
+              </button>*/}
+          <button onClick={() => navigate("/reportes-finca")}>
             <FaChartArea /> {isOpen && "Reportes"}
           </button>
           <button onClick={() => navigate("/cultivo")}>

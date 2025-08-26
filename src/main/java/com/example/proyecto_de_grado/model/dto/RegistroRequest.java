@@ -48,4 +48,6 @@ public class RegistroRequest {
 
   /** ID de la finca asociada al usuario. */
   private int fincaId;
+
+  private int idUsuario;
 }
