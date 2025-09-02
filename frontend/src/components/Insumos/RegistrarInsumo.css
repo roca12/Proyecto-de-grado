@@ -109,3 +109,122 @@
   width: 100px; /* Ajusta el tamaño según necesites */
   height: auto;
 }
+/* ==========================================================================
+   Estilos Responsive para Registrar Insumo
+   ========================================================================== */
+
+@media (max-width: 768px) {
+  .registro-insumo-container {
+    width: 85%;
+    padding: 25px;
+    margin-top: 80px;
+  }
+
+  .registro-title {
+    font-size: 20px;
+    top: -25px;
+    left: 15px;
+    padding: 5px 12px;
+  }
+
+  .registro-form {
+    gap: 12px;
+  }
+
+  .registro-input {
+    padding: 10px 12px;
+    font-size: 15px;
+  }
+
+  .registro-botones {
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+  }
+
+  .btn-cancelar,
+  .btn-registrar {
+    width: 100%;
+    padding: 10px;
+    font-size: 15px;
+  }
+
+  .watermark img {
+    width: 80px;
+  }
+}
+
+@media (max-width: 576px) {
+  .registro-insumo-container {
+    width: 90%;
+    padding: 20px;
+    margin-top: 70px;
+    border-radius: 12px;
+  }
+
+  .registro-title {
+    font-size: 18px;
+    top: -20px;
+    left: 10px;
+  }
+
+  .registro-input {
+    padding: 8px 10px;
+    font-size: 14px;
+    border-radius: 10px;
+  }
+
+  .watermark img {
+    width: 70px;
+  }
+}
+
+@media (max-width: 400px) {
+  .registro-insumo-container {
+    padding: 15px;
+    margin-top: 60px;
+    border-width: 1px;
+  }
+
+  .registro-title {
+    font-size: 16px;
+    padding: 4px 10px;
+    top: -18px;
+  }
+
+  .registro-input {
+    padding: 7px 10px;
+    font-size: 13px;
+  }
+
+  .btn-cancelar,
+  .btn-registrar {
+    padding: 8px;
+    font-size: 14px;
+    border-radius: 10px;
+  }
+
+  .watermark {
+    bottom: 10px;
+    right: 10px;
+  }
+
+  .watermark img {
+    width: 60px;
+  }
+}
+
+@media (max-height: 600px) {
+  .registro-insumo-container {
+    margin-top: 50px;
+    padding: 20px;
+  }
+
+  .registro-title {
+    top: -15px;
+  }
+
+  .registro-form {
+    gap: 10px;
+  }
+}

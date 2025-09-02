@@ -132,3 +132,139 @@
   border-radius: 4px;
   border: 1px dashed #4caf50;
 }
+/* ==========================================================================
+   Estilos Responsive para Registro de Personas
+   ========================================================================== */
+
+@media (max-width: 768px) {
+  .registro-persona-container {
+    margin: 80px auto 30px auto;
+    padding: 30px;
+    width: 85%;
+  }
+
+  .registro-title {
+    font-size: 22px;
+    margin-bottom: 25px;
+  }
+
+  .registro-form {
+    gap: 15px;
+  }
+
+  .registro-input {
+    padding: 10px 14px;
+    font-size: 15px;
+  }
+
+  .registro-botones {
+    margin-top: 25px;
+  }
+
+  .btn-cancelar,
+  .btn-registrar {
+    padding: 10px 20px;
+    font-size: 15px;
+  }
+
+  .usuario-id-message {
+    padding: 12px;
+    font-size: 15px;
+  }
+
+  .user-id-highlight {
+    font-size: 20px;
+  }
+
+  .watermark img {
+    width: 80px;
+  }
+}
+
+@media (max-width: 576px) {
+  .registro-persona-container {
+    margin: 70px auto 20px auto;
+    padding: 25px;
+    width: 90%;
+    border-radius: 12px;
+  }
+
+  .registro-title {
+    font-size: 20px;
+    margin-bottom: 20px;
+  }
+
+  .registro-input {
+    padding: 9px 12px;
+    font-size: 14px;
+    border-radius: 10px;
+  }
+
+  .registro-botones {
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+  }
+
+  .btn-cancelar,
+  .btn-registrar {
+    width: 100%;
+    padding: 12px;
+  }
+
+  .usuario-id-message {
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  .user-id-highlight {
+    font-size: 18px;
+  }
+
+  .watermark img {
+    width: 70px;
+  }
+}
+
+@media (max-width: 400px) {
+  .registro-persona-container {
+    padding: 20px;
+    margin: 60px auto 15px auto;
+    border-width: 1px;
+  }
+
+  .registro-title {
+    font-size: 18px;
+  }
+
+  .registro-input {
+    padding: 8px 10px;
+    font-size: 13px;
+  }
+
+  .success-message,
+  .error-message {
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  .watermark {
+    bottom: 15px;
+    right: 15px;
+  }
+
+  .watermark img {
+    width: 60px;
+  }
+}
+
+@media (max-height: 600px) {
+  .registro-persona-container {
+    margin: 50px auto 15px auto;
+    padding: 20px;
+  }
+
+  .registro-form {
+    gap: 12px;
+  }
+}

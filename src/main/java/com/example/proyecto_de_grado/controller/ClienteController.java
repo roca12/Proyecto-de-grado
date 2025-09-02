@@ -36,6 +36,12 @@ public class ClienteController {
     return ResponseEntity.ok(nuevoCliente);
   }
 
+  @GetMapping("/finca/{idFinca}")
+  public ResponseEntity<List<ClienteDTO>> listarClientesPorFinca(@PathVariable Integer idFinca) {
+    List<ClienteDTO> clientes = clienteService.listarClientesPorFinca(idFinca);
+    return ResponseEntity.ok(clientes);
+  }
+
   /**
    * Obtiene una lista de todos los clientes registrados en el sistema.
    *

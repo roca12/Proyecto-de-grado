@@ -1,6 +1,7 @@
 package com.example.proyecto_de_grado.controller;
 
 import com.example.proyecto_de_grado.model.dto.ProduccionDTO;
+import com.example.proyecto_de_grado.model.dto.UsoInsumoProduccionDTO;
 import com.example.proyecto_de_grado.service.ProduccionService;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -35,6 +36,13 @@ public class ProduccionController {
   public ResponseEntity<ProduccionDTO> crearProduccion(@RequestBody ProduccionDTO dto) {
     ProduccionDTO createdProduccion = produccionService.crearProduccion(dto);
     return new ResponseEntity<>(createdProduccion, HttpStatus.CREATED);
+  }
+
+  @GetMapping("/finca/{idFinca}")
+  public ResponseEntity<List<ProduccionDTO>> listarProduccionesPorFinca(
+      @PathVariable Integer idFinca) {
+    List<ProduccionDTO> proveedores = produccionService.listarPorFinca(idFinca);
+    return ResponseEntity.ok(proveedores);
   }
 
   /**
@@ -98,5 +106,12 @@ public class ProduccionController {
   public ResponseEntity<Void> eliminarProduccion(@PathVariable Integer id) {
     produccionService.eliminarProduccion(id);
     return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+  }
+
+  @GetMapping("/{id}/insumos")
+  public ResponseEntity<List<UsoInsumoProduccionDTO>> obtenerInsumosProduccion(
+      @PathVariable Integer id) {
+    List<UsoInsumoProduccionDTO> insumos = produccionService.obtenerInsumosPorProduccion(id);
+    return ResponseEntity.ok(insumos);
   }
 }

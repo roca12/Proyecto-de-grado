@@ -23,4 +23,6 @@ public interface InsumoRepository extends JpaRepository<Insumo, Integer> {
    * @return Una lista de insumos asociados al proveedor con el id especificado.
    */
   List<Insumo> findByProveedorIdProveedor(int idProveedor);
+
+  List<Insumo> findByFinca_Id(Integer idFinca);
 }

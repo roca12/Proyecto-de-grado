@@ -3,6 +3,7 @@ package com.example.proyecto_de_grado.model.dto;
 import com.example.proyecto_de_grado.model.entity.EstadoProduccion;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 import lombok.Data;
 
 /**
@@ -36,4 +37,7 @@ public class ProduccionDTO {
 
   /** Cantidad cosechada (solo si el estado es COSECHADO). */
   private BigDecimal cantidadCosechada;
+
+  // En ProduccionDTO.java agregar:
+  private List<UsoInsumoProduccionDTO> usosInsumos;
 }

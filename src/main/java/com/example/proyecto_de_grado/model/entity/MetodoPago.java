@@ -10,15 +10,19 @@ package com.example.proyecto_de_grado.model.entity;
  * @since 1.0
  */
 public enum MetodoPago {
-  /** Pago en efectivo - dinero físico */
   Efectivo,
-
-  /** Pago con tarjeta de crédito o débito */
   Tarjeta,
-
-  /** Pago mediante transferencia bancaria electrónica */
   Transferencia,
+  Otro;
 
-  /** Otros métodos de pago no especificados anteriormente */
-  Otro
+  // Método para convertir desde String
+  public static MetodoPago fromString(String value) {
+    try {
+      return MetodoPago.valueOf(value.toUpperCase());
+    } catch (IllegalArgumentException e) {
+      // Si falla, intentar con formato capitalizado
+      String capitalized = value.substring(0, 1).toUpperCase() + value.substring(1).toLowerCase();
+      return MetodoPago.valueOf(capitalized);
+    }
+  }
 }

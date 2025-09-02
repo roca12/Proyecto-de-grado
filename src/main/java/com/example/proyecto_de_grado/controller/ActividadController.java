@@ -72,24 +72,6 @@ public class ActividadController {
   @GetMapping("/finca/{idFinca}")
   public ResponseEntity<List<ActividadDTO>> obtenerActividadesPorFinca(
       @PathVariable Integer idFinca) {
-    // Obtener el usuario autenticado desde el contexto de seguridad
-    /*
-      Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-      int userId = Integer.parseInt(auth.getName()); // Obtener el ID del usuario autenticado
-      Usuario usuario =
-              usuarioRepository
-                      .findById(userId)
-                      .orElseThrow(() -> new RuntimeException("Usuario no encontrado con ID: " + userId));
-
-      // Validar que el usuario no sea un ADMIN, y si no lo es, verificar que esté asociado a la finca
-      // correcta
-      if (!usuario.getTipoUsuario().equalsIgnoreCase("ADMIN")) {
-        // Si el usuario no tiene finca asignada o la finca no coincide, devolver 403
-        if (usuario.getFinca() == null || !usuario.getFinca().getId().equals(idFinca)) {
-          return ResponseEntity.status(403).build(); // Forbidden
-        }
-      }
-    */
     // Obtener las actividades de la finca solicitada
     List<ActividadDTO> actividades = actividadService.listarPorFinca(idFinca);
     return ResponseEntity.ok(actividades);

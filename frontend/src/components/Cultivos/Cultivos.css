@@ -318,3 +318,162 @@ body {
   width: 100px;
   height: auto;
 }
+/* ==========================================================================
+   Estilos Responsive para el Contenedor de Cultivos
+   ========================================================================== */
+
+@media (max-width: 1200px) {
+  .cultivos-container {
+    width: 95%;
+    padding: 15px;
+  }
+
+  .cultivos-table th,
+  .cultivos-table td {
+    padding: 8px;
+    font-size: 13px;
+  }
+
+  .rbc-toolbar {
+    font-size: 18px;
+  }
+
+  .rbc-btn-group button {
+    padding: 6px 10px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 992px) {
+  .cultivos-container {
+    width: 98%;
+  }
+
+  .cultivos-title {
+    font-size: 24px;
+  }
+
+  .cultivos-table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .rbc-event {
+    font-size: 14px;
+    padding: 4px;
+  }
+}
+
+@media (max-width: 768px) {
+  .cultivos-container {
+    width: 100%;
+    padding: 12px;
+  }
+
+  .cultivos-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 15px;
+  }
+
+  .cultivos-table th,
+  .cultivos-table td {
+    padding: 6px;
+    font-size: 12px;
+  }
+
+  .rbc-toolbar {
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .rbc-btn-group {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .watermark img {
+    width: 80px;
+  }
+}
+
+@media (max-width: 576px) {
+  .cultivos-title {
+    font-size: 20px;
+  }
+
+  .cultivos-table th,
+  .cultivos-table td {
+    padding: 5px 3px;
+    font-size: 11px;
+  }
+
+  .rbc-event {
+    font-size: 12px;
+    padding: 2px;
+  }
+
+  .rbc-toolbar {
+    font-size: 16px;
+  }
+
+  .watermark img {
+    width: 70px;
+  }
+}
+
+@media (max-width: 400px) {
+  .cultivos-table th,
+  .cultivos-table td {
+    padding: 4px 2px;
+    font-size: 10px;
+  }
+
+  .rbc-btn-group button {
+    padding: 4px 8px;
+    font-size: 12px;
+    margin: 2px;
+  }
+
+  .watermark img {
+    width: 60px;
+  }
+}
+
+@media (max-height: 600px) {
+  .cultivos-container {
+    padding: 10px;
+  }
+
+  .rbc-calendar {
+    min-height: 300px;
+  }
+
+  .rbc-event {
+    font-size: 12px;
+  }
+}
+
+/* Ajustes específicos para el calendario en móviles */
+@media (max-width: 768px) {
+  .rbc-month-view,
+  .rbc-time-view,
+  .rbc-agenda-view {
+    display: flex;
+    flex-direction: column;
+    min-width: 600px;
+  }
+
+  .rbc-header {
+    padding: 5px 0;
+    font-size: 12px;
+  }
+
+  .rbc-date-cell {
+    font-size: 11px;
+  }
+}

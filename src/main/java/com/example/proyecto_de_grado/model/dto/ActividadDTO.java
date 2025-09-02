@@ -1,6 +1,7 @@
 package com.example.proyecto_de_grado.model.dto;
 
 import java.time.LocalDate;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -37,4 +38,6 @@ public class ActividadDTO {
 
   /** Descripción detallada de la actividad a realizar. */
   private String descripcion;
+
+  private List<UsoInsumoDTO> usosInsumos;
 }

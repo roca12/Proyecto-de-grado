@@ -97,6 +97,12 @@ public class ProveedorService {
     return convertirAProveedorDTO(proveedor);
   }
 
+  public List<ProveedorDTO> listarProveedoresPorFinca(Integer idFinca) {
+    return proveedorRepository.findByFinca_Id(idFinca).stream()
+        .map(this::convertirAProveedorDTO)
+        .collect(Collectors.toList());
+  }
+
   /**
    * Actualiza la información de un proveedor.
    *

@@ -31,13 +31,13 @@ const Personas = () => {
   const [personaEditando, setPersonaEditando] = useState(null);
   const [activeTab, setActiveTab] = useState("");
   const [mostrarDatos, setMostrarDatos] = useState(false);
+  const [showHelp, setShowHelp] = useState(false);
   const [formData, setFormData] = useState({
     nombre: "",
     apellido: "",
     numeroIdentificacion: "",
     telefono: "",
     direccion: "",
-    correo: "",
   });
 
   const navigate = useNavigate();
@@ -48,10 +48,28 @@ const Personas = () => {
         const currentUser = authService.getCurrentUser();
         setUser(currentUser);
 
+        if (!currentUser?.idFinca) {
+          console.error("ID de finca no disponible");
+          return;
+        }
+
+        let url = "";
+
         if (activeTab === "clientes") {
-          const res = await fetch("http://localhost:8080/api/clientes");
-          if (!res.ok) throw new Error("Error al cargar los datos de clientes");
-          const data = await res.json();
+          url = `http://localhost:8080/api/clientes/finca/${currentUser.idFinca}`;
+        } else if (activeTab === "proveedores") {
+          url = `http://localhost:8080/api/proveedores/finca/${currentUser.idFinca}`;
+        } else {
+          return;
+        }
+
+        const res = await authService.authFetch(url);
+        if (!res.ok)
+          throw new Error(`Error al cargar los datos de ${activeTab}`);
+
+        const data = await res.json();
+
+        if (activeTab === "clientes") {
           setPersonas(
             data.map((c) => ({
               idPersona: c.idCliente || c.id,
@@ -63,16 +81,11 @@ const Personas = () => {
                 "N/A",
               telefono: c.telefono || c.persona?.telefono || "N/A",
               direccion: c.direccion || c.persona?.direccion || "N/A",
-              correo: c.correo || c.persona?.correo || "N/A",
               tipo: "Cliente",
               tipoEntidad: "cliente",
             })),
           );
         } else if (activeTab === "proveedores") {
-          const res = await fetch("http://localhost:8080/api/proveedores");
-          if (!res.ok)
-            throw new Error("Error al cargar los datos de proveedores");
-          const data = await res.json();
           setPersonas(
             data.map((p) => ({
               idPersona: p.idProveedor || p.id,
@@ -84,7 +97,6 @@ const Personas = () => {
                 "N/A",
               telefono: p.telefono || p.persona?.telefono || "N/A",
               direccion: p.direccion || p.persona?.direccion || "N/A",
-              correo: p.correo || p.persona?.correo || "N/A",
               tipo: "Proveedor",
               tipoEntidad: "proveedor",
             })),
@@ -94,14 +106,15 @@ const Personas = () => {
         setError(e.message);
       }
     };
+
     if (mostrarDatos && activeTab) fetchPersonas();
   }, [activeTab, mostrarDatos]);
 
   const toggleMenu = () => setIsOpen(!isOpen);
   const toggleDropdown = () => setShowDropdown(!showDropdown);
   const handleLogout = () => authService.logout();
+  const toggleHelp = () => setShowHelp(!showHelp);
 
-  // ✅ CORREGIDO: pasar tipo=cliente o tipo=proveedor (singular)
   const irARegistrarPersona = () => {
     const tipo = activeTab === "clientes" ? "cliente" : "proveedor";
     navigate(`/registrar-persona?tipo=${tipo}`);
@@ -133,7 +146,6 @@ const Personas = () => {
       numeroIdentificacion: persona.numeroIdentificacion,
       telefono: persona.telefono,
       direccion: persona.direccion,
-      correo: persona.correo,
     });
     setShowModal(true);
   };
@@ -147,8 +159,6 @@ const Personas = () => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
-
-  // ... todas las importaciones sin cambio ...
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -165,12 +175,11 @@ const Personas = () => {
           idCliente: personaEditando.idPersona,
           nombre: formData.nombre,
           apellido: formData.apellido,
-          tipoId: 1, // podrías usar uno real si lo tienes guardado
+          tipoId: 1,
           numeroIdentificacion: formData.numeroIdentificacion,
           telefono: formData.telefono,
           direccion: formData.direccion,
-          email: formData.correo,
-          idFinca: 1, // ajusta si tienes finca dinámica
+          idFinca: user?.idFinca,
           tipoCliente: "REGULAR",
           fechaRegistro: new Date().toISOString().split("T")[0],
         };
@@ -183,8 +192,7 @@ const Personas = () => {
           numeroIdentificacion: formData.numeroIdentificacion,
           telefono: formData.telefono,
           direccion: formData.direccion,
-          email: formData.correo,
-          idFinca: 1,
+          idFinca: user?.idFinca,
           contacto: formData.telefono,
         };
       }
@@ -217,7 +225,7 @@ const Personas = () => {
       <div className="topbar">
         <img src={logo} alt="Logo" className="logo-mini" />
         <div className="user-dropdown" onClick={toggleDropdown}>
-          <span className="username">Usuario ▼</span>
+          <span className="username">{user?.nombre || "Usuario"} ▼</span>
           {showDropdown && (
             <div className="dropdown-menu">
               <button className="dropdown-btn" onClick={handleLogout}>
@@ -246,13 +254,10 @@ const Personas = () => {
             <button onClick={() => navigate("/produccion")}>
               <FaCheck /> {isOpen && "Producción"}
             </button>
-            <button>
+            <button onClick={() => navigate("/ventas")}>
               <FaCreditCard /> {isOpen && "Ventas"}
             </button>
-            <button>
-              <FaFile /> {isOpen && "Documentos"}
-            </button>
-            <button>
+            <button onClick={() => navigate("/reportes-finca")}>
               <FaChartArea /> {isOpen && "Reportes"}
             </button>
             <button onClick={() => navigate("/cultivo")}>
@@ -287,13 +292,56 @@ const Personas = () => {
               <>
                 <div className="personas-header">
                   <h2 className="personas-title">Personas</h2>
-                  <button
-                    className="btn-registrar"
-                    onClick={irARegistrarPersona}
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      position: "relative",
+                    }}
                   >
-                    Registrar{" "}
-                    {activeTab === "clientes" ? "cliente" : "proveedor"}
-                  </button>
+                    <button
+                      className="btn-registrar"
+                      onClick={irARegistrarPersona}
+                    >
+                      Registrar{" "}
+                      {activeTab === "clientes" ? "cliente" : "proveedor"}
+                    </button>
+                    <button
+                      className="help-button"
+                      onMouseEnter={() => setShowHelp(true)}
+                      onMouseLeave={() => setShowHelp(false)}
+                      onClick={toggleHelp}
+                    >
+                      ?
+                    </button>
+                    {showHelp && (
+                      <div
+                        className="help-tooltip"
+                        onMouseEnter={() => setShowHelp(true)}
+                        onMouseLeave={() => setShowHelp(false)}
+                      >
+                        <h4>Ayuda - Funciones de los botones</h4>
+                        <ul>
+                          <li>
+                            <strong>Clientes/Proveedores:</strong> Selecciona el
+                            tipo de personas a gestionar.
+                          </li>
+                          <li>
+                            <strong>Registrar:</strong> Abre el formulario para
+                            crear un nuevo registro.
+                          </li>
+                          <li>
+                            <strong>Actualizar:</strong> Permite modificar los
+                            datos de un registro existente.
+                          </li>
+                          <li>
+                            <strong>Eliminar:</strong> Elimina permanentemente
+                            el registro seleccionado.
+                          </li>
+                        </ul>
+                      </div>
+                    )}
+                  </div>
                 </div>
                 {error && <div className="error-message">{error}</div>}
                 <table className="personas-table">
@@ -388,15 +436,6 @@ const Personas = () => {
                   type="text"
                   name="direccion"
                   value={formData.direccion}
-                  onChange={handleInputChange}
-                />
-              </div>
-              <div className="form-group">
-                <label>Correo electrónico:</label>
-                <input
-                  type="email"
-                  name="correo"
-                  value={formData.correo}
                   onChange={handleInputChange}
                 />
               </div>

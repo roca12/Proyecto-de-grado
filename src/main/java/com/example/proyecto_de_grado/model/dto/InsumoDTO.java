@@ -31,4 +31,6 @@ public class InsumoDTO {
   @NotNull(message = "La cantidad disponible es obligatoria.")
   @DecimalMin(value = "0.0", inclusive = true, message = "La cantidad no puede ser negativa.")
   private BigDecimal cantidadDisponible;
+
+  private Integer idFinca;
 }

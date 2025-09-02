@@ -3,6 +3,7 @@ package com.example.proyecto_de_grado.service;
 import com.example.proyecto_de_grado.model.dto.ProductoDTO;
 import com.example.proyecto_de_grado.model.entity.InventarioProducto;
 import com.example.proyecto_de_grado.model.entity.Producto;
+import com.example.proyecto_de_grado.repository.FincaRepository;
 import com.example.proyecto_de_grado.repository.InventarioProductoRepository;
 import com.example.proyecto_de_grado.repository.ProductoRepository;
 import java.math.BigDecimal;
@@ -31,24 +32,48 @@ public class ProductoService {
    * @param dto Datos del producto.
    * @return ProductoDTO con el ID generado.
    */
+  @Autowired private FincaRepository fincaRepo;
+
   @Transactional
   public ProductoDTO crearProducto(ProductoDTO dto) {
-    // Mapeo DTO -> Entidad
     Producto p = new Producto();
     p.setNombre(dto.getNombre());
     p.setDescripcion(dto.getDescripcion());
     p.setUnidadMedida(dto.getUnidadMedida());
-    // Guardar entidad
+
+    // asignar finca
+    if (dto.getIdFinca() != null) {
+      p.setFinca(
+          fincaRepo
+              .findById(dto.getIdFinca())
+              .orElseThrow(() -> new RuntimeException("Finca no encontrada")));
+    }
+
     p = productoRepo.save(p);
-    // Crear inventario inicial
+
     InventarioProducto inv = new InventarioProducto();
     inv.setProducto(p);
     inv.setCantidad(BigDecimal.ZERO);
     inv.setFechaActualizacion(LocalDateTime.now());
     inventarioRepo.save(inv);
-    // Devolver DTO con ID
+
     dto.setIdProducto(p.getIdProducto());
     return dto;
+  }
+
+  public List<ProductoDTO> listarPorFinca(Integer idFinca) {
+    return productoRepo.findByFincaId(idFinca).stream()
+        .map(
+            p -> {
+              ProductoDTO dto = new ProductoDTO();
+              dto.setIdProducto(p.getIdProducto());
+              dto.setNombre(p.getNombre());
+              dto.setDescripcion(p.getDescripcion());
+              dto.setUnidadMedida(p.getUnidadMedida());
+              dto.setIdFinca(p.getFinca().getId());
+              return dto;
+            })
+        .collect(Collectors.toList());
   }
 
   /**
@@ -65,6 +90,7 @@ public class ProductoService {
               dto.setNombre(p.getNombre());
               dto.setDescripcion(p.getDescripcion());
               dto.setUnidadMedida(p.getUnidadMedida());
+              dto.setIdFinca(p.getFinca().getId());
               return dto;
             })
         .collect(Collectors.toList());

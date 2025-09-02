@@ -1,6 +1,7 @@
 package com.example.proyecto_de_grado.repository;
 
 import com.example.proyecto_de_grado.model.entity.Venta;
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
@@ -12,4 +13,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
  *
  * @author Anderson Zuluaga
  */
-public interface VentaRepository extends JpaRepository<Venta, Integer> {}
+public interface VentaRepository extends JpaRepository<Venta, Integer> {
+
+  List<Venta> findByFinca_Id(Integer idFinca);
+}

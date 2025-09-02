@@ -1,24 +1,20 @@
-/* ==========================================================================
-   Estilos de Login
-   Descripción: Define el diseño y los estilos visuales para la pantalla de inicio de sesión
-   ========================================================================== */
+/* ========================================================================== */
+/* Estilos de Login */
+/* ========================================================================== */
 
-/* Contenedor principal del login: divide la pantalla en dos columnas */
 .login-container {
   display: flex;
   height: 100vh;
   font-family: Arial, sans-serif;
+  overflow: hidden;
 }
 
-/* Columnas izquierda y derecha (50% cada una) */
 .login-left,
 .login-right {
   flex: 1;
+  position: relative;
 }
 
-/* --------------------------------------------------------------------------
-   Sección Izquierda: Contiene el formulario y el logo
-   -------------------------------------------------------------------------- */
 .login-left {
   background-color: #fff;
   display: flex;
@@ -26,21 +22,19 @@
   align-items: center;
   justify-content: center;
   padding: 2rem;
+  z-index: 2;
 }
 
-/* Logo dentro del login */
 .logo-img {
   width: 150px;
   margin-bottom: 2rem;
 }
 
-/* Contenedor del formulario de login */
 .login-form {
   width: 100%;
   max-width: 300px;
 }
 
-/* Agrupación de inputs */
 .input-group {
   margin-bottom: 1rem;
 }
@@ -55,9 +49,6 @@
   font-size: 16px;
 }
 
-/* --------------------------------------------------------------------------
-   Botones del formulario
-   -------------------------------------------------------------------------- */
 .btn-group {
   display: flex;
   justify-content: space-between;
@@ -81,31 +72,188 @@
   background-color: #65a831;
 }
 
-/* --------------------------------------------------------------------------
-   Sección Derecha: Imagen de fondo decorativa
-   -------------------------------------------------------------------------- */
+/* -------------------------------------------------------------------------- */
+/* Imagen de fondo decorativa */
+/* -------------------------------------------------------------------------- */
 .login-right {
   overflow: hidden;
+  position: relative;
 }
 
 .background-img {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center;
+  z-index: 1;
 }
-/* --------------------------------------------------------------------------
-   Marca de agua
-   -------------------------------------------------------------------------- */
+
+/* -------------------------------------------------------------------------- */
+/* Marca de agua */
+/* -------------------------------------------------------------------------- */
 .watermark {
   position: fixed;
   bottom: 20px;
   right: 20px;
-  z-index: 1002; /* Asegura que esté por encima de otros elementos */
-  opacity: 0.7; /* Hace la imagen semi-transparente */
+  z-index: 1002;
+  opacity: 0.7;
   transition: all 0.3s ease;
 }
 
 .watermark img {
-  width: 100px; /* Ajusta el tamaño según necesites */
+  width: 100px;
   height: auto;
+}
+
+/* ========================================================================== */
+/* Responsive */
+/* ========================================================================== */
+
+@media (max-width: 992px) {
+  .login-container {
+    flex-direction: column;
+    height: auto;
+    min-height: 100vh;
+  }
+
+  .login-left {
+    order: 2;
+    padding: 2rem 1rem;
+  }
+
+  .login-right {
+    order: 1;
+    height: 200px;
+  }
+
+  .background-img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+  }
+
+  .logo-img {
+    width: 120px;
+    margin-bottom: 1.5rem;
+  }
+
+  .login-form {
+    max-width: 280px;
+  }
+}
+
+@media (max-width: 768px) {
+  .login-right {
+    height: 160px;
+  }
+
+  .logo-img {
+    width: 100px;
+  }
+
+  .input-group input {
+    padding: 0.65rem;
+    font-size: 15px;
+  }
+
+  .btn-group button {
+    padding: 0.65rem;
+    font-size: 15px;
+  }
+
+  .watermark img {
+    width: 80px;
+  }
+}
+
+@media (max-width: 576px) {
+  .login-left {
+    padding: 1.5rem 1rem;
+  }
+
+  .login-right {
+    height: 140px;
+  }
+
+  .logo-img {
+    width: 90px;
+    margin-bottom: 1rem;
+  }
+
+  .input-group input {
+    padding: 0.6rem;
+    font-size: 14px;
+  }
+
+  .btn-group {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .btn-group button {
+    width: 100%;
+  }
+
+  .watermark img {
+    width: 70px;
+  }
+}
+
+@media (max-width: 400px) {
+  .login-right {
+    height: 120px;
+  }
+
+  .logo-img {
+    width: 80px;
+  }
+
+  .input-group input {
+    padding: 0.5rem;
+    font-size: 13px;
+  }
+
+  .btn-group button {
+    padding: 0.5rem;
+    font-size: 14px;
+  }
+
+  .watermark {
+    bottom: 10px;
+    right: 10px;
+  }
+
+  .watermark img {
+    width: 60px;
+  }
+}
+
+/* Horizontal: móviles en landscape */
+@media (max-height: 500px) {
+  .login-container {
+    flex-direction: row;
+  }
+
+  .login-left {
+    padding: 1rem;
+  }
+
+  .login-right {
+    height: 100vh;
+  }
+
+  .background-img {
+    height: 100%;
+  }
+
+  .logo-img {
+    width: 80px;
+    margin-bottom: 1rem;
+  }
+
+  .login-form {
+    max-width: 250px;
+  }
 }

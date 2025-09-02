@@ -36,6 +36,12 @@ public class ProductoController {
     return new ResponseEntity<>(nuevoProducto, HttpStatus.CREATED);
   }
 
+  @GetMapping("/finca/{idFinca}")
+  public ResponseEntity<List<ProductoDTO>> listarPorFinca(@PathVariable Integer idFinca) {
+    List<ProductoDTO> productos = productoService.listarPorFinca(idFinca);
+    return new ResponseEntity<>(productos, HttpStatus.OK);
+  }
+
   /**
    * Obtiene todos los productos almacenados.
    *

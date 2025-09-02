@@ -6,16 +6,8 @@ import lombok.Data;
 /**
  * DTO (Data Transfer Object) para la gestión de detalles de venta.
  *
- * <p>Esta clase representa el detalle de cada producto vendido en una transacción, incluyendo
- * información específica como cantidad, precio unitario y subtotal de cada ítem. Facilita la
- * transferencia de datos entre capas de la aplicación para el manejo de líneas de venta.
- *
- * <p>Se basa en la estructura de la tabla 'detalle_venta' y mantiene la relación con las ventas a
- * través del identificador de venta correspondiente.
- *
- * @author Anderson Zuluaga
- * @version 1.0
- * @since 2023
+ * <p>Esta clase representa el detalle de cada producción vendida en una transacción, incluyendo
+ * cantidad, precio unitario y subtotal de cada ítem.
  */
 @Data
 public class DetalleVentaDTO {
@@ -26,15 +18,15 @@ public class DetalleVentaDTO {
   /** Identificador de la venta a la que pertenece este detalle. */
   private Integer idVenta;
 
-  /** Identificador del producto vendido. */
-  private Integer idProducto;
+  /** Identificador de la producción vendida. */
+  private Integer idProduccion;
 
-  /** Cantidad de unidades vendidas del producto. */
+  /** Cantidad de unidades vendidas. */
   private Integer cantidad;
 
-  /** Precio unitario del producto en el momento de la venta con precisión decimal (10,2). */
+  /** Precio unitario con precisión decimal. */
   private BigDecimal precioUnitario;
 
-  /** Subtotal de la línea de venta (cantidad × precio unitario) con precisión decimal (10,2). */
+  /** Subtotal de la línea de venta. */
   private BigDecimal subtotal;
 }

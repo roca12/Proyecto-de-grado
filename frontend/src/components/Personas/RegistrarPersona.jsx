@@ -17,7 +17,6 @@ const RegistrarPersona = () => {
     tipoId: "1",
     telefono: "",
     direccion: "",
-    correo: "",
     idFinca: 1,
   });
   const [error, setError] = useState(null);
@@ -32,6 +31,15 @@ const RegistrarPersona = () => {
   useEffect(() => {
     const currentUser = authService.getCurrentUser();
     setUser(currentUser);
+
+    if (currentUser?.idFinca) {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        idFinca: currentUser.idFinca,
+      }));
+    } else {
+      console.warn("El usuario no tiene idFinca asignado.");
+    }
   }, []);
 
   const toggleDropdown = () => {
@@ -75,7 +83,6 @@ const RegistrarPersona = () => {
               numeroIdentificacion: formData.numeroIdentificacion,
               telefono: formData.telefono,
               direccion: formData.direccion,
-              email: formData.correo,
               idFinca: formData.idFinca,
               tipoCliente: "REGULAR",
               fechaRegistro: new Date().toISOString().split("T")[0],
@@ -87,12 +94,9 @@ const RegistrarPersona = () => {
               numeroIdentificacion: formData.numeroIdentificacion,
               telefono: formData.telefono,
               direccion: formData.direccion,
-              email: formData.correo,
               idFinca: formData.idFinca,
               contacto: formData.telefono,
             };
-
-      console.log("Sending data:", requestBody);
 
       const response = await fetch(endpoint, {
         method: "POST",
@@ -118,11 +122,11 @@ const RegistrarPersona = () => {
       if (!response.ok) {
         const errorMessage =
           data.message || `Error al registrar ${tipoPersona}`;
-        console.error("Error response:", data);
+        console.error("Error en la respuesta:", data);
         throw new Error(errorMessage);
       }
 
-      console.log("Success response:", data);
+      console.log("Registro exitoso:", data);
       setSuccess(
         `${tipoPersona === "cliente" ? "Cliente" : "Proveedor"} registrado exitosamente`,
       );
@@ -130,7 +134,7 @@ const RegistrarPersona = () => {
         navigate("/personas");
       }, 1500);
     } catch (error) {
-      console.error("Error full details:", error);
+      console.error("Detalles del error:", error);
       if (error.message.includes("Duplicate entry")) {
         if (error.message.includes("id_persona")) {
           setError(
@@ -257,19 +261,6 @@ const RegistrarPersona = () => {
               placeholder="Dirección"
               className="registro-input"
               value={formData.direccion}
-              onChange={handleInputChange}
-            />
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="correo">Correo Electrónico</label>
-            <input
-              id="correo"
-              type="email"
-              name="correo"
-              placeholder="Correo electrónico"
-              className="registro-input"
-              value={formData.correo}
               onChange={handleInputChange}
             />
           </div>
