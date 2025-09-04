@@ -4,7 +4,6 @@ import com.aproafa.proyectodegrado.model.dto.CalidadProductoDTO;
 import com.aproafa.proyectodegrado.model.entity.CalidadProducto;
 import com.aproafa.proyectodegrado.model.entity.Produccion;
 import com.aproafa.proyectodegrado.repository.CalidadProductoRepository;
-
 import jakarta.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;

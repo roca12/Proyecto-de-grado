@@ -4,7 +4,6 @@ import com.aproafa.proyectodegrado.model.dto.PrecioProductoDTO;
 import com.aproafa.proyectodegrado.model.entity.PrecioProducto;
 import com.aproafa.proyectodegrado.model.entity.Producto;
 import com.aproafa.proyectodegrado.repository.PrecioProductoRepository;
-
 import jakarta.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;

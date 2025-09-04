@@ -3,7 +3,6 @@ package com.aproafa.proyectodegrado.controller;
 import com.aproafa.proyectodegrado.model.dto.ActividadDTO;
 import com.aproafa.proyectodegrado.repository.UsuarioRepository;
 import com.aproafa.proyectodegrado.service.ActividadService;
-
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
  * @version 1.0
  * @since 2023
  */
-@CrossOrigin(origins = {"http://localhost:3000","*"})
+@CrossOrigin(origins = {"http://localhost:3000", "*"})
 @RestController
 @RequestMapping("/actividades")
 public class ActividadController {

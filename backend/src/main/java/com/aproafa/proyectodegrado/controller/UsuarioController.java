@@ -9,7 +9,6 @@ import com.aproafa.proyectodegrado.repository.FincaRepository;
 import com.aproafa.proyectodegrado.repository.PersonaRepository;
 import com.aproafa.proyectodegrado.security.JwtUtil;
 import com.aproafa.proyectodegrado.service.UsuarioService;
-
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;

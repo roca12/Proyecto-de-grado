@@ -2,7 +2,6 @@ package com.aproafa.proyectodegrado.controller;
 
 import com.aproafa.proyectodegrado.model.entity.Persona;
 import com.aproafa.proyectodegrado.service.PersonaService;
-
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;

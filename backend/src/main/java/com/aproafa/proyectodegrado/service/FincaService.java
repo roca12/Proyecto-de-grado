@@ -3,7 +3,6 @@ package com.aproafa.proyectodegrado.service;
 import com.aproafa.proyectodegrado.model.dto.FincaDTO;
 import com.aproafa.proyectodegrado.model.entity.Finca;
 import com.aproafa.proyectodegrado.repository.FincaRepository;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;

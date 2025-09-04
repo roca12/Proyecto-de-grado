@@ -11,7 +11,6 @@ import com.aproafa.proyectodegrado.model.entity.UsoInsumoProduccion;
 import com.aproafa.proyectodegrado.repository.InsumoRepository;
 import com.aproafa.proyectodegrado.repository.ProduccionRepository;
 import com.aproafa.proyectodegrado.repository.UsoInsumoProduccionRepository;
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;

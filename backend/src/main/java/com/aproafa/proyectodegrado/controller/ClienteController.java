@@ -2,7 +2,6 @@ package com.aproafa.proyectodegrado.controller;
 
 import com.aproafa.proyectodegrado.model.dto.ClienteDTO;
 import com.aproafa.proyectodegrado.service.ClienteService;
-
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

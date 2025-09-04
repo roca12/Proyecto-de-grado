@@ -7,7 +7,6 @@ import com.aproafa.proyectodegrado.model.entity.Persona;
 import com.aproafa.proyectodegrado.repository.ClienteRepository;
 import com.aproafa.proyectodegrado.repository.FincaRepository;
 import com.aproafa.proyectodegrado.repository.PersonaRepository;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;

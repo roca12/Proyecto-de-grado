@@ -1,11 +1,9 @@
 package com.aproafa.proyectodegrado.model.dto;
 
+import com.aproafa.proyectodegrado.model.entity.EstadoProduccion;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
-
-import com.aproafa.proyectodegrado.model.entity.EstadoProduccion;
-
 import lombok.Data;
 
 /**

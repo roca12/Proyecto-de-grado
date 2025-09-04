@@ -2,7 +2,6 @@ package com.aproafa.proyectodegrado.controller;
 
 import com.aproafa.proyectodegrado.model.entity.CompraInsumo;
 import com.aproafa.proyectodegrado.service.CompraInsumoService;
-
 import jakarta.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;

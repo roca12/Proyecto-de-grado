@@ -1,10 +1,9 @@
 package com.aproafa.proyectodegrado.repository;
 
+import com.aproafa.proyectodegrado.model.entity.Usuario;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-
-import com.aproafa.proyectodegrado.model.entity.Usuario;
 
 /**
  * Repositorio para la entidad {@link Usuario}.

@@ -10,7 +10,6 @@ import com.aproafa.proyectodegrado.repository.ActividadRepository;
 import com.aproafa.proyectodegrado.repository.InsumoRepository;
 import com.aproafa.proyectodegrado.repository.TipoActividadRepository;
 import com.aproafa.proyectodegrado.repository.UsoInsumoRepository;
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;

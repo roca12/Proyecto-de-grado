@@ -1,7 +1,6 @@
 package com.aproafa.proyectodegrado.model.dto;
 
 import com.aproafa.proyectodegrado.model.entity.UnidadMedida;
-
 import lombok.Data;
 
 /**

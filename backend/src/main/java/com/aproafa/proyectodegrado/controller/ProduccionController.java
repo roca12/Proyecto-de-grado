@@ -3,7 +3,6 @@ package com.aproafa.proyectodegrado.controller;
 import com.aproafa.proyectodegrado.model.dto.ProduccionDTO;
 import com.aproafa.proyectodegrado.model.dto.UsoInsumoProduccionDTO;
 import com.aproafa.proyectodegrado.service.ProduccionService;
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;

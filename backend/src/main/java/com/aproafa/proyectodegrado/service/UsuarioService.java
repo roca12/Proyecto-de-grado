@@ -4,7 +4,6 @@ import com.aproafa.proyectodegrado.model.entity.Persona;
 import com.aproafa.proyectodegrado.model.entity.Usuario;
 import com.aproafa.proyectodegrado.repository.PersonaRepository;
 import com.aproafa.proyectodegrado.repository.UsuarioRepository;
-
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;

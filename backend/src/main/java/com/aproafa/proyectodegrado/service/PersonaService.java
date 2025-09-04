@@ -2,7 +2,6 @@ package com.aproafa.proyectodegrado.service;
 
 import com.aproafa.proyectodegrado.model.entity.Persona;
 import com.aproafa.proyectodegrado.repository.PersonaRepository;
-
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -6,7 +6,6 @@ import com.aproafa.proyectodegrado.model.entity.Producto;
 import com.aproafa.proyectodegrado.repository.FincaRepository;
 import com.aproafa.proyectodegrado.repository.InventarioProductoRepository;
 import com.aproafa.proyectodegrado.repository.ProductoRepository;
-
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;

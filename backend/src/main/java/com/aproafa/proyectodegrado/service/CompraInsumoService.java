@@ -5,7 +5,6 @@ import com.aproafa.proyectodegrado.model.entity.Insumo;
 import com.aproafa.proyectodegrado.repository.CompraInsumoRepository;
 import com.aproafa.proyectodegrado.repository.HistorialInsumoRepository;
 import com.aproafa.proyectodegrado.repository.InsumoRepository;
-
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;

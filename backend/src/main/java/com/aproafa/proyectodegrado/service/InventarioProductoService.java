@@ -4,7 +4,6 @@ import com.aproafa.proyectodegrado.model.dto.InventarioProductoDTO;
 import com.aproafa.proyectodegrado.model.entity.InventarioProducto;
 import com.aproafa.proyectodegrado.repository.InventarioProductoRepository;
 import com.aproafa.proyectodegrado.repository.ProductoRepository;
-
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -2,7 +2,6 @@ package com.aproafa.proyectodegrado.service;
 
 import com.aproafa.proyectodegrado.model.entity.Usuario;
 import com.aproafa.proyectodegrado.repository.UsuarioRepository;
-
 import java.util.Collections;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;

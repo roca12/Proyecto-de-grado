@@ -2,7 +2,6 @@ package com.aproafa.proyectodegrado.controller;
 
 import com.aproafa.proyectodegrado.model.dto.CalidadProductoDTO;
 import com.aproafa.proyectodegrado.service.CalidadProductoService;
-
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

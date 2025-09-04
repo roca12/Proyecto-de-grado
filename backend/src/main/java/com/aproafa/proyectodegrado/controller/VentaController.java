@@ -3,7 +3,6 @@ package com.aproafa.proyectodegrado.controller;
 import com.aproafa.proyectodegrado.model.dto.DetalleVentaDTO;
 import com.aproafa.proyectodegrado.model.dto.VentaDTO;
 import com.aproafa.proyectodegrado.service.VentaService;
-
 import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;

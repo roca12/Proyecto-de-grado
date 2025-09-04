@@ -1,9 +1,8 @@
 package com.aproafa.proyectodegrado.repository;
 
+import com.aproafa.proyectodegrado.model.entity.PrecioProducto;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
-
-import com.aproafa.proyectodegrado.model.entity.PrecioProducto;
 
 /**
  * Repositorio JPA para la entidad PrecioProducto.

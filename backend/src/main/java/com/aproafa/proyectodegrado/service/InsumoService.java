@@ -4,7 +4,6 @@ import com.aproafa.proyectodegrado.model.entity.HistorialInsumo;
 import com.aproafa.proyectodegrado.model.entity.Insumo;
 import com.aproafa.proyectodegrado.repository.HistorialInsumoRepository;
 import com.aproafa.proyectodegrado.repository.InsumoRepository;
-
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;

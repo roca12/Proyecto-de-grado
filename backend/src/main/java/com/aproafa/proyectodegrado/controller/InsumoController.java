@@ -8,7 +8,6 @@ import com.aproafa.proyectodegrado.model.entity.Proveedor;
 import com.aproafa.proyectodegrado.repository.FincaRepository;
 import com.aproafa.proyectodegrado.repository.ProveedorRepository;
 import com.aproafa.proyectodegrado.service.InsumoService;
-
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;

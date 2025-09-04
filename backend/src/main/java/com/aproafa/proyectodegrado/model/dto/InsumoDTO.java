@@ -1,13 +1,11 @@
 package com.aproafa.proyectodegrado.model.dto;
 
+import com.aproafa.proyectodegrado.model.entity.UnidadMedida;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import java.math.BigDecimal;
-
-import com.aproafa.proyectodegrado.model.entity.UnidadMedida;
-
 import lombok.Data;
 
 /**
